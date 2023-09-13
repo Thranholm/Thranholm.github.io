@@ -1,0 +1,350 @@
+---
+title: "Folketingsvalg"
+author: "Emil Thranholm"
+format: html
+execute:
+  echo: false
+toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# Introduktion
+
+Dette dokument giver overblik over resultatet for Folketingsvalget, og kan opdateres dynamisk.
+
+```{r}
+#| label: "pakker"
+#| echo: false
+
+library(pacman)
+p_load(tidyverse, readr, xml2, XML, janitor, flatxml, reshape2, maps, sf)
+
+```
+
+```{r}
+#| label: "hent data"
+
+fv_22_xml <- "https://www.dst.dk/valg/Valg1968094/xml/fintal.xml"
+
+ind2 <- read_xml(fv_22_xml)
+
+```
+
+```{r}
+#| label: "funktioner"
+#| echo: false
+
+source("00_funktioner.R", encoding = "UTF-8")
+source("00_stedlig fordeling.R", encoding = "UTF-8")
+
+
+```
+
+
+```{r}
+#| label: "henter partistemmer på geo kredse"
+
+land <- hent_parti_stemmer(ind2, "Land")
+landsdel <- hent_parti_stemmer(ind2, "//Landsdel")
+storkreds <- hent_parti_stemmer(ind2, "//Storkreds")
+#opstillingskreds <- hent_parti_stemmer(ind2, "//Opstillingskreds")
+#afstemningsomraade <- hent_parti_stemmer(ind2, "//Afstemningsomraade")
+
+ant_landsdel <- storkreds %>% 
+  distinct(storkreds_id, landsdel_id) %>% 
+  left_join(ant_kreds, by = "storkreds_id") %>% 
+  summarise(landsdel_mandat = sum(kreds), .by = "landsdel_id")
+
+
+```
+
+
+```{r}
+#| label: regn storkredsemandater
+
+dhont <- tibble(dhont = 1:10)
+
+kredsmandater <- storkreds %>% 
+  select(storkreds, storkreds_id, landsdel_id, navn, stemmerantal) %>% 
+  cross_join(dhont) %>% 
+  left_join(ant_kreds, by = "storkreds_id") %>% 
+  mutate(kvotient = round(as.numeric(stemmerantal)/dhont, 0)) %>% 
+  mutate(rank = rank(-kvotient), .by = storkreds_id) %>% 
+  mutate(mandat = rank <= kreds)
+
+
+kredsmandater_parti <- kredsmandater %>% 
+  filter(rank <= kreds) %>% 
+  summarise(ant_kreds = n(), .by = navn)
+
+```
+
+
+```{r}
+#| label: spærregrænse
+
+# Regner om parterne er over spærregrænsen
+
+spær_kreds <- kredsmandater %>% 
+  summarise(kreds_jn = sum(mandat) > 0, 
+            kreds_ant = sum(mandat), .by = navn)
+
+spær_gns2_af_3 <- landsdel %>% 
+  mutate(landsdel_stemmer = sum(as.numeric(stemmerantal)), .by = landsdel) %>% 
+  left_join(ant_landsdel, by = "landsdel_id") %>% 
+  mutate(gns_pr_kredsmandat = landsdel_stemmer/landsdel_mandat,
+         over_gns = as.numeric(stemmerantal) > gns_pr_kredsmandat) %>% 
+  mutate(ant_over_gns = sum(over_gns), .by = navn) %>% 
+  mutate(gns2_af_3 = ant_over_gns >= 2) %>% 
+  distinct(navn, gns2_af_3, ant_over_gns)
+
+spær_2pct <- land %>% 
+  mutate(stemmerantal = as.numeric(stemmerantal),
+         to_pct = (stemmerantal/sum(stemmerantal)*100) > 2.0) %>% 
+  select(navn, to_pct)
+
+
+spærregrænse <- spær_kreds %>% 
+  left_join(spær_gns2_af_3, by = "navn") %>% 
+  left_join(spær_2pct, by = "navn") %>% 
+  mutate(over = max(kreds_jn, gns2_af_3, to_pct), .by = navn)
+
+over_spær <- spærregrænse %>% 
+  filter(over == 1)
+
+under_spær <- spærregrænse %>% 
+  filter(over == 0)
+
+```
+
+
+```{r}
+#| label: fordelingsnøgle
+
+mandatnøgle <- land %>% 
+  inner_join(over_spær, by = "navn") %>% 
+  select(navn, stemmerantal, stemmerpct, kreds_jn, kreds_ant) %>% 
+  mutate(stemmerantal = as.numeric(stemmerantal)) %>% 
+  mutate(mandatnøgle = round(sum(stemmerantal)/175,2),
+         forholdstal = stemmerantal/mandatnøgle,
+         flere_kreds = kreds_ant > floor(forholdstal))
+
+para77_stk4 <- as.logical(max(mandatnøgle$flere_kreds))
+
+
+```
+
+
+```{r}
+#| label: tillægsmandater
+
+tillægsmandater <- mandatnøgle %>% 
+  # TODO: bør måske afrundes
+  mutate(mandatnøgle2 = if_else(para77_stk4 == TRUE, sum(stemmerantal[kreds_ant<=forholdstal])/(175-sum(kreds_ant[kreds_ant>=forholdstal])), min(mandatnøgle))) %>% 
+  mutate(forholdstal2 = if_else(para77_stk4 == TRUE & kreds_ant>=forholdstal, NA_real_, stemmerantal/mandatnøgle2)) %>% 
+  mutate(nedrund = floor(forholdstal2),
+         rest = if_else(para77_stk4 == TRUE, 175-sum(kreds_ant[kreds_ant>=forholdstal])-sum(nedrund, na.rm = TRUE), 175-sum(nedrund)),
+         brøk = forholdstal2-nedrund,
+         største_brøk = rank(-brøk),
+         rest_mandat = største_brøk <= rest)
+
+
+total_mandater <- tillægsmandater %>% 
+  mutate(tillæg = nedrund+rest_mandat-kreds_ant) %>% 
+  mutate(across(where(is.double), ~replace_na(., 0))) %>% 
+  mutate(kreds = kreds_ant,
+         total = tillæg+kreds) %>% 
+  select(navn, total, kreds, tillæg, rest_mandat)
+  
+
+partier_kreds_ge_forholdstal <- tillægsmandater$navn[tillægsmandater$kreds_ant>=tillægsmandater$forholdstal]
+
+
+```
+
+Mandatnøglen til beregning af tillægsmandater er: `r format(unique(tillægsmandater$mandatnøgle2), big.mark = ".", decimal.mark = ",", scientific = FALSE)`. 
+
+`r if(para77_stk4){"Der er et parti som er opnået flere kredsmandater end deres forholdstal, derfor beregnes tillægsmandater uden partier, der har opnået ligeså mange eller flere kredsmandater end deres forholdstal beretter"} else {"Der er ingen partier, der har fået flere kredsmandater end deres forholdstal"}`. `r if(para77_stk4) {paste("Det drejer sig om:", partier_kreds_ge_forholdstal, ", som ikke indgår i beregningen af tillægsmandater")}`.
+
+```{r}
+#| label: placering af tillæg
+
+kreds_til_landsdel <- kredsmandater %>% 
+  left_join(landsdel %>% distinct(landsdel, landsdel_id), by = "landsdel_id") %>% 
+  filter(mandat == TRUE) %>% 
+  summarise(ant_kreds = n(), .by = c(landsdel, landsdel_id, navn))
+
+saint_lague <- tibble(saint_lague = seq(1, 39, by = 2))
+
+temp_tillæg <- landsdel %>% 
+  inner_join(over_spær, by = "navn") %>% 
+  select(landsdel, landsdel_id, navn, stemmerantal) %>% 
+  cross_join(saint_lague) %>% 
+  mutate(kvotient_tillæg = as.numeric(stemmerantal)/saint_lague,
+         rang_temp = rank(-kvotient_tillæg), .by = c(landsdel, navn)) %>% 
+  left_join(kreds_til_landsdel, by = c("landsdel", "landsdel_id", "navn")) %>% 
+  mutate(kvotient_tillæg = if_else(ant_kreds<rang_temp | is.na(ant_kreds), kvotient_tillæg, NA_real_)) %>% 
+  left_join(total_mandater %>% select(navn, tillæg), by = "navn") %>% 
+  left_join(ant_tillæg %>% select(landsdel_id, landsdel_tillæg = tillæg), by = "landsdel_id") %>% 
+  select(-rang_temp) %>% 
+  mutate(rang_land = rank(-kvotient_tillæg),
+         tillægsmandat = FALSE) %>% 
+  mutate(ant_tildelt_parti = sum(tillægsmandat, na.rm = TRUE), .by = navn) %>% 
+  mutate(rang_landsdel = rank(-kvotient_tillæg),
+         ant_tildelt_landsdel = sum(tillægsmandat, na.rm = TRUE), .by = landsdel)
+  
+tillæg_ialt <- 40
+
+tillæg_loop <- temp_tillæg
+
+
+while (sum(tillæg_loop$tillægsmandat) < tillæg_ialt) {
+
+  tillæg_loop <- tillæg_loop %>% 
+  mutate(temp_kvotient = if_else(tillæg == ant_tildelt_parti | 
+                                   landsdel_tillæg == ant_tildelt_landsdel |
+                                   tillægsmandat == TRUE,
+                                 NA_real_, kvotient_tillæg)) %>% 
+  mutate(temp_rang = rank(-temp_kvotient),
+         tillægsmandat = if_else(temp_rang == 1, TRUE, tillægsmandat)) %>% 
+    mutate(ant_tildelt_landsdel = sum(tillægsmandat, na.rm = TRUE), .by = landsdel) %>% 
+    mutate(ant_tildelt_parti = sum(tillægsmandat, na.rm = TRUE), .by = navn)
+  
+  nr_mandat <- sum(tillæg_loop$tillægsmandat)
+  
+  info <- tillæg_loop %>% 
+    filter(temp_rang == 1) %>% 
+    select(landsdel, navn, kvotient_tillæg, rang_landsdel, rang_land, ant_tildelt_parti, tillæg, landsdel_tillæg, ant_tildelt_landsdel)
+  
+  # cat("\n", paste0("Tillægsmandat nummer ", nr_mandat, " tildelt: ", info$navn, "med kvotient: ", info$kvotient_tillæg, " i landsdel: ", info$landsdel, ". Kvotient har rang: ", info$rang_land, " på landsplan og ", info$rang_landsdel, " på landsdel. ", "Der tildelt ", info$ant_tildelt_parti, " tillægmandater ud af ", info$tillæg, " til ", info$navn, ". Der er tildelt ", info$ant_tildelt_landsdel, " ud af ", info$landsdel_tillæg, " i ", info$landsdel), "\n")
+}
+
+tillæg_fordelt_landsdel <- tillæg_loop %>% 
+  summarise(ant_tillæg = sum(tillægsmandat), .by = c(landsdel, landsdel_id, navn))
+
+```
+
+
+```{r}
+#| label: fordeling af tillægsmandater på storkredse
+
+mod_saint_lague <- tibble(mod_saint_lague = seq(1, 19, by = 3))
+
+placering_tillæg <- kredsmandater %>% 
+  summarise(ant_kreds = sum(mandat), .by = c(storkreds, storkreds_id, landsdel_id, navn, stemmerantal)) %>% 
+  inner_join(tillæg_fordelt_landsdel, by = c("landsdel_id", "navn")) %>% 
+  cross_join(mod_saint_lague) %>% 
+  mutate(kvotient = as.numeric(stemmerantal)/mod_saint_lague) %>% 
+  mutate(temp_rang = rank(-kvotient), .by = c(storkreds, navn)) %>% 
+  mutate(kvotient = if_else(temp_rang <= ant_kreds, NA_real_, kvotient)) %>% 
+  mutate(rang = rank(-kvotient), .by = c(landsdel, navn)) %>% 
+  mutate(tillæg_mandat = rang <= ant_tillæg) %>% 
+  arrange(landsdel, navn)
+
+fordeling_mandat_storkreds <- placering_tillæg %>% 
+  summarise(ant_tillæg = sum(tillæg_mandat), .by = c(storkreds, storkreds_id, landsdel, landsdel_id, navn, ant_kreds)) %>% 
+  arrange(storkreds_id, navn)
+
+```
+
+
+# Resultater
+
+Det samlede resultat er som følger:
+
+```{r}
+#| label: resultat_ialt
+
+p_load(knitr, kableExtra)
+
+kable(total_mandater %>% 
+        select(-rest_mandat),
+      format = "simple",
+      col.names = c("Partinavn", "Mandater i alt", "Kredsmandater", "Tillægsmandater"))
+
+```
+
+
+# Resultater på storkredse
+
+Følgende giver et overblik over placering af mandaterne på storkredse, da de bruges til endeligt at bestemme, hvilke kandidater, der er blevet valgt.
+
+```{r}
+#| label: resultat_storkredse
+#| results: asis
+
+## En kable per storkreds
+t <- fordeling_mandat_storkreds %>% 
+  mutate(total = ant_kreds, ant_tillæg) %>% 
+  select(storkreds, navn, total, ant_kreds, ant_tillæg)  #%>% 
+  #nest(data = -storkreds) %>% 
+#   mutate(tabel = kable(data)) %>% 
+#   select(-data) %>% 
+#   as.list()
+
+p_load(DT, reactable, shiny, shinyWidgets, formattable)
+
+# reactable(data = t, groupBy = "storkreds", onClick = "expand",
+#           compact = TRUE, sortable = TRUE)
+
+
+
+```
+
+
+
+Forsøg på at lave et kort med valgdata
+
+```{r}
+#| label: Henter adresser fra DAWA
+
+library(httr)
+library(jsonlite)
+
+ind <- GET("https://api.dataforsyningen.dk/afstemningsomraader")
+
+dawa_data <- fromJSON(rawToChar(ind$content)) %>% 
+  as_tibble()
+
+# dawa_data$afstemningssted$adgangsadresse
+
+
+api_storkreds <- GET("https://api.dataforsyningen.dk/storkredse?format=geojson")
+
+storkreds_geo_data <- st_read(api_storkreds$content %>% rawToChar(), quiet = TRUE)
+
+storkreds_plot_data <- fordeling_mandat_storkreds %>% 
+  mutate(pct_mandat = ant_kreds/sum(ant_kreds), .by = storkreds) %>% 
+  filter(ant_kreds == max(ant_kreds), .by = storkreds) %>% 
+  mutate(navn = str_remove(storkreds, "Storkreds") %>% 
+           str_trim() %>% 
+           str_remove("s$"))
+
+storkreds_geo_data1 <- storkreds_geo_data %>% 
+  left_join(storkreds_plot_data, by = "navn")
+
+
+
+
+
+```
+
+
+```{r}
+#| label: kort
+
+
+ggplot(data = storkreds_geo_data1) +
+  geom_sf(aes(fill = pct_mandat), show.legend = FALSE) +
+  #geom_sf_label(aes(label = paste0(round(pct_mandat, 2)*100, "%")), label.size = 0) +
+  #coord_sf(datum = NA) +
+  scale_fill_gradient(low = "pink", high = "darkred") +
+  theme_minimal()
+
+```
+
+
+
+
+
