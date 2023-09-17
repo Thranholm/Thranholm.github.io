@@ -5,12 +5,14 @@ project:
     - about.qmd
 
 website:
-  title: "Thranholm.github.io"
+  title: "thranholm.github.io"
   navbar:
     left:
       - href: index.qmd
         text: Home
       - about.qmd
+
+output_dir: "_site"
 
 format:
   html:
