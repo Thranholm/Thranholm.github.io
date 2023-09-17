@@ -12,8 +12,6 @@ website:
       - href: index.qmd
         text: Home
       - about.qmd
-      
-description: HEJ. DETTE ER EN TEST
 
 format:
   html:
