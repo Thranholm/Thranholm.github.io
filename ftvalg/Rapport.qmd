@@ -41,7 +41,6 @@ source("00_stedlig fordeling.R", encoding = "UTF-8")
 
 ```
 
-
 ```{r}
 #| label: "henter partistemmer på geo kredse"
 
@@ -58,7 +57,6 @@ ant_landsdel <- storkreds %>%
 
 
 ```
-
 
 ```{r}
 #| label: regn storkredsemandater
@@ -79,7 +77,6 @@ kredsmandater_parti <- kredsmandater %>%
   summarise(ant_kreds = n(), .by = navn)
 
 ```
-
 
 ```{r}
 #| label: spærregrænse
@@ -118,7 +115,6 @@ under_spær <- spærregrænse %>%
 
 ```
 
-
 ```{r}
 #| label: fordelingsnøgle
 
@@ -134,7 +130,6 @@ para77_stk4 <- as.logical(max(mandatnøgle$flere_kreds))
 
 
 ```
-
 
 ```{r}
 #| label: tillægsmandater
@@ -163,7 +158,7 @@ partier_kreds_ge_forholdstal <- tillægsmandater$navn[tillægsmandater$kreds_ant
 
 ```
 
-Mandatnøglen til beregning af tillægsmandater er: `r format(unique(tillægsmandater$mandatnøgle2), big.mark = ".", decimal.mark = ",", scientific = FALSE)`. 
+Mandatnøglen til beregning af tillægsmandater er: `r format(unique(tillægsmandater$mandatnøgle2), big.mark = ".", decimal.mark = ",", scientific = FALSE)`.
 
 `r if(para77_stk4){"Der er et parti som er opnået flere kredsmandater end deres forholdstal, derfor beregnes tillægsmandater uden partier, der har opnået ligeså mange eller flere kredsmandater end deres forholdstal beretter"} else {"Der er ingen partier, der har fået flere kredsmandater end deres forholdstal"}`. `r if(para77_stk4) {paste("Det drejer sig om:", partier_kreds_ge_forholdstal, ", som ikke indgår i beregningen af tillægsmandater")}`.
 
@@ -225,7 +220,6 @@ tillæg_fordelt_landsdel <- tillæg_loop %>%
 
 ```
 
-
 ```{r}
 #| label: fordeling af tillægsmandater på storkredse
 
@@ -248,7 +242,6 @@ fordeling_mandat_storkreds <- placering_tillæg %>%
 
 ```
 
-
 # Resultater
 
 Det samlede resultat er som følger:
@@ -264,7 +257,6 @@ kable(total_mandater %>%
       col.names = c("Partinavn", "Mandater i alt", "Kredsmandater", "Tillægsmandater"))
 
 ```
-
 
 # Resultater på storkredse
 
@@ -291,8 +283,6 @@ p_load(DT, reactable, shiny, shinyWidgets, formattable)
 
 
 ```
-
-
 
 Forsøg på at lave et kort med valgdata
 
@@ -330,7 +320,6 @@ storkreds_geo_data1 <- storkreds_geo_data %>%
 
 ```
 
-
 ```{r}
 #| label: kort
 
@@ -343,8 +332,3 @@ ggplot(data = storkreds_geo_data1) +
   theme_minimal()
 
 ```
-
-
-
-
-
