@@ -1,5 +1,8 @@
 project:
   type: website
+  render: 
+    - index.qmd
+    - about.qmd
 
 website:
   title: "Thranholm.github.io"
@@ -14,6 +17,4 @@ format:
     theme: cosmo
     css: styles.css
     toc: true
-
-editor: visual
 
