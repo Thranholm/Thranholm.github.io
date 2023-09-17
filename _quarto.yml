@@ -11,6 +11,8 @@ website:
       - href: index.qmd
         text: Home
       - about.qmd
+      
+description: HEJ. DETTE ER EN TEST
 
 output_dir: "_site"
 
