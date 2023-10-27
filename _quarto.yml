@@ -13,8 +13,9 @@ website:
       - href: index.qmd
         text: Home
       - href: about.qmd
-        text: hejsa
-      - ftvalg/rapport.qmd
+        text: Om
+      - href: ftvalg/rapport.qmd
+        text: Folketingsvalg
 
 format:
   html:
