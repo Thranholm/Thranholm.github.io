@@ -38,6 +38,9 @@ ind2 <- read_xml(fv_22_xml)
 source("00_funktioner.R", encoding = "UTF-8")
 source("00_stedlig fordeling.R", encoding = "UTF-8")
 
+# source("ftvalg/00_funktioner.R", encoding = "UTF-8")
+# source("ftvalg/00_stedlig fordeling.R", encoding = "UTF-8")
+
 
 ```
 
@@ -136,10 +139,10 @@ para77_stk4 <- as.logical(max(mandatnøgle$flere_kreds))
 
 tillægsmandater <- mandatnøgle %>% 
   # TODO: bør måske afrundes
-  mutate(mandatnøgle2 = if_else(para77_stk4 == TRUE, sum(stemmerantal[kreds_ant<=forholdstal])/(175-sum(kreds_ant[kreds_ant>=forholdstal])), min(mandatnøgle))) %>% 
-  mutate(forholdstal2 = if_else(para77_stk4 == TRUE & kreds_ant>=forholdstal, NA_real_, stemmerantal/mandatnøgle2)) %>% 
+  mutate(mandatnøgle2 = if_else(para77_stk4 == TRUE, sum(stemmerantal[kreds_ant<floor(forholdstal)])/(175-sum(kreds_ant[kreds_ant>=floor(forholdstal)])), min(mandatnøgle))) %>% 
+  mutate(forholdstal2 = if_else(para77_stk4 == TRUE & kreds_ant>=floor(forholdstal), NA_real_, stemmerantal/mandatnøgle2)) %>% 
   mutate(nedrund = floor(forholdstal2),
-         rest = if_else(para77_stk4 == TRUE, 175-sum(kreds_ant[kreds_ant>=forholdstal])-sum(nedrund, na.rm = TRUE), 175-sum(nedrund)),
+         rest = if_else(para77_stk4 == TRUE, 175-sum(kreds_ant[kreds_ant>=floor(forholdstal)])-sum(nedrund, na.rm = TRUE), 175-sum(nedrund)),
          brøk = forholdstal2-nedrund,
          største_brøk = rank(-brøk),
          rest_mandat = største_brøk <= rest)
@@ -153,7 +156,7 @@ total_mandater <- tillægsmandater %>%
   select(navn, total, kreds, tillæg, rest_mandat)
   
 
-partier_kreds_ge_forholdstal <- tillægsmandater$navn[tillægsmandater$kreds_ant>=tillægsmandater$forholdstal]
+partier_kreds_ge_forholdstal <- tillægsmandater$navn[tillægsmandater$kreds_ant>=floor(tillægsmandater$forholdstal)]
 
 
 ```
@@ -284,6 +287,23 @@ p_load(DT, reactable, shiny, shinyWidgets, formattable)
 
 ```
 
+```{r}
+#| label: kredsmandater_kvotienttabeller
+
+kvotienttabeller_kredsmandater <- kredsmandater %>% 
+  select(storkreds, navn, dhont, kvotient, rank, mandat) %>% 
+  mutate(mandat_kvotient = if_else(mandat == TRUE, str_c("(", rank, ")", " ", kvotient), as.character(kvotient)), .keep = "unused") %>% 
+  pivot_wider(names_from = navn, values_from = mandat_kvotient) %>% 
+  nest(.by = storkreds) %>% 
+  mutate(tabel = kable(data, caption = storkreds), .by = "storkreds")
+
+unlist(kvotienttabeller_kredsmandater$tabel)
+
+# kable(kvotienttabeller_kredsmandater$data[[1]], format = "simple")
+
+```
+
+
 Forsøg på at lave et kort med valgdata
 
 ```{r}
@@ -332,3 +352,6 @@ ggplot(data = storkreds_geo_data1) +
   theme_minimal()
 
 ```
+
+
+
