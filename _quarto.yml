@@ -12,10 +12,8 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - href: about.qmd
-        text: Om
-      - href: ftvalg/rapport.qmd
-        text: Folketingsvalg
+      - about.qmd
+      - ftvalg/rapport.qmd
 
 format:
   html:
