@@ -290,7 +290,7 @@ p_load(DT, reactable, shiny, shinyWidgets, formattable)
 
 ```{r}
 #| label: kredsmandater_kvotienttabeller
-#| eval: false
+#| eval: true
 
 kvotienttabeller_kredsmandater <- kredsmandater %>% 
   select(storkreds, navn, dhont, kvotient, rank, mandat) %>% 
