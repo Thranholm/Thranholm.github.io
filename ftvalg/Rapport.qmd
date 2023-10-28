@@ -1,10 +1,11 @@
 ---
 title: "Folketingsvalg"
 author: "Emil Thranholm"
-format: html
+format: 
+  html:
+    toc: true
 execute:
   echo: false
-toc: true
 editor_options: 
   chunk_output_type: console
 ---
