@@ -299,7 +299,9 @@ kvotienttabeller_kredsmandater <- kredsmandater %>%
   nest(.by = storkreds) %>% 
   mutate(tabel = kable(data, caption = storkreds), .by = "storkreds")
 
-unlist(kvotienttabeller_kredsmandater$tabel)
+# unlist(kvotienttabeller_kredsmandater$tabel)
+kvotienttabeller_kredsmandater$tabel
+
 
 # kable(kvotienttabeller_kredsmandater$data[[1]], format = "simple")
 
@@ -310,6 +312,7 @@ Forsøg på at lave et kort med valgdata
 
 ```{r}
 #| label: Henter adresser fra DAWA
+#| eval: false
 
 library(httr)
 library(jsonlite)
@@ -344,6 +347,7 @@ storkreds_geo_data1 <- storkreds_geo_data %>%
 
 ```{r}
 #| label: kort
+#| eval: false
 
 
 ggplot(data = storkreds_geo_data1) +
