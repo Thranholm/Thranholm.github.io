@@ -36,11 +36,11 @@ ind2 <- read_xml(fv_22_xml)
 #| label: "funktioner"
 #| echo: false
 
-source("00_funktioner.R", encoding = "UTF-8")
-source("00_stedlig fordeling.R", encoding = "UTF-8")
+# source("00_funktioner.R", encoding = "UTF-8")
+# source("00_stedlig fordeling.R", encoding = "UTF-8")
 
-# source("ftvalg/00_funktioner.R", encoding = "UTF-8")
-# source("ftvalg/00_stedlig fordeling.R", encoding = "UTF-8")
+source("ftvalg/00_funktioner.R", encoding = "UTF-8")
+source("ftvalg/00_stedlig fordeling.R", encoding = "UTF-8")
 
 
 ```
