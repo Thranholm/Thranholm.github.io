@@ -6,6 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Emil Thranholm">
 
 <title>thranholm.github.io - Europaparlamentsvalg</title>
 <style>
@@ -142,7 +143,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#resultater" id="toc-resultater" class="nav-link active" data-scroll-target="#resultater">Resultater</a>
+  <ul class="collapse">
+  <li><a href="#samlet-mandater" id="toc-samlet-mandater" class="nav-link" data-scroll-target="#samlet-mandater">Samlet mandater</a></li>
+  <li><a href="#procentfordeling-og-mandater" id="toc-procentfordeling-og-mandater" class="nav-link" data-scroll-target="#procentfordeling-og-mandater">Procentfordeling og mandater</a></li>
+  <li><a href="#rangering-af-mandater" id="toc-rangering-af-mandater" class="nav-link" data-scroll-target="#rangering-af-mandater">Rangering af mandater</a></li>
+  <li><a href="#rangering-kvotienter" id="toc-rangering-kvotienter" class="nav-link" data-scroll-target="#rangering-kvotienter">Rangering kvotienter</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -156,6 +169,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Emil Thranholm </p>
+          </div>
+  </div>
     
   
     
@@ -174,6 +193,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"epvalg/valgforbund.R"</span>)</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"epvalg/epvalg.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<section id="resultater" class="level1">
+<h1>Resultater</h1>
+<section id="samlet-mandater" class="level2">
+<h2 class="anchored" data-anchor-id="samlet-mandater">Samlet mandater</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(ant_mandater_partier <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(bogstav, forbund_bogstav, stemmer, pct_stemmer)) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(mandater <span class="sc">&gt;</span> <span class="dv">0</span>), <span class="at">format =</span> <span class="st">"simple"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -217,6 +240,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
+</section>
+<section id="procentfordeling-og-mandater" class="level2">
+<h2 class="anchored" data-anchor-id="procentfordeling-og-mandater">Procentfordeling og mandater</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(ant_mandater_partier <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>forbund_bogstav), <span class="at">format =</span> <span class="st">"simple"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -305,6 +331,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
+</section>
+<section id="rangering-af-mandater" class="level2">
+<h2 class="anchored" data-anchor-id="rangering-af-mandater">Rangering af mandater</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(rankings <span class="sc">%&gt;%</span> <span class="fu">filter</span>(mandat_parti) <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>mandat_parti) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(overall_rank),</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">format =</span> <span class="st">"html"</span>, <span class="at">caption =</span> <span class="st">"Rangorden for valgte mandater"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -440,6 +469,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </div>
 </div>
+</section>
+<section id="rangering-kvotienter" class="level2">
+<h2 class="anchored" data-anchor-id="rangering-kvotienter">Rangering kvotienter</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(rankings <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>mandat_parti) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(overall_rank), <span class="at">format =</span> <span class="st">"html"</span>,</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Fuld ranking"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -865,6 +897,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
