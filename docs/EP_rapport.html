@@ -153,6 +153,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#procentfordeling-og-mandater" id="toc-procentfordeling-og-mandater" class="nav-link" data-scroll-target="#procentfordeling-og-mandater">Procentfordeling og mandater</a></li>
   <li><a href="#rangering-af-mandater" id="toc-rangering-af-mandater" class="nav-link" data-scroll-target="#rangering-af-mandater">Rangering af mandater</a></li>
   <li><a href="#rangering-kvotienter" id="toc-rangering-kvotienter" class="nav-link" data-scroll-target="#rangering-kvotienter">Rangering kvotienter</a></li>
+  <li><a href="#rangering-valgte-personer" id="toc-rangering-valgte-personer" class="nav-link" data-scroll-target="#rangering-valgte-personer">Rangering valgte personer</a></li>
+  <li><a href="#rangering-alle-opstillede-personer" id="toc-rangering-alle-opstillede-personer" class="nav-link" data-scroll-target="#rangering-alle-opstillede-personer">Rangering alle opstillede personer</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -187,11 +189,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pacman)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(tidyverse, xml2, readr, janitor, kableExtra)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(tidyverse, xml2, readr, janitor, kableExtra, jsonlite)</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"epvalg/00_funktioner.R"</span>)</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"epvalg/valgforbund.R"</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"epvalg/epvalg.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"epvalg/epvalg.R"</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"epvalg/Personlige stemmer.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="resultater" class="level1">
 <h1>Resultater</h1>
@@ -888,6 +891,1117 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: right;">10</td>
 <td style="text-align: right;">25400.40</td>
 <td style="text-align: right;">50</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</section>
+<section id="rangering-valgte-personer" class="level2">
+<h2 class="anchored" data-anchor-id="rangering-valgte-personer">Rangering valgte personer</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Kobler med parti kvotienter for at kunne rangere valgorden overall for personer</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: OBS, er afhængig af bestemt sortering. Antager overall rank er stigende, grupperet på partier.</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>kvotienter_partier_til_pers <span class="ot">&lt;-</span> kvotienter_partier <span class="sc">%&gt;%</span> </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(mandat_parti) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(bogstav, overall_rank) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nest_by</span>(bogstav)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>pers_ranking2 <span class="ot">&lt;-</span> pers_ranking <span class="sc">%&gt;%</span> </span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(kvotienter_partier_til_pers, <span class="at">by =</span> <span class="st">"bogstav"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">overall_rank =</span> <span class="fu">list</span>(data[valgt_rang, <span class="st">"overall_rank"</span>])) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>data) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(<span class="at">cols =</span> overall_rank)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Antagelse at alle er opstillet sideordnet (/kan <em>ikke</em> tage højde for partilister)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(pers_ranking2 <span class="sc">%&gt;%</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">filter</span>(mandat) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">select</span>(bogstav, parti, navn, personligestemmer, valgt_rang, overall_rank) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">arrange</span>(bogstav, valgt_rang, overall_rank),</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">format =</span> <span class="st">"html"</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Valgte personer (Inkl. rang)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<caption>Valgte personer (Inkl. rang)</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">bogstav</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">parti</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">navn</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">personligestemmer</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">valgt_rang</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">overall_rank</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A. Socialdemokratiet</td>
+<td style="text-align: left;">Jeppe Kofod</td>
+<td style="text-align: right;">188757</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A. Socialdemokratiet</td>
+<td style="text-align: left;">Christel Schaldemose</td>
+<td style="text-align: right;">65179</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A. Socialdemokratiet</td>
+<td style="text-align: left;">Niels Fuglsang</td>
+<td style="text-align: right;">29444</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">B. Radikale Venstre</td>
+<td style="text-align: left;">Morten Helveg Petersen</td>
+<td style="text-align: right;">97667</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">B. Radikale Venstre</td>
+<td style="text-align: left;">Karen Melchior</td>
+<td style="text-align: right;">17292</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">13</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">C. Konservative Folkeparti</td>
+<td style="text-align: left;">Pernille Weiss</td>
+<td style="text-align: right;">80140</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">11</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Margrete Auken</td>
+<td style="text-align: right;">199522</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Karsten Hønge</td>
+<td style="text-align: right;">19687</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">12</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">O</td>
+<td style="text-align: left;">O. Dansk Folkeparti</td>
+<td style="text-align: left;">Peter Kofod</td>
+<td style="text-align: right;">119408</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">V. Venstre</td>
+<td style="text-align: left;">Morten Løkkegaard</td>
+<td style="text-align: right;">207558</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">V. Venstre</td>
+<td style="text-align: left;">Søren Gade</td>
+<td style="text-align: right;">201696</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">V. Venstre</td>
+<td style="text-align: left;">Asger Christensen</td>
+<td style="text-align: right;">31347</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">V. Venstre</td>
+<td style="text-align: left;">Linea Søgaard-Lidell</td>
+<td style="text-align: right;">24153</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">14</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ø</td>
+<td style="text-align: left;">Ø. Enhedslisten</td>
+<td style="text-align: left;">Nikolaj Villumsen</td>
+<td style="text-align: right;">50567</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">9</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(pers_ranking2 <span class="sc">%&gt;%</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">filter</span>(mandat) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">select</span>(bogstav, parti, navn, personligestemmer, valgt_rang, overall_rank) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">arrange</span>(overall_rank),</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">format =</span> <span class="st">"html"</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Total rang for valgte personer"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<caption>Total rang for valgte personer</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">bogstav</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">parti</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">navn</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">personligestemmer</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">valgt_rang</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">overall_rank</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A. Socialdemokratiet</td>
+<td style="text-align: left;">Jeppe Kofod</td>
+<td style="text-align: right;">188757</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">V. Venstre</td>
+<td style="text-align: left;">Morten Løkkegaard</td>
+<td style="text-align: right;">207558</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Margrete Auken</td>
+<td style="text-align: right;">199522</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">V. Venstre</td>
+<td style="text-align: left;">Søren Gade</td>
+<td style="text-align: right;">201696</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">B. Radikale Venstre</td>
+<td style="text-align: left;">Morten Helveg Petersen</td>
+<td style="text-align: right;">97667</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A. Socialdemokratiet</td>
+<td style="text-align: left;">Christel Schaldemose</td>
+<td style="text-align: right;">65179</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">O</td>
+<td style="text-align: left;">O. Dansk Folkeparti</td>
+<td style="text-align: left;">Peter Kofod</td>
+<td style="text-align: right;">119408</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">V. Venstre</td>
+<td style="text-align: left;">Asger Christensen</td>
+<td style="text-align: right;">31347</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ø</td>
+<td style="text-align: left;">Ø. Enhedslisten</td>
+<td style="text-align: left;">Nikolaj Villumsen</td>
+<td style="text-align: right;">50567</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A. Socialdemokratiet</td>
+<td style="text-align: left;">Niels Fuglsang</td>
+<td style="text-align: right;">29444</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">C. Konservative Folkeparti</td>
+<td style="text-align: left;">Pernille Weiss</td>
+<td style="text-align: right;">80140</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">11</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Karsten Hønge</td>
+<td style="text-align: right;">19687</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">12</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">B. Radikale Venstre</td>
+<td style="text-align: left;">Karen Melchior</td>
+<td style="text-align: right;">17292</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">13</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">V. Venstre</td>
+<td style="text-align: left;">Linea Søgaard-Lidell</td>
+<td style="text-align: right;">24153</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">14</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</section>
+<section id="rangering-alle-opstillede-personer" class="level2">
+<h2 class="anchored" data-anchor-id="rangering-alle-opstillede-personer">Rangering alle opstillede personer</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(pers_ranking2 <span class="sc">%&gt;%</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">select</span>(bogstav, parti, navn, personligestemmer, valgt_rang, stedfortæder_rang) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">arrange</span>(bogstav, valgt_rang, stedfortæder_rang), </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">format =</span> <span class="st">"html"</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Rangorden alle personer"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<caption>Rangorden alle personer</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">bogstav</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">parti</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">navn</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">personligestemmer</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">valgt_rang</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">stedfortæder_rang</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A. Socialdemokratiet</td>
+<td style="text-align: left;">Jeppe Kofod</td>
+<td style="text-align: right;">188757</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A. Socialdemokratiet</td>
+<td style="text-align: left;">Christel Schaldemose</td>
+<td style="text-align: right;">65179</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A. Socialdemokratiet</td>
+<td style="text-align: left;">Niels Fuglsang</td>
+<td style="text-align: right;">29444</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A. Socialdemokratiet</td>
+<td style="text-align: left;">Marianne Vind</td>
+<td style="text-align: right;">27396</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A. Socialdemokratiet</td>
+<td style="text-align: left;">Morten Klessen</td>
+<td style="text-align: right;">24005</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A. Socialdemokratiet</td>
+<td style="text-align: left;">Mette Poulsen</td>
+<td style="text-align: right;">10437</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A. Socialdemokratiet</td>
+<td style="text-align: left;">Jakob Thiemann</td>
+<td style="text-align: right;">5565</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A. Socialdemokratiet</td>
+<td style="text-align: left;">Lasse Holm Grønning</td>
+<td style="text-align: right;">2436</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A. Socialdemokratiet</td>
+<td style="text-align: left;">Anders Baun Sørensen</td>
+<td style="text-align: right;">1763</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">B. Radikale Venstre</td>
+<td style="text-align: left;">Morten Helveg Petersen</td>
+<td style="text-align: right;">97667</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">B. Radikale Venstre</td>
+<td style="text-align: left;">Karen Melchior</td>
+<td style="text-align: right;">17292</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">B. Radikale Venstre</td>
+<td style="text-align: left;">Nadeem Farooq</td>
+<td style="text-align: right;">7942</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">B. Radikale Venstre</td>
+<td style="text-align: left;">Kim Pagels</td>
+<td style="text-align: right;">5035</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">B. Radikale Venstre</td>
+<td style="text-align: left;">Amalie Søgaard Nielsen</td>
+<td style="text-align: right;">4916</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">B. Radikale Venstre</td>
+<td style="text-align: left;">David Munis Zepernick</td>
+<td style="text-align: right;">2942</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">B. Radikale Venstre</td>
+<td style="text-align: left;">Camilla Kampmann</td>
+<td style="text-align: right;">2801</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">B. Radikale Venstre</td>
+<td style="text-align: left;">Philip Tarning-Andersen</td>
+<td style="text-align: right;">2214</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">B. Radikale Venstre</td>
+<td style="text-align: left;">Sissel van Run-Kvist</td>
+<td style="text-align: right;">2096</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">B. Radikale Venstre</td>
+<td style="text-align: left;">Mathias von Jessen</td>
+<td style="text-align: right;">1897</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">B. Radikale Venstre</td>
+<td style="text-align: left;">Frederik Aagaard</td>
+<td style="text-align: right;">1523</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">B. Radikale Venstre</td>
+<td style="text-align: left;">Eva Borchorst Mejnertz</td>
+<td style="text-align: right;">1409</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">B. Radikale Venstre</td>
+<td style="text-align: left;">Maria Mejse Mortensen</td>
+<td style="text-align: right;">1074</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">11</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">B. Radikale Venstre</td>
+<td style="text-align: left;">Ole Lynggaard Jørgensen</td>
+<td style="text-align: right;">647</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">12</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">B. Radikale Venstre</td>
+<td style="text-align: left;">Alexander Bjørn Jensen</td>
+<td style="text-align: right;">540</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">13</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">B. Radikale Venstre</td>
+<td style="text-align: left;">Poul Elmegård</td>
+<td style="text-align: right;">527</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">14</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">B. Radikale Venstre</td>
+<td style="text-align: left;">Peter Miltersen Sørensen</td>
+<td style="text-align: right;">401</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">15</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">B. Radikale Venstre</td>
+<td style="text-align: left;">Kristian Kirk Mailand</td>
+<td style="text-align: right;">349</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">16</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">B. Radikale Venstre</td>
+<td style="text-align: left;">Jannie Valentin Dexter Jakobsen</td>
+<td style="text-align: right;">297</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">17</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">B. Radikale Venstre</td>
+<td style="text-align: left;">Anton Ebsen</td>
+<td style="text-align: right;">285</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">18</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">C. Konservative Folkeparti</td>
+<td style="text-align: left;">Pernille Weiss</td>
+<td style="text-align: right;">80140</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">C. Konservative Folkeparti</td>
+<td style="text-align: left;">Kuzma Pavlov Jensen</td>
+<td style="text-align: right;">3329</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">C. Konservative Folkeparti</td>
+<td style="text-align: left;">Jens Kindberg</td>
+<td style="text-align: right;">2377</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">C. Konservative Folkeparti</td>
+<td style="text-align: left;">Jakob Sejergaard</td>
+<td style="text-align: right;">2332</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">C. Konservative Folkeparti</td>
+<td style="text-align: left;">Henrik Mielke Ravn</td>
+<td style="text-align: right;">1924</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">C. Konservative Folkeparti</td>
+<td style="text-align: left;">Charlotte Libach</td>
+<td style="text-align: right;">1702</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">C. Konservative Folkeparti</td>
+<td style="text-align: left;">Ali Aminali</td>
+<td style="text-align: right;">1689</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">C. Konservative Folkeparti</td>
+<td style="text-align: left;">Dina Myrup Raabjerg</td>
+<td style="text-align: right;">1401</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">C. Konservative Folkeparti</td>
+<td style="text-align: left;">Torsten Nielsen</td>
+<td style="text-align: right;">1228</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">C. Konservative Folkeparti</td>
+<td style="text-align: left;">Louisa Schønnemann Bøttkjær</td>
+<td style="text-align: right;">952</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">C. Konservative Folkeparti</td>
+<td style="text-align: left;">Dino Selimovic</td>
+<td style="text-align: right;">701</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">C. Konservative Folkeparti</td>
+<td style="text-align: left;">Lasse Bork Schmidt</td>
+<td style="text-align: right;">686</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">11</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">C. Konservative Folkeparti</td>
+<td style="text-align: left;">Anders Guldhammer</td>
+<td style="text-align: right;">609</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">12</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">C. Konservative Folkeparti</td>
+<td style="text-align: left;">Jane Christensen</td>
+<td style="text-align: right;">410</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">13</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">C. Konservative Folkeparti</td>
+<td style="text-align: left;">Thomas von Jessen</td>
+<td style="text-align: right;">382</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">14</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">C. Konservative Folkeparti</td>
+<td style="text-align: left;">Inge Carlé</td>
+<td style="text-align: right;">213</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">15</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Margrete Auken</td>
+<td style="text-align: right;">199522</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Karsten Hønge</td>
+<td style="text-align: right;">19687</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Kira Marie Peter-Hansen</td>
+<td style="text-align: right;">15765</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Rikke Lauritsen</td>
+<td style="text-align: right;">6897</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Peter Westermann</td>
+<td style="text-align: right;">6581</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Kirstine Bille</td>
+<td style="text-align: right;">5678</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Troels Stru Schmidt</td>
+<td style="text-align: right;">1872</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Gül Özcan</td>
+<td style="text-align: right;">1613</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Annemette Schønberg Johnsen</td>
+<td style="text-align: right;">1525</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Bo Vesterlund</td>
+<td style="text-align: right;">775</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Inger Staahl Jensen</td>
+<td style="text-align: right;">530</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Thue Grum-Schwenssen</td>
+<td style="text-align: right;">469</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Lucas Zukunft</td>
+<td style="text-align: right;">437</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">11</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Anita Lundgren Fischer</td>
+<td style="text-align: right;">418</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">12</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Jens Rane Holck</td>
+<td style="text-align: right;">363</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">13</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Allan Norré Pedersen</td>
+<td style="text-align: right;">238</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">14</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Rune Frøding</td>
+<td style="text-align: right;">228</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">15</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">O</td>
+<td style="text-align: left;">O. Dansk Folkeparti</td>
+<td style="text-align: left;">Peter Kofod</td>
+<td style="text-align: right;">119408</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">O</td>
+<td style="text-align: left;">O. Dansk Folkeparti</td>
+<td style="text-align: left;">Anders Vistisen</td>
+<td style="text-align: right;">16960</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">O</td>
+<td style="text-align: left;">O. Dansk Folkeparti</td>
+<td style="text-align: left;">Tina-Mia Eriksen</td>
+<td style="text-align: right;">6680</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">O</td>
+<td style="text-align: left;">O. Dansk Folkeparti</td>
+<td style="text-align: left;">Pia Adelsteen</td>
+<td style="text-align: right;">5296</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">O</td>
+<td style="text-align: left;">O. Dansk Folkeparti</td>
+<td style="text-align: left;">René Danielsson</td>
+<td style="text-align: right;">3399</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">O</td>
+<td style="text-align: left;">O. Dansk Folkeparti</td>
+<td style="text-align: left;">Finn Rudaizky</td>
+<td style="text-align: right;">2384</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">O</td>
+<td style="text-align: left;">O. Dansk Folkeparti</td>
+<td style="text-align: left;">Gitte Bundgaard</td>
+<td style="text-align: right;">2121</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">O</td>
+<td style="text-align: left;">O. Dansk Folkeparti</td>
+<td style="text-align: left;">Lone Langballe</td>
+<td style="text-align: right;">1895</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">O</td>
+<td style="text-align: left;">O. Dansk Folkeparti</td>
+<td style="text-align: left;">Charlotte Hougaard Larsen</td>
+<td style="text-align: right;">1731</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">O</td>
+<td style="text-align: left;">O. Dansk Folkeparti</td>
+<td style="text-align: left;">Tobias Weische</td>
+<td style="text-align: right;">917</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">V. Venstre</td>
+<td style="text-align: left;">Morten Løkkegaard</td>
+<td style="text-align: right;">207558</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">V. Venstre</td>
+<td style="text-align: left;">Søren Gade</td>
+<td style="text-align: right;">201696</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">V. Venstre</td>
+<td style="text-align: left;">Asger Christensen</td>
+<td style="text-align: right;">31347</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">V. Venstre</td>
+<td style="text-align: left;">Linea Søgaard-Lidell</td>
+<td style="text-align: right;">24153</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">V. Venstre</td>
+<td style="text-align: left;">Bergur Løkke Rasmussen</td>
+<td style="text-align: right;">11615</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">V. Venstre</td>
+<td style="text-align: left;">Kim Valentin</td>
+<td style="text-align: right;">9112</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">V. Venstre</td>
+<td style="text-align: left;">Erik Poulsen</td>
+<td style="text-align: right;">3363</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">V. Venstre</td>
+<td style="text-align: left;">Charlotte Munch</td>
+<td style="text-align: right;">2846</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">V. Venstre</td>
+<td style="text-align: left;">Theresa Blegvad</td>
+<td style="text-align: right;">2334</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">V. Venstre</td>
+<td style="text-align: left;">Henrik Noes Piester</td>
+<td style="text-align: right;">2137</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">V. Venstre</td>
+<td style="text-align: left;">Jens Møller Jensen</td>
+<td style="text-align: right;">2134</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">V. Venstre</td>
+<td style="text-align: left;">Casper Pedersen</td>
+<td style="text-align: right;">1402</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ø</td>
+<td style="text-align: left;">Ø. Enhedslisten</td>
+<td style="text-align: left;">Nikolaj Villumsen</td>
+<td style="text-align: right;">50567</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ø</td>
+<td style="text-align: left;">Ø. Enhedslisten</td>
+<td style="text-align: left;">Eva Flyvholm</td>
+<td style="text-align: right;">9402</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ø</td>
+<td style="text-align: left;">Ø. Enhedslisten</td>
+<td style="text-align: left;">Maja Albrechtsen</td>
+<td style="text-align: right;">2925</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ø</td>
+<td style="text-align: left;">Ø. Enhedslisten</td>
+<td style="text-align: left;">Freja Lynæs Larsen</td>
+<td style="text-align: right;">1412</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ø</td>
+<td style="text-align: left;">Ø. Enhedslisten</td>
+<td style="text-align: left;">Eva Enoksen</td>
+<td style="text-align: right;">1306</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ø</td>
+<td style="text-align: left;">Ø. Enhedslisten</td>
+<td style="text-align: left;">Rasmus Vestergaard Madsen</td>
+<td style="text-align: right;">1292</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ø</td>
+<td style="text-align: left;">Ø. Enhedslisten</td>
+<td style="text-align: left;">Jakob Nerup</td>
+<td style="text-align: right;">1210</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ø</td>
+<td style="text-align: left;">Ø. Enhedslisten</td>
+<td style="text-align: left;">Sabrina Louise Christiansen</td>
+<td style="text-align: right;">1171</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ø</td>
+<td style="text-align: left;">Ø. Enhedslisten</td>
+<td style="text-align: left;">Tobias Clausen</td>
+<td style="text-align: right;">1133</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ø</td>
+<td style="text-align: left;">Ø. Enhedslisten</td>
+<td style="text-align: left;">Henning Hyllested</td>
+<td style="text-align: right;">947</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ø</td>
+<td style="text-align: left;">Ø. Enhedslisten</td>
+<td style="text-align: left;">Inger V. Johansen</td>
+<td style="text-align: right;">474</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ø</td>
+<td style="text-align: left;">Ø. Enhedslisten</td>
+<td style="text-align: left;">Torsten Ringgaard</td>
+<td style="text-align: right;">315</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">11</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ø</td>
+<td style="text-align: left;">Ø. Enhedslisten</td>
+<td style="text-align: left;">Frederik W. Kronborg</td>
+<td style="text-align: right;">261</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">12</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ø</td>
+<td style="text-align: left;">Ø. Enhedslisten</td>
+<td style="text-align: left;">Jeppe Studtmund</td>
+<td style="text-align: right;">251</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">13</td>
 </tr>
 </tbody>
 </table>

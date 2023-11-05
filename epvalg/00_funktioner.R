@@ -21,3 +21,6 @@ hent_parti_stemmer <- function(xml_data, xpath){
     unnest(cols = test) %>% 
     rename_with(str_to_lower)
 }
+
+
+

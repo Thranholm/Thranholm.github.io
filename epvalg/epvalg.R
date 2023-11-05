@@ -27,17 +27,6 @@ kvotienter_forbund <- stemmer_land %>%
          rank = rank(-kvotient_forbund),
          mandat_forbund = rank <= mandater)
 
-# mandatrang_forbund <- kvotienter_forbund %>% 
-#   filter(mandat_forbund) %>% 
-#   select(forbund_bogstav, #kvotient_forbund, 
-#          rank) %>% 
-#   pivot_wider(names_from = "forbund_bogstav",
-#               values_from = rank) %>% 
-#   pivot_longer(cols = everything(),
-#                names_to = "forbund_bogstav",
-#                values_to = "rank")
-
-
 
 ant_mandater_forbund <- kvotienter_forbund %>% 
   filter(mandat_forbund) %>% 
@@ -63,10 +52,10 @@ ant_mandater_partier <- kvotienter_partier %>%
   mutate(pct_stemmer = round_half_up(stemmer/sum(stemmer)*100, 2)) %>% 
   select(bogstav, forbund_bogstav, navn, stemmer, pct_stemmer, mandater)
 
-kable(ant_mandater_partier, format = "simple")
-
 rankings <- kvotienter_partier %>% 
   select(navn, forbund = forbund_bogstav, kvotient_parti, rank_parti, kvotient_forbund, overall_rank, mandat_parti)
+
+kable(ant_mandater_partier, format = "simple")
 
 kable(rankings %>% select(-mandat_parti), format = "simple",
       caption = "Fuld ranking")
