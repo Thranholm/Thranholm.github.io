@@ -263,7 +263,11 @@ Det samlede resultat er som følger:
 p_load(knitr, kableExtra)
 
 kable(total_mandater %>% 
-        select(-rest_mandat),
+        select(-rest_mandat) %>% 
+        bind_rows(total_mandater %>% 
+                    select(-rest_mandat) %>% 
+                    summarise(across(c("total", "kreds", "tillæg"), sum)) %>% 
+                    mutate(navn = "I alt")),
       format = "simple",
       col.names = c("Partinavn", "Mandater i alt", "Kredsmandater", "Tillægsmandater"))
 
