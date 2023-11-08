@@ -65,12 +65,19 @@ ant_landsdel <- storkreds %>%
 ```{r}
 #| label: regn storkredsemandater
 
-dhont <- tibble(dhont = 1:10)
+# dhont <- tibble(dhont = 1:10)
+
+dhont <- storkreds %>% 
+  left_join(ant_kreds, by = join_by(storkreds_id)) %>% 
+  distinct(storkreds_id, kreds) %>% 
+  slice(rep(1:kreds, each = kreds), .by = storkreds_id) %>% 
+  mutate(dhont = row_number(), .by = storkreds_id)
 
 kredsmandater <- storkreds %>% 
   select(storkreds, storkreds_id, landsdel_id, navn, stemmerantal) %>% 
-  cross_join(dhont) %>% 
-  left_join(ant_kreds, by = "storkreds_id") %>% 
+  # cross_join(dhont) %>% 
+  # left_join(ant_kreds, by = "storkreds_id") %>% 
+  left_join(dhont, by = "storkreds_id", relationship = "many-to-many") %>% 
   mutate(kvotient = round(as.numeric(stemmerantal)/dhont, 0)) %>% 
   mutate(rank = rank(-kvotient), .by = storkreds_id) %>% 
   mutate(mandat = rank <= kreds)
@@ -307,6 +314,7 @@ kvotienttabeller_kredsmandater$tabel
 
 ```
 
+# Kort
 
 Forsøg på at lave et kort med valgdata
 
