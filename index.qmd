@@ -1,7 +1,9 @@
 ---
-title: "thranholm.github.io"
+title: "Emil Thranholm"
 ---
 
-This is a Quarto website. Hej
+# Welcome to my personal website
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+This website contain different hobby project regarding data. I have a background in political science and love sports. So all topics on this page will revolve around data in combination with either politics or sports (and if really crazy, both).
+
+

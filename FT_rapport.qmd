@@ -133,7 +133,7 @@ mandatnøgle <- land %>%
   inner_join(over_spær, by = "navn") %>% 
   select(navn, stemmerantal, stemmerpct, kreds_jn, kreds_ant) %>% 
   mutate(stemmerantal = as.numeric(stemmerantal)) %>% 
-  mutate(mandatnøgle = round(sum(stemmerantal)/175,2),
+  mutate(mandatnøgle = sum(stemmerantal)/175,
          forholdstal = stemmerantal/mandatnøgle,
          flere_kreds = kreds_ant > floor(forholdstal))
 
@@ -146,7 +146,6 @@ para77_stk4 <- as.logical(max(mandatnøgle$flere_kreds))
 #| label: tillægsmandater
 
 tillægsmandater <- mandatnøgle %>% 
-  # TODO: bør måske afrundes
   mutate(mandatnøgle2 = if_else(para77_stk4 == TRUE, sum(stemmerantal[kreds_ant<floor(forholdstal)])/(175-sum(kreds_ant[kreds_ant>=floor(forholdstal)])), min(mandatnøgle))) %>% 
   mutate(forholdstal2 = if_else(para77_stk4 == TRUE & kreds_ant>=floor(forholdstal), NA_real_, stemmerantal/mandatnøgle2)) %>% 
   mutate(nedrund = floor(forholdstal2),
@@ -181,12 +180,16 @@ kreds_til_landsdel <- kredsmandater %>%
   filter(mandat == TRUE) %>% 
   summarise(ant_kreds = n(), .by = c(landsdel, landsdel_id, navn))
 
-saint_lague <- tibble(saint_lague = seq(1, 39, by = 2))
+saint_lague <- kreds_til_landsdel %>% 
+  select(landsdel, ant_kreds) %>% 
+  filter(ant_kreds == max(ant_kreds), .by = "landsdel") %>% 
+  mutate(saint_lague = list(seq(1, length.out = ant_kreds, by = 2)), .by = landsdel, .keep = "unused") %>% 
+  unnest(saint_lague)
 
 temp_tillæg <- landsdel %>% 
   inner_join(over_spær, by = "navn") %>% 
   select(landsdel, landsdel_id, navn, stemmerantal) %>% 
-  cross_join(saint_lague) %>% 
+  left_join(saint_lague, by = "landsdel", relationship = "many-to-many") %>% 
   mutate(kvotient_tillæg = as.numeric(stemmerantal)/saint_lague,
          rang_temp = rank(-kvotient_tillæg), .by = c(landsdel, navn)) %>% 
   left_join(kreds_til_landsdel, by = c("landsdel", "landsdel_id", "navn")) %>% 
@@ -234,12 +237,19 @@ tillæg_fordelt_landsdel <- tillæg_loop %>%
 ```{r}
 #| label: fordeling af tillægsmandater på storkredse
 
-mod_saint_lague <- tibble(mod_saint_lague = seq(1, 19, by = 3))
+# mod_saint_lague <- tibble(mod_saint_lague = seq(1, 19, by = 3))
+mod_saint_lague <- kredsmandater %>% 
+  left_join(tillæg_fordelt_landsdel, by = c("landsdel_id", "navn")) %>% 
+  distinct(storkreds, storkreds_id, ant_tillæg) %>% 
+  filter(ant_tillæg == max(ant_tillæg, na.rm = TRUE), .by = "storkreds") %>% 
+  mutate(mod_saint_lague = list(seq(1, length.out = ant_tillæg, by = 3)), .by = "storkreds", .keep = "unused") %>% 
+  unnest(mod_saint_lague)
 
 placering_tillæg <- kredsmandater %>% 
   summarise(ant_kreds = sum(mandat), .by = c(storkreds, storkreds_id, landsdel_id, navn, stemmerantal)) %>% 
   inner_join(tillæg_fordelt_landsdel, by = c("landsdel_id", "navn")) %>% 
-  cross_join(mod_saint_lague) %>% 
+  left_join(mod_saint_lague, by = c("storkreds", "storkreds_id"), relationship = "many-to-many") %>% 
+  # cross_join(mod_saint_lague) %>% 
   mutate(kvotient = as.numeric(stemmerantal)/mod_saint_lague) %>% 
   mutate(temp_rang = rank(-kvotient), .by = c(storkreds, navn)) %>% 
   mutate(kvotient = if_else(temp_rang <= ant_kreds, NA_real_, kvotient)) %>% 
