@@ -2,8 +2,6 @@
 title: "About"
 ---
 
-About this site
+I have studied political science at the Univeristy of Copenhagen. I currently work at Statistics Denmark within the section of statistical methods. I mainly work with statistical disclosure control, maintaining and developing internal R-packages, statistical data editing and imputation.
 
-```{r}
-1 + 1
-```
+I like to collect insights from data and find new ways to use data. Mainly working with data analysis in R, but collecting data from different sources, SQL servers or APIs.
