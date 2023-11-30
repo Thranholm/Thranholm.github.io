@@ -10,21 +10,49 @@ editor_options:
 Danmark runder snart et skarpt hjørne eller en slags meget stor rund fødselsdag. Vi er tæt på at være 6 millioner danskere. Vi mangler dog stadig en lille smule og derfor skal vi have en nedtælling.
 
 ```{r}
-#| message: false
 
 library(pacman)
 
-p_load(dplyr, httr2, jsonlite, readr, bslib, bsicons)
+p_load(dplyr, tibble, tidyr, httr2, jsonlite, readr, bslib, bsicons)
 
 mio6 <- 6e+6
 
-statbank_url <- "https://api.statbank.dk/v1/data"
+statbank_url <- "https://api.statbank.dk/v1"
 
 tabel_navn <- "FOLK1AM"
 
-tid <- "2023M10"
 
-hent_tab <- request(paste(statbank_url, tabel_navn, paste0("CSV?Tid=", tid), sep = "/")) %>% 
+```
+
+
+```{r}
+
+tab_meta <- request(paste0(paste(statbank_url, "tableinfo", tabel_navn, sep = "/"), "?format=JSON")) %>% 
+  req_perform()
+
+tid <- tab_meta %>% 
+  resp_body_string() %>% 
+  fromJSON() %>% 
+  as_tibble_col() %>% 
+  mutate(navn = names(value)) %>% 
+  filter(navn == "variables") %>% 
+  unnest(value) %>% 
+  filter(time == TRUE) %>% 
+  select(values) %>% 
+  unnest(values) %>% 
+  filter(text == max(text)) %>% 
+  pull(text)
+
+```
+
+
+
+```{r}
+#| message: false
+
+# tid <- "2023M10"
+
+hent_tab <- request(paste(statbank_url, "data", tabel_navn, paste0("CSV?Tid=", tid), sep = "/")) %>% 
   req_perform()
 
 FOLK1AM <- hent_tab %>% 
@@ -34,8 +62,8 @@ FOLK1AM <- hent_tab %>%
 mangler <- FOLK1AM %>% 
   mutate(mangler = mio6-INDHOLD) %>% 
   pull(mangler)
-
 ```
+
 
 
 ```{r}
