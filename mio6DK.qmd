@@ -1,0 +1,51 @@
+---
+title: "6 mio. danskere"
+format: html
+execute: 
+  echo: false
+editor_options: 
+  chunk_output_type: console
+---
+
+Danmark runder snart et skarpt hjørne eller en slags meget stor rund fødselsdag. Vi er tæt på at være 6 millioner danskere. Vi mangler dog stadig en lille smule og derfor skal vi have en nedtælling.
+
+```{r}
+#| message: false
+
+library(pacman)
+
+p_load(dplyr, httr2, jsonlite, readr, bslib, bsicons)
+
+mio6 <- 6e+6
+
+statbank_url <- "https://api.statbank.dk/v1/data"
+
+tabel_navn <- "FOLK1AM"
+
+tid <- "2023M10"
+
+hent_tab <- request(paste(statbank_url, tabel_navn, paste0("CSV?Tid=", tid), sep = "/")) %>% 
+  req_perform()
+
+FOLK1AM <- hent_tab %>% 
+  resp_body_string() %>% 
+  read_csv2()
+
+mangler <- FOLK1AM %>% 
+  mutate(mangler = mio6-INDHOLD) %>% 
+  pull(mangler)
+
+```
+
+
+```{r}
+value_box(
+  title = "Nedtælling til 6 mio. danskere",
+  value = format(mangler, big.mark = ".", decimal.mark = ","),
+  showcase = bs_icon("graph-up-arrow"),
+  theme_color = "primary"
+)
+```
+
+
+

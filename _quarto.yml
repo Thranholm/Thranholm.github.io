@@ -6,6 +6,7 @@ project:
     - about.qmd
     - FT_rapport.qmd
     - EP_rapport.qmd
+    - mio6DK.qmd
 
 website:
   title: "thranholm.github.io"
@@ -16,7 +17,8 @@ website:
       - about.qmd
       - FT_rapport.qmd
       - EP_rapport.qmd
-
+      - href: mio6DK.qmd
+        text: 6 mio danskere
 format:
   html:
     theme: cosmo

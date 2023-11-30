@@ -18,7 +18,7 @@
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "I have studied political science at the Univeristy of Copenhagen. I currently work at Statistics Denmark within the section of statistical methods. I mainly work with statistical disclosure control, maintaining and developing internal R-packages, statistical data editing and imputation.\nI like to collect insights from data and find new ways to use data. Mainly working with data analysis in R, but collecting data from different sources, SQL servers or APIs."
+    "text": "I have studied political science at the Univeristy of Copenhagen. I currently work at Statistics Denmark within the section of statistical methods. I mainly work with statistical disclosure control, maintaining and developing internal R-packages, statistical data editing and imputation.\nI like to collect insights from data and find new ways to use data. Mainly working with data analysis in R, but collecting data from different sources, SQL servers, APIs or web scraping."
   },
   {
     "objectID": "EP_rapport.html",
@@ -75,5 +75,12 @@
     "title": "Emil Thranholm",
     "section": "",
     "text": "This website containing different hobby project regarding data. I have a background in political science and love sports. So all topics on this page will revolve around data in combination with either politics or sports (and if really crazy, both)."
+  },
+  {
+    "objectID": "mio6DK.html",
+    "href": "mio6DK.html",
+    "title": "6 mio. danskere",
+    "section": "",
+    "text": "Danmark runder snart et skarpt hjørne eller en slags meget stor rund fødselsdag. Vi er tæt på at være 6 millioner danskere. Vi mangler dog stadig en lille smule og derfor skal vi have en nedtælling.\n\n\n\n\n\n\n\n\n\n\nNedtælling til 6 mio. danskere\n40.536"
   }
 ]
