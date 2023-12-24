@@ -1,5 +1,0 @@
-name: Automatisk opdatering
-
-on:
-  schedule:
-    -  cron:  '30 15 * * *'
