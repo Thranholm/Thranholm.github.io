@@ -38,8 +38,8 @@ jobs:
         uses: actions/configure-pages@v1
       - name: Render Website
         run: quarto render
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
+    # - name: Upload artifact
+    #    uses: actions/upload-pages-artifact@v1
         with:
           path: 'docs'
       - name: Deploy to GitHub Pages
