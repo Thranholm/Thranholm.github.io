@@ -73,7 +73,11 @@ value_box(
   showcase = bs_icon("graph-up-arrow"),
   theme_color = "primary"
 )
+
 ```
 
+
+<br>
+*Sidst opdateret: `r format(Sys.time(), "%d/%m/%Y %H:%M:%S")`*
 
 
