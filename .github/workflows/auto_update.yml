@@ -1,1 +1,11 @@
 name: automatisk opdatering
+
+on:
+  schedule:
+    -  cron: '0 * * * *'
+
+jobs:
+  render-markdown:
+    runs-on: macOS-latest
+    
+    
