@@ -66,7 +66,8 @@ jobs:
       uses: r-lib/actions/setup-r-dependencies@v2
       with:
         packages: |
-          any::pacman 
+          any::pacman
+          any::rmarkdown
 
       # NOTE: If Publishing to GitHub Pages, set the permissions correctly (see top of this yaml)
     - name: Publish to GitHub Pages (and render)
