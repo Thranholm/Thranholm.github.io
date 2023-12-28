@@ -29,6 +29,10 @@ jobs:
     - name: Install libudunits2
       run: sudo apt-get install libudunits2-dev
 
+    - name: Install libproj
+      run: sudo apt-get install libproj-dev
+
+
         # From https://github.com/r-lib/actions/tree/v2-branch/setup-r
     - name: setup-R
       uses: r-lib/actions/setup-r@v2
