@@ -19,6 +19,7 @@ Dette dokument giver overblik over resultatet for Folketingsvalget, og kan opdat
 #| echo: false
 
 library(pacman)
+library(rmarkdown)
 p_load(tidyverse, readr, xml2, XML, janitor, flatxml, reshape2, maps, sf)
 
 ```
