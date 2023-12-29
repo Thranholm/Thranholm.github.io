@@ -10,7 +10,7 @@ project:
 
 website:
   title: "thranholm.github.io"
-  # site-url: "https://thranholm.github.io/"
+  site-url: "https://thranholm.github.io/"
   navbar:
     left:
       - href: index.qmd
