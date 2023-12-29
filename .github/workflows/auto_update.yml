@@ -16,7 +16,7 @@ on:
   #push:
   #  branches: ['main']
   schedule:
-    - cron: "13 12 * * *"
+    - cron: "17 11 * * *"
 
 jobs:
  quarto-render:
