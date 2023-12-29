@@ -77,8 +77,8 @@ kredsmandater <- storkreds %>%
   select(storkreds, storkreds_id, landsdel_id, navn, stemmerantal) %>% 
   # cross_join(dhont) %>% 
   # left_join(ant_kreds, by = "storkreds_id") %>% 
-  left_join(dhont, by = "storkreds_id") %>% 
-  # left_join(dhont, by = "storkreds_id", relationship = "many-to-many") %>% 
+  # left_join(dhont, by = "storkreds_id") %>% 
+  left_join(dhont, by = "storkreds_id", relationship = "many-to-many") %>%
   mutate(kvotient = round(as.numeric(stemmerantal)/dhont, 0)) %>% 
   mutate(rank = rank(-kvotient), .by = storkreds_id) %>% 
   mutate(mandat = rank <= kreds)
@@ -190,8 +190,8 @@ saint_lague <- kreds_til_landsdel %>%
 temp_tillæg <- landsdel %>% 
   inner_join(over_spær, by = "navn") %>% 
   select(landsdel, landsdel_id, navn, stemmerantal) %>% 
-  left_join(saint_lague, by = "landsdel") %>%
-  # left_join(saint_lague, by = "landsdel", relationship = "many-to-many") %>% 
+  # left_join(saint_lague, by = "landsdel") %>%
+  left_join(saint_lague, by = "landsdel", relationship = "many-to-many") %>%
   mutate(kvotient_tillæg = as.numeric(stemmerantal)/saint_lague,
          rang_temp = rank(-kvotient_tillæg), .by = c(landsdel, navn)) %>% 
   left_join(kreds_til_landsdel, by = c("landsdel", "landsdel_id", "navn")) %>% 
@@ -250,8 +250,8 @@ mod_saint_lague <- kredsmandater %>%
 placering_tillæg <- kredsmandater %>% 
   summarise(ant_kreds = sum(mandat), .by = c(storkreds, storkreds_id, landsdel_id, navn, stemmerantal)) %>% 
   inner_join(tillæg_fordelt_landsdel, by = c("landsdel_id", "navn")) %>% 
-  left_join(mod_saint_lague, by = c("storkreds", "storkreds_id")) %>% 
-  # left_join(mod_saint_lague, by = c("storkreds", "storkreds_id"), relationship = "many-to-many") %>% 
+  # left_join(mod_saint_lague, by = c("storkreds", "storkreds_id")) %>% 
+  left_join(mod_saint_lague, by = c("storkreds", "storkreds_id"), relationship = "many-to-many") %>%
   # cross_join(mod_saint_lague) %>% 
   mutate(kvotient = as.numeric(stemmerantal)/mod_saint_lague) %>% 
   mutate(temp_rang = rank(-kvotient), .by = c(storkreds, navn)) %>% 
