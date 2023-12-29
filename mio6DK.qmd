@@ -13,7 +13,7 @@ Danmark runder snart et skarpt hjørne eller en slags meget stor rund fødselsda
 
 library(pacman)
 
-p_load(dplyr, tibble, tidyr, httr2, jsonlite, readr, bslib, bsicons)
+p_load(dplyr, tibble, tidyr, lubridate, httr2, jsonlite, readr, bslib, bsicons)
 
 mio6 <- 6e+6
 
@@ -74,10 +74,11 @@ value_box(
   theme_color = "primary"
 )
 
+
 ```
 
 
 <br>
-*Sidst opdateret: `r format(Sys.time(), "%d/%m/%Y %H:%M:%S")`*
+*Sidst opdateret: `r format(with_tz(Sys.time(), "CET"), "%d/%m/%Y %H:%M:%S")`*
 
 
