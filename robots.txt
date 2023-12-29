@@ -1,1 +1,1 @@
-Sitemap: https://github.com/Thranholm/Thranholm.github.io/sitemap.xml
+Sitemap: https://thranholm.github.io/sitemap.xml
