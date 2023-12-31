@@ -71,7 +71,7 @@ value_box(
   title = "Nedtælling til 6 mio. danskere",
   value = format(mangler, big.mark = ".", decimal.mark = ","),
   showcase = bs_icon("graph-up-arrow"),
-  theme_color = "primary"
+  theme = "primary"
 )
 
 
