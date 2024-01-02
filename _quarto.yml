@@ -9,7 +9,7 @@ project:
     - mio6DK.qmd
 
 website:
-  title: "thranholm.github.io"
+  title: "Emil Thranholm"
   site-url: "https://thranholm.github.io/"
   navbar:
     left:

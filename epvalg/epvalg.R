@@ -2,13 +2,22 @@
 
 mandattal <- 14
 
-ep_19_xml <- "https://www.dst.dk/valg/Valg1684426/xml/fintal.xml"
+aar <- 2019
+
+type <- "fintælling"
+
+ep_xml <- xml_link_oversigt %>% 
+  filter(aar == .env$aar & valg == "EP") %>% 
+  filter(type == .env$type) %>% 
+  pull(xml_link)
+
+# ep_xml <- "https://www.dst.dk/valg/Valg1684426/xml/fintal.xml"
 
 ## Henter libraries
 library(pacman)
 p_load(tidyverse, xml2, readr, janitor)
 
-ind <- read_xml(ep_19_xml)
+ind <- read_xml(ep_xml)
 
 stemmer_land <- hent_parti_stemmer(ind, "Land") %>% 
   mutate(stemmer = as.numeric(stemmerantal))
