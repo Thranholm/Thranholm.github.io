@@ -2,9 +2,9 @@
 
 mandattal <- 14
 
-aar <- 2019
+aar <- params$aar
 
-type <- "fintælling"
+type <- params$type
 
 ep_xml <- xml_link_oversigt %>% 
   filter(aar == .env$aar & valg == "EP") %>% 

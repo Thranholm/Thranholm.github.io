@@ -1,5 +1,8 @@
 ---
-title: "Europaparlamentsvalg"
+params:
+  aar: 2019
+  type: "fintælling"
+title: "Europaparlamentsvalg `r paste(params$aar, params$type)`"
 author: "Emil Thranholm"
 editor: source
 editor_options: 
@@ -13,14 +16,13 @@ options(knitr.kable.NA = '')
 
 
 ```{r}
-rm(list = ls())
 
 library(pacman)
 p_load(tidyverse, xml2, readr, janitor, kableExtra, jsonlite)
 
 source("epvalg/00_funktioner.R")
-source("epvalg/Oversigt over xml links.R")
 source("epvalg/valgforbund.R")
+source("epvalg/Oversigt over xml links.R")
 source("epvalg/epvalg.R")
 source("epvalg/Personlige stemmer.R")
 
