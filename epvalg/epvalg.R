@@ -1,6 +1,10 @@
 ## Europaparlamentsvalg
 
-mandattal <- 14
+# mandattal <- 14
+mandattal <- xml_link_oversigt %>% 
+  filter(valg == "EP" & aar == params$aar) %>% 
+  distinct(mandater) %>% 
+  pull()
 
 aar <- params$aar
 
@@ -38,7 +42,6 @@ kvotienter_forbund <- stemmer_land %>%
 
 
 ant_mandater_forbund <- kvotienter_forbund %>% 
-  filter(mandat_forbund) %>% 
   summarise(ant_mandater_forbund = sum(mandat_forbund), .by = c("forbund_bogstav", "stemmer_forbund"))
 
 dhont_forbund <- tibble(dhont = 1:max(ant_mandater_forbund$ant_mandater_forbund))

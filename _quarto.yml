@@ -5,7 +5,7 @@ project:
     - index.qmd
     - about.qmd
     - FT_rapport.qmd
-    - EP_rapport.qmd
+    - render_ep_rapport.qmd
     - mio6DK.qmd
 
 website:
@@ -17,6 +17,8 @@ website:
         text: Home
       - about.qmd
       - FT_rapport.qmd
+      - href: render_ep_rapport.qmd
+      - text: Europaparlamentsvalg
       - EP_rapport.qmd
       - href: mio6DK.qmd
         text: 6 mio danskere

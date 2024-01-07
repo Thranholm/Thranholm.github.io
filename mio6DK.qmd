@@ -74,7 +74,6 @@ value_box(
   theme = "primary"
 )
 
-
 ```
 
 

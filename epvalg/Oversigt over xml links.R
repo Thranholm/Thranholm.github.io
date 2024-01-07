@@ -19,7 +19,11 @@ xml_link_oversigt <- tibble(aar = seq(2009, year(Sys.time()), by = 5),
                             if_else(type == "valgaften",
                                     paste(xml_link, "xml", "valgdag.xml", sep = "/"),
                                     paste(xml_link, "xml", "fintal.xml", sep = "/")), 
-                            NA_character_))
+                            NA_character_),
+         mandater = case_when(valg == "EP" & aar == 2009 ~ 13,
+                              valg == "EP" & aar == 2014 ~ 13,
+                              valg == "EP" & aar == 2019 ~ 14,
+                              valg == "EP" & aar == 2024 ~ 15))
 
 
 
