@@ -1,14 +1,27 @@
 ## Europaparlamentsvalg
 
-mandattal <- 14
+# mandattal <- 14
+mandattal <- xml_link_oversigt %>% 
+  filter(valg == "EP" & aar == params$aar) %>% 
+  distinct(mandater) %>% 
+  pull()
 
-ep_19_xml <- "https://www.dst.dk/valg/Valg1684426/xml/fintal.xml"
+aar <- params$aar
+
+type <- params$type
+
+ep_xml <- xml_link_oversigt %>% 
+  filter(aar == .env$aar & valg == "EP") %>% 
+  filter(type == .env$type) %>% 
+  pull(xml_link)
+
+# ep_xml <- "https://www.dst.dk/valg/Valg1684426/xml/fintal.xml"
 
 ## Henter libraries
 library(pacman)
 p_load(tidyverse, xml2, readr, janitor)
 
-ind <- read_xml(ep_19_xml)
+ind <- read_xml(ep_xml)
 
 stemmer_land <- hent_parti_stemmer(ind, "Land") %>% 
   mutate(stemmer = as.numeric(stemmerantal))
@@ -29,7 +42,6 @@ kvotienter_forbund <- stemmer_land %>%
 
 
 ant_mandater_forbund <- kvotienter_forbund %>% 
-  filter(mandat_forbund) %>% 
   summarise(ant_mandater_forbund = sum(mandat_forbund), .by = c("forbund_bogstav", "stemmer_forbund"))
 
 dhont_forbund <- tibble(dhont = 1:max(ant_mandater_forbund$ant_mandater_forbund))

@@ -5,11 +5,13 @@ project:
     - index.qmd
     - about.qmd
     - FT_rapport.qmd
-    - EP_rapport.qmd
+    - "epvalg/EP_rapport_2009_fin.qmd"
+    - "epvalg/EP_rapport_2014_fin.qmd"
+    - "epvalg/EP_rapport_2019_fin.qmd"
     - mio6DK.qmd
 
 website:
-  title: "thranholm.github.io"
+  title: "Emil Thranholm"
   site-url: "https://thranholm.github.io/"
   navbar:
     left:
@@ -17,7 +19,16 @@ website:
         text: Home
       - about.qmd
       - FT_rapport.qmd
-      - EP_rapport.qmd
+      - href: render_ep_rapport.qmd
+      - text: Europaparlamentsvalg
+        menu: 
+          - href: "epvalg/EP_rapport_2009_fin.qmd"
+            text: "2009"
+          - href: "epvalg/EP_rapport_2014_fin.qmd"
+            text: "2014"
+          - href: "epvalg/EP_rapport_2019_fin.qmd"
+            text: "2019"
+      # - EP_rapport.qmd
       - href: mio6DK.qmd
         text: 6 mio danskere
 format:
