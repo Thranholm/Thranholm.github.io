@@ -1,0 +1,2107 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Emil Thranholm">
+
+<title>Emil Thranholm - Europaparlamentsvalg r paste(params$aar, params$type)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Emil Thranholm</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html" rel="" target="">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../FT_rapport.html" rel="" target="">
+ <span class="menu-text">Folketingsvalg</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../render_ep_rapport.qmd" rel="" target="">
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-europaparlamentsvalg" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Europaparlamentsvalg</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-europaparlamentsvalg">    
+        <li>
+    <a class="dropdown-item" href="../epvalg/EP_rapport_2009_fin.html" rel="" target="">
+ <span class="dropdown-text">2009</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../epvalg/EP_rapport_2014_fin.html" rel="" target="">
+ <span class="dropdown-text">2014</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../epvalg/EP_rapport_2019_fin.html" rel="" target="">
+ <span class="dropdown-text">2019</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../mio6DK.html" rel="" target="">
+ <span class="menu-text">6 mio danskere</span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools ms-auto">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#resultater" id="toc-resultater" class="nav-link active" data-scroll-target="#resultater">Resultater</a>
+  <ul class="collapse">
+  <li><a href="#samlet-mandater" id="toc-samlet-mandater" class="nav-link" data-scroll-target="#samlet-mandater">Samlet mandater</a></li>
+  <li><a href="#procentfordeling-og-mandater" id="toc-procentfordeling-og-mandater" class="nav-link" data-scroll-target="#procentfordeling-og-mandater">Procentfordeling og mandater</a></li>
+  <li><a href="#rangering-af-mandater" id="toc-rangering-af-mandater" class="nav-link" data-scroll-target="#rangering-af-mandater">Rangering af mandater</a></li>
+  <li><a href="#rangering-kvotienter" id="toc-rangering-kvotienter" class="nav-link" data-scroll-target="#rangering-kvotienter">Rangering kvotienter</a></li>
+  <li><a href="#rangering-valgte-personer" id="toc-rangering-valgte-personer" class="nav-link" data-scroll-target="#rangering-valgte-personer">Rangering valgte personer</a></li>
+  <li><a href="#rangering-alle-opstillede-personer" id="toc-rangering-alle-opstillede-personer" class="nav-link" data-scroll-target="#rangering-alle-opstillede-personer">Rangering alle opstillede personer</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Europaparlamentsvalg 2014 fintælling</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Emil Thranholm </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pacman)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(tidyverse, xml2, readr, janitor, kableExtra, jsonlite)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="do">## for manuel kørsel</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># setwd(paste(getwd(), "epvalg", sep = "/"))</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"00_funktioner.R"</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"valgforbund.R"</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"Oversigt over xml links.R"</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"epvalg.R"</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"Personlige stemmer.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="resultater" class="level1">
+<h1>Resultater</h1>
+<section id="samlet-mandater" class="level2">
+<h2 class="anchored" data-anchor-id="samlet-mandater">Samlet mandater</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(ant_mandater_partier <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(bogstav, forbund_bogstav, stemmer, pct_stemmer)) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(mandater <span class="sc">&gt;</span> <span class="dv">0</span>), <span class="at">format =</span> <span class="st">"simple"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">navn</th>
+<th style="text-align: right;">mandater</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">A. Socialdemokratiet</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B. Radikale Venstre</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C. Det Konservative Folkeparti</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">N. Folkebevægelsen mod EU</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">O. Dansk Folkeparti</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">V. Venstre, Danmarks Liberale Parti</td>
+<td style="text-align: right;">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="procentfordeling-og-mandater" class="level2">
+<h2 class="anchored" data-anchor-id="procentfordeling-og-mandater">Procentfordeling og mandater</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(ant_mandater_partier <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>forbund_bogstav), <span class="at">format =</span> <span class="st">"simple"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">bogstav</th>
+<th style="text-align: left;">navn</th>
+<th style="text-align: right;">stemmer</th>
+<th style="text-align: right;">pct_stemmer</th>
+<th style="text-align: right;">mandater</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A. Socialdemokratiet</td>
+<td style="text-align: right;">435245</td>
+<td style="text-align: right;">19.12</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">B. Radikale Venstre</td>
+<td style="text-align: right;">148949</td>
+<td style="text-align: right;">6.54</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">C. Det Konservative Folkeparti</td>
+<td style="text-align: right;">208262</td>
+<td style="text-align: right;">9.15</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: right;">249305</td>
+<td style="text-align: right;">10.95</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">I</td>
+<td style="text-align: left;">I. Liberal Alliance</td>
+<td style="text-align: right;">65480</td>
+<td style="text-align: right;">2.88</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">N</td>
+<td style="text-align: left;">N. Folkebevægelsen mod EU</td>
+<td style="text-align: right;">183724</td>
+<td style="text-align: right;">8.07</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">O</td>
+<td style="text-align: left;">O. Dansk Folkeparti</td>
+<td style="text-align: right;">605889</td>
+<td style="text-align: right;">26.61</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">V. Venstre, Danmarks Liberale Parti</td>
+<td style="text-align: right;">379840</td>
+<td style="text-align: right;">16.68</td>
+<td style="text-align: right;">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="rangering-af-mandater" class="level2">
+<h2 class="anchored" data-anchor-id="rangering-af-mandater">Rangering af mandater</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(rankings <span class="sc">%&gt;%</span> <span class="fu">filter</span>(mandat_parti) <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>mandat_parti) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(overall_rank),</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">format =</span> <span class="st">"html"</span>, <span class="at">caption =</span> <span class="st">"Rangorden for valgte mandater"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<caption>Rangorden for valgte mandater</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">navn</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">forbund</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">kvotient_parti</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">rank_parti</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">kvotient_forbund</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">overall_rank</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">A. Socialdemokratiet</td>
+<td style="text-align: left;">A_B_F</td>
+<td style="text-align: right;">435245.0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">833499.0</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">O. Dansk Folkeparti</td>
+<td style="text-align: left;">O</td>
+<td style="text-align: right;">605889.0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">605889.0</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">V. Venstre, Danmarks Liberale Parti</td>
+<td style="text-align: left;">C_V</td>
+<td style="text-align: right;">379840.0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">588102.0</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">A_B_F</td>
+<td style="text-align: right;">249305.0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">416749.5</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">O. Dansk Folkeparti</td>
+<td style="text-align: left;">O</td>
+<td style="text-align: right;">302944.5</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">302944.5</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C. Det Konservative Folkeparti</td>
+<td style="text-align: left;">C_V</td>
+<td style="text-align: right;">208262.0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">294051.0</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A. Socialdemokratiet</td>
+<td style="text-align: left;">A_B_F</td>
+<td style="text-align: right;">217622.5</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">277833.0</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B. Radikale Venstre</td>
+<td style="text-align: left;">A_B_F</td>
+<td style="text-align: right;">148949.0</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">208374.8</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">O. Dansk Folkeparti</td>
+<td style="text-align: left;">O</td>
+<td style="text-align: right;">201963.0</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">201963.0</td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">V. Venstre, Danmarks Liberale Parti</td>
+<td style="text-align: left;">C_V</td>
+<td style="text-align: right;">189920.0</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">196034.0</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">N. Folkebevægelsen mod EU</td>
+<td style="text-align: left;">N</td>
+<td style="text-align: right;">183724.0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">183724.0</td>
+<td style="text-align: right;">11</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A. Socialdemokratiet</td>
+<td style="text-align: left;">A_B_F</td>
+<td style="text-align: right;">145081.7</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">166699.8</td>
+<td style="text-align: right;">12</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">O. Dansk Folkeparti</td>
+<td style="text-align: left;">O</td>
+<td style="text-align: right;">151472.2</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">151472.2</td>
+<td style="text-align: right;">13</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</section>
+<section id="rangering-kvotienter" class="level2">
+<h2 class="anchored" data-anchor-id="rangering-kvotienter">Rangering kvotienter</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(rankings <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>mandat_parti) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(overall_rank), <span class="at">format =</span> <span class="st">"html"</span>,</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Fuld ranking"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<caption>Fuld ranking</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">navn</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">forbund</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">kvotient_parti</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">rank_parti</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">kvotient_forbund</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">overall_rank</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">A. Socialdemokratiet</td>
+<td style="text-align: left;">A_B_F</td>
+<td style="text-align: right;">435245.00</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">833499.00</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">O. Dansk Folkeparti</td>
+<td style="text-align: left;">O</td>
+<td style="text-align: right;">605889.00</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">605889.00</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">V. Venstre, Danmarks Liberale Parti</td>
+<td style="text-align: left;">C_V</td>
+<td style="text-align: right;">379840.00</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">588102.00</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">A_B_F</td>
+<td style="text-align: right;">249305.00</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">416749.50</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">O. Dansk Folkeparti</td>
+<td style="text-align: left;">O</td>
+<td style="text-align: right;">302944.50</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">302944.50</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C. Det Konservative Folkeparti</td>
+<td style="text-align: left;">C_V</td>
+<td style="text-align: right;">208262.00</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">294051.00</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A. Socialdemokratiet</td>
+<td style="text-align: left;">A_B_F</td>
+<td style="text-align: right;">217622.50</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">277833.00</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B. Radikale Venstre</td>
+<td style="text-align: left;">A_B_F</td>
+<td style="text-align: right;">148949.00</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">208374.75</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">O. Dansk Folkeparti</td>
+<td style="text-align: left;">O</td>
+<td style="text-align: right;">201963.00</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">201963.00</td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">V. Venstre, Danmarks Liberale Parti</td>
+<td style="text-align: left;">C_V</td>
+<td style="text-align: right;">189920.00</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">196034.00</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">N. Folkebevægelsen mod EU</td>
+<td style="text-align: left;">N</td>
+<td style="text-align: right;">183724.00</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">183724.00</td>
+<td style="text-align: right;">11</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A. Socialdemokratiet</td>
+<td style="text-align: left;">A_B_F</td>
+<td style="text-align: right;">145081.67</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">166699.80</td>
+<td style="text-align: right;">12</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">O. Dansk Folkeparti</td>
+<td style="text-align: left;">O</td>
+<td style="text-align: right;">151472.25</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">151472.25</td>
+<td style="text-align: right;">13</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">V. Venstre, Danmarks Liberale Parti</td>
+<td style="text-align: left;">C_V</td>
+<td style="text-align: right;">126613.33</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">147025.50</td>
+<td style="text-align: right;">14</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">A_B_F</td>
+<td style="text-align: right;">124652.50</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">138916.50</td>
+<td style="text-align: right;">15</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">O. Dansk Folkeparti</td>
+<td style="text-align: left;">O</td>
+<td style="text-align: right;">121177.80</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">121177.80</td>
+<td style="text-align: right;">16</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A. Socialdemokratiet</td>
+<td style="text-align: left;">A_B_F</td>
+<td style="text-align: right;">108811.25</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">119071.29</td>
+<td style="text-align: right;">17</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C. Det Konservative Folkeparti</td>
+<td style="text-align: left;">C_V</td>
+<td style="text-align: right;">104131.00</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">117620.40</td>
+<td style="text-align: right;">18</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A. Socialdemokratiet</td>
+<td style="text-align: left;">A_B_F</td>
+<td style="text-align: right;">87049.00</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">104187.38</td>
+<td style="text-align: right;">19</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">V. Venstre, Danmarks Liberale Parti</td>
+<td style="text-align: left;">C_V</td>
+<td style="text-align: right;">94960.00</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">98017.00</td>
+<td style="text-align: right;">20</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">A_B_F</td>
+<td style="text-align: right;">83101.67</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">92611.00</td>
+<td style="text-align: right;">21</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">N. Folkebevægelsen mod EU</td>
+<td style="text-align: left;">N</td>
+<td style="text-align: right;">91862.00</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">91862.00</td>
+<td style="text-align: right;">22</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">V. Venstre, Danmarks Liberale Parti</td>
+<td style="text-align: left;">C_V</td>
+<td style="text-align: right;">75968.00</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">84014.57</td>
+<td style="text-align: right;">23</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B. Radikale Venstre</td>
+<td style="text-align: left;">A_B_F</td>
+<td style="text-align: right;">74474.50</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">83349.90</td>
+<td style="text-align: right;">24</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">A_B_F</td>
+<td style="text-align: right;">62326.25</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">75772.64</td>
+<td style="text-align: right;">25</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C. Det Konservative Folkeparti</td>
+<td style="text-align: left;">C_V</td>
+<td style="text-align: right;">69420.67</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">73512.75</td>
+<td style="text-align: right;">26</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">A_B_F</td>
+<td style="text-align: right;">49861.00</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">69458.25</td>
+<td style="text-align: right;">27</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">I. Liberal Alliance</td>
+<td style="text-align: left;">I</td>
+<td style="text-align: right;">65480.00</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">65480.00</td>
+<td style="text-align: right;">28</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C. Det Konservative Folkeparti</td>
+<td style="text-align: left;">C_V</td>
+<td style="text-align: right;">52065.50</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">65344.67</td>
+<td style="text-align: right;">29</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B. Radikale Venstre</td>
+<td style="text-align: left;">A_B_F</td>
+<td style="text-align: right;">49649.67</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">64115.31</td>
+<td style="text-align: right;">30</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">N. Folkebevægelsen mod EU</td>
+<td style="text-align: left;">N</td>
+<td style="text-align: right;">61241.33</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">61241.33</td>
+<td style="text-align: right;">31</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B. Radikale Venstre</td>
+<td style="text-align: left;">A_B_F</td>
+<td style="text-align: right;">37237.25</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">59535.64</td>
+<td style="text-align: right;">32</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C. Det Konservative Folkeparti</td>
+<td style="text-align: left;">C_V</td>
+<td style="text-align: right;">41652.40</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">58810.20</td>
+<td style="text-align: right;">33</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B. Radikale Venstre</td>
+<td style="text-align: left;">A_B_F</td>
+<td style="text-align: right;">29789.80</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">55566.60</td>
+<td style="text-align: right;">34</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">N. Folkebevægelsen mod EU</td>
+<td style="text-align: left;">N</td>
+<td style="text-align: right;">45931.00</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">45931.00</td>
+<td style="text-align: right;">35</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">N. Folkebevægelsen mod EU</td>
+<td style="text-align: left;">N</td>
+<td style="text-align: right;">36744.80</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">36744.80</td>
+<td style="text-align: right;">36</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">I. Liberal Alliance</td>
+<td style="text-align: left;">I</td>
+<td style="text-align: right;">32740.00</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">32740.00</td>
+<td style="text-align: right;">37</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">I. Liberal Alliance</td>
+<td style="text-align: left;">I</td>
+<td style="text-align: right;">21826.67</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">21826.67</td>
+<td style="text-align: right;">38</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">I. Liberal Alliance</td>
+<td style="text-align: left;">I</td>
+<td style="text-align: right;">16370.00</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">16370.00</td>
+<td style="text-align: right;">39</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">I. Liberal Alliance</td>
+<td style="text-align: left;">I</td>
+<td style="text-align: right;">13096.00</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">13096.00</td>
+<td style="text-align: right;">40</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</section>
+<section id="rangering-valgte-personer" class="level2">
+<h2 class="anchored" data-anchor-id="rangering-valgte-personer">Rangering valgte personer</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Kobler med parti kvotienter for at kunne rangere valgorden overall for personer</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: OBS, er afhængig af bestemt sortering. Antager overall rank er stigende, grupperet på partier.</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>kvotienter_partier_til_pers <span class="ot">&lt;-</span> kvotienter_partier <span class="sc">%&gt;%</span> </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(mandat_parti) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(bogstav, overall_rank) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nest_by</span>(bogstav)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>pers_ranking2 <span class="ot">&lt;-</span> pers_ranking <span class="sc">%&gt;%</span> </span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(kvotienter_partier_til_pers, <span class="at">by =</span> <span class="st">"bogstav"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">overall_rank =</span> <span class="fu">list</span>(data[valgt_rang, <span class="st">"overall_rank"</span>])) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>data) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(<span class="at">cols =</span> overall_rank)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Antagelse at alle er opstillet sideordnet (/kan <em>ikke</em> tage højde for partilister)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(pers_ranking2 <span class="sc">%&gt;%</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">filter</span>(mandat) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">select</span>(bogstav, parti, navn, personligestemmer, valgt_rang, overall_rank) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">arrange</span>(bogstav, valgt_rang, overall_rank),</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">format =</span> <span class="st">"html"</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Valgte personer (Inkl. rang)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<caption>Valgte personer (Inkl. rang)</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">bogstav</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">parti</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">navn</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">personligestemmer</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">valgt_rang</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">overall_rank</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A. Socialdemokratiet</td>
+<td style="text-align: left;">Jeppe Kofod</td>
+<td style="text-align: right;">170739</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A. Socialdemokratiet</td>
+<td style="text-align: left;">Christel Schaldemose</td>
+<td style="text-align: right;">64495</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A. Socialdemokratiet</td>
+<td style="text-align: left;">Ole Christensen</td>
+<td style="text-align: right;">26855</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">12</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">B. Radikale Venstre</td>
+<td style="text-align: left;">Morten Helveg Petersen</td>
+<td style="text-align: right;">76390</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">C. Konservative Folkeparti</td>
+<td style="text-align: left;">Bendt Bendtsen</td>
+<td style="text-align: right;">151274</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Margrete Auken</td>
+<td style="text-align: right;">153072</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">N</td>
+<td style="text-align: left;">N. Folkebevægelsen mod EU</td>
+<td style="text-align: left;">Rina Ronja Kari</td>
+<td style="text-align: right;">63673</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">11</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">O</td>
+<td style="text-align: left;">O. Dansk Folkeparti</td>
+<td style="text-align: left;">Morten Messerschmidt</td>
+<td style="text-align: right;">465758</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">O</td>
+<td style="text-align: left;">O. Dansk Folkeparti</td>
+<td style="text-align: left;">Rikke Karlsson</td>
+<td style="text-align: right;">9205</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">O</td>
+<td style="text-align: left;">O. Dansk Folkeparti</td>
+<td style="text-align: left;">Anders Primdahl Vistisen</td>
+<td style="text-align: right;">8315</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">O</td>
+<td style="text-align: left;">O. Dansk Folkeparti</td>
+<td style="text-align: left;">Jørn Dohrmann</td>
+<td style="text-align: right;">6439</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">13</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">V. Venstre</td>
+<td style="text-align: left;">Ulla Tørnæs</td>
+<td style="text-align: right;">136388</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">V. Venstre</td>
+<td style="text-align: left;">Jens Rohde</td>
+<td style="text-align: right;">48911</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">10</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(pers_ranking2 <span class="sc">%&gt;%</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">filter</span>(mandat) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">select</span>(bogstav, parti, navn, personligestemmer, valgt_rang, overall_rank) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">arrange</span>(overall_rank),</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">format =</span> <span class="st">"html"</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Total rang for valgte personer"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<caption>Total rang for valgte personer</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">bogstav</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">parti</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">navn</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">personligestemmer</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">valgt_rang</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">overall_rank</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A. Socialdemokratiet</td>
+<td style="text-align: left;">Jeppe Kofod</td>
+<td style="text-align: right;">170739</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">O</td>
+<td style="text-align: left;">O. Dansk Folkeparti</td>
+<td style="text-align: left;">Morten Messerschmidt</td>
+<td style="text-align: right;">465758</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">V. Venstre</td>
+<td style="text-align: left;">Ulla Tørnæs</td>
+<td style="text-align: right;">136388</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Margrete Auken</td>
+<td style="text-align: right;">153072</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">O</td>
+<td style="text-align: left;">O. Dansk Folkeparti</td>
+<td style="text-align: left;">Rikke Karlsson</td>
+<td style="text-align: right;">9205</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">C. Konservative Folkeparti</td>
+<td style="text-align: left;">Bendt Bendtsen</td>
+<td style="text-align: right;">151274</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A. Socialdemokratiet</td>
+<td style="text-align: left;">Christel Schaldemose</td>
+<td style="text-align: right;">64495</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">B. Radikale Venstre</td>
+<td style="text-align: left;">Morten Helveg Petersen</td>
+<td style="text-align: right;">76390</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">O</td>
+<td style="text-align: left;">O. Dansk Folkeparti</td>
+<td style="text-align: left;">Anders Primdahl Vistisen</td>
+<td style="text-align: right;">8315</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">V. Venstre</td>
+<td style="text-align: left;">Jens Rohde</td>
+<td style="text-align: right;">48911</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">N</td>
+<td style="text-align: left;">N. Folkebevægelsen mod EU</td>
+<td style="text-align: left;">Rina Ronja Kari</td>
+<td style="text-align: right;">63673</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">11</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A. Socialdemokratiet</td>
+<td style="text-align: left;">Ole Christensen</td>
+<td style="text-align: right;">26855</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">12</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">O</td>
+<td style="text-align: left;">O. Dansk Folkeparti</td>
+<td style="text-align: left;">Jørn Dohrmann</td>
+<td style="text-align: right;">6439</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">13</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</section>
+<section id="rangering-alle-opstillede-personer" class="level2">
+<h2 class="anchored" data-anchor-id="rangering-alle-opstillede-personer">Rangering alle opstillede personer</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(pers_ranking2 <span class="sc">%&gt;%</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">select</span>(bogstav, parti, navn, personligestemmer, valgt_rang, stedfortæder_rang) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">arrange</span>(bogstav, valgt_rang, stedfortæder_rang), </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">format =</span> <span class="st">"html"</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Rangorden alle personer"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<caption>Rangorden alle personer</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">bogstav</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">parti</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">navn</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">personligestemmer</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">valgt_rang</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">stedfortæder_rang</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A. Socialdemokratiet</td>
+<td style="text-align: left;">Jeppe Kofod</td>
+<td style="text-align: right;">170739</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A. Socialdemokratiet</td>
+<td style="text-align: left;">Christel Schaldemose</td>
+<td style="text-align: right;">64495</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A. Socialdemokratiet</td>
+<td style="text-align: left;">Ole Christensen</td>
+<td style="text-align: right;">26855</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A. Socialdemokratiet</td>
+<td style="text-align: left;">Britta Thomsen</td>
+<td style="text-align: right;">19851</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A. Socialdemokratiet</td>
+<td style="text-align: left;">Lasse Quvang Rasmussen</td>
+<td style="text-align: right;">12421</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A. Socialdemokratiet</td>
+<td style="text-align: left;">Kathrine Alexandrowiz</td>
+<td style="text-align: right;">11411</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A. Socialdemokratiet</td>
+<td style="text-align: left;">Gunde Odgaard</td>
+<td style="text-align: right;">6362</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">A. Socialdemokratiet</td>
+<td style="text-align: left;">Rasmus Gjedssø Bertelsen</td>
+<td style="text-align: right;">2322</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">B. Radikale Venstre</td>
+<td style="text-align: left;">Morten Helveg Petersen</td>
+<td style="text-align: right;">76390</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">B. Radikale Venstre</td>
+<td style="text-align: left;">Karen Melchior</td>
+<td style="text-align: right;">10412</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">B. Radikale Venstre</td>
+<td style="text-align: left;">Samira Nawa Amini</td>
+<td style="text-align: right;">6836</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">B. Radikale Venstre</td>
+<td style="text-align: left;">Christian Kjølhede</td>
+<td style="text-align: right;">3954</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">B. Radikale Venstre</td>
+<td style="text-align: left;">Kristina Siig</td>
+<td style="text-align: right;">3203</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">B. Radikale Venstre</td>
+<td style="text-align: left;">Sissel Kvist</td>
+<td style="text-align: right;">2221</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">B. Radikale Venstre</td>
+<td style="text-align: left;">Thomas Elkjær</td>
+<td style="text-align: right;">1083</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">C. Konservative Folkeparti</td>
+<td style="text-align: left;">Bendt Bendtsen</td>
+<td style="text-align: right;">151274</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">C. Konservative Folkeparti</td>
+<td style="text-align: left;">Tove Videbæk</td>
+<td style="text-align: right;">10139</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">C. Konservative Folkeparti</td>
+<td style="text-align: left;">Josefine Kofoed</td>
+<td style="text-align: right;">7672</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">C. Konservative Folkeparti</td>
+<td style="text-align: left;">Nichlas Vind</td>
+<td style="text-align: right;">3027</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">C. Konservative Folkeparti</td>
+<td style="text-align: left;">Christian Wedell-Neergaard</td>
+<td style="text-align: right;">2400</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">C. Konservative Folkeparti</td>
+<td style="text-align: left;">Morten Thiessen</td>
+<td style="text-align: right;">1554</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">C. Konservative Folkeparti</td>
+<td style="text-align: left;">Anders Stoltenberg</td>
+<td style="text-align: right;">1423</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">C. Konservative Folkeparti</td>
+<td style="text-align: left;">Mette-Katrine Ejby Buch</td>
+<td style="text-align: right;">925</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">C. Konservative Folkeparti</td>
+<td style="text-align: left;">Julie Broe</td>
+<td style="text-align: right;">724</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">C. Konservative Folkeparti</td>
+<td style="text-align: left;">Catja C. Gaebel</td>
+<td style="text-align: right;">503</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Margrete Auken</td>
+<td style="text-align: right;">153072</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Teis Volstrup</td>
+<td style="text-align: right;">5586</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Tonni Hansen</td>
+<td style="text-align: right;">4566</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Anne-Mette Wehmüller</td>
+<td style="text-align: right;">4086</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Christine Sidenius</td>
+<td style="text-align: right;">3085</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Lau Tambjerg</td>
+<td style="text-align: right;">2151</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Søren Gytz Olesen</td>
+<td style="text-align: right;">2118</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Jacob Isøe Klærke</td>
+<td style="text-align: right;">2018</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Charlotte Broman Mølbæk</td>
+<td style="text-align: right;">1979</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Fathi El-Abed</td>
+<td style="text-align: right;">1893</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Meta Fuglsang</td>
+<td style="text-align: right;">1783</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Annemette Schønberg Johnsen</td>
+<td style="text-align: right;">1722</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">11</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Troels Stru Schmidt</td>
+<td style="text-align: right;">1447</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">12</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Halime Oguz</td>
+<td style="text-align: right;">1134</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">13</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Anne Lise Holst Jensen</td>
+<td style="text-align: right;">1073</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">14</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Jan Kjær</td>
+<td style="text-align: right;">811</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">15</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Allan Norre Pedersen</td>
+<td style="text-align: right;">718</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">16</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Rune Bai Nielsen</td>
+<td style="text-align: right;">469</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">17</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Michael Thomsen</td>
+<td style="text-align: right;">391</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">18</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
+<td style="text-align: left;">Jørgen Jørgensen</td>
+<td style="text-align: right;">231</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">19</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">N</td>
+<td style="text-align: left;">N. Folkebevægelsen mod EU</td>
+<td style="text-align: left;">Rina Ronja Kari</td>
+<td style="text-align: right;">63673</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">N</td>
+<td style="text-align: left;">N. Folkebevægelsen mod EU</td>
+<td style="text-align: left;">Lave K. Broch</td>
+<td style="text-align: right;">5519</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">N</td>
+<td style="text-align: left;">N. Folkebevægelsen mod EU</td>
+<td style="text-align: left;">Christian Juhl</td>
+<td style="text-align: right;">4419</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">N</td>
+<td style="text-align: left;">N. Folkebevægelsen mod EU</td>
+<td style="text-align: left;">Ole Nors Nielsen</td>
+<td style="text-align: right;">3655</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">N</td>
+<td style="text-align: left;">N. Folkebevægelsen mod EU</td>
+<td style="text-align: left;">Karina Rohr Sørensen</td>
+<td style="text-align: right;">1860</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">N</td>
+<td style="text-align: left;">N. Folkebevægelsen mod EU</td>
+<td style="text-align: left;">Thorkil Sohn</td>
+<td style="text-align: right;">1459</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">N</td>
+<td style="text-align: left;">N. Folkebevægelsen mod EU</td>
+<td style="text-align: left;">Victoria Ninosca Risbjerg Velasque</td>
+<td style="text-align: right;">1267</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">N</td>
+<td style="text-align: left;">N. Folkebevægelsen mod EU</td>
+<td style="text-align: left;">Mette Langdal</td>
+<td style="text-align: right;">1262</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">N</td>
+<td style="text-align: left;">N. Folkebevægelsen mod EU</td>
+<td style="text-align: left;">Jørgen Grøn</td>
+<td style="text-align: right;">1115</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">N</td>
+<td style="text-align: left;">N. Folkebevægelsen mod EU</td>
+<td style="text-align: left;">Malte Bang</td>
+<td style="text-align: right;">1106</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">N</td>
+<td style="text-align: left;">N. Folkebevægelsen mod EU</td>
+<td style="text-align: left;">Troels Juel</td>
+<td style="text-align: right;">942</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">N</td>
+<td style="text-align: left;">N. Folkebevægelsen mod EU</td>
+<td style="text-align: left;">Hans-Henrik Larsen</td>
+<td style="text-align: right;">871</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">11</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">N</td>
+<td style="text-align: left;">N. Folkebevægelsen mod EU</td>
+<td style="text-align: left;">Tobias Clausen</td>
+<td style="text-align: right;">806</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">12</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">N</td>
+<td style="text-align: left;">N. Folkebevægelsen mod EU</td>
+<td style="text-align: left;">Jean Thierry</td>
+<td style="text-align: right;">743</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">13</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">N</td>
+<td style="text-align: left;">N. Folkebevægelsen mod EU</td>
+<td style="text-align: left;">Helge Rørtoft-Madsen</td>
+<td style="text-align: right;">702</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">14</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">N</td>
+<td style="text-align: left;">N. Folkebevægelsen mod EU</td>
+<td style="text-align: left;">Preben Kristensen</td>
+<td style="text-align: right;">692</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">15</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">N</td>
+<td style="text-align: left;">N. Folkebevægelsen mod EU</td>
+<td style="text-align: left;">Brian Olsen</td>
+<td style="text-align: right;">595</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">16</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">N</td>
+<td style="text-align: left;">N. Folkebevægelsen mod EU</td>
+<td style="text-align: left;">Inger-Marie Tryde Martensen</td>
+<td style="text-align: right;">580</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">17</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">N</td>
+<td style="text-align: left;">N. Folkebevægelsen mod EU</td>
+<td style="text-align: left;">Mehmet Aksoy</td>
+<td style="text-align: right;">501</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">18</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">N</td>
+<td style="text-align: left;">N. Folkebevægelsen mod EU</td>
+<td style="text-align: left;">Erik Bach</td>
+<td style="text-align: right;">354</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">19</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">O</td>
+<td style="text-align: left;">O. Dansk Folkeparti</td>
+<td style="text-align: left;">Morten Messerschmidt</td>
+<td style="text-align: right;">465758</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">O</td>
+<td style="text-align: left;">O. Dansk Folkeparti</td>
+<td style="text-align: left;">Rikke Karlsson</td>
+<td style="text-align: right;">9205</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">O</td>
+<td style="text-align: left;">O. Dansk Folkeparti</td>
+<td style="text-align: left;">Anders Primdahl Vistisen</td>
+<td style="text-align: right;">8315</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">O</td>
+<td style="text-align: left;">O. Dansk Folkeparti</td>
+<td style="text-align: left;">Jørn Dohrmann</td>
+<td style="text-align: right;">6439</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">O</td>
+<td style="text-align: left;">O. Dansk Folkeparti</td>
+<td style="text-align: left;">Kristina Jørgensen</td>
+<td style="text-align: right;">3125</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">O</td>
+<td style="text-align: left;">O. Dansk Folkeparti</td>
+<td style="text-align: left;">Danni Olsen</td>
+<td style="text-align: right;">2767</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">O</td>
+<td style="text-align: left;">O. Dansk Folkeparti</td>
+<td style="text-align: left;">Susanne Eilersen</td>
+<td style="text-align: right;">2126</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">O</td>
+<td style="text-align: left;">O. Dansk Folkeparti</td>
+<td style="text-align: left;">Tilde Bork</td>
+<td style="text-align: right;">1729</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">O</td>
+<td style="text-align: left;">O. Dansk Folkeparti</td>
+<td style="text-align: left;">Karsten Lorentzen</td>
+<td style="text-align: right;">1666</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">O</td>
+<td style="text-align: left;">O. Dansk Folkeparti</td>
+<td style="text-align: left;">Githa Nelander</td>
+<td style="text-align: right;">1115</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">V. Venstre</td>
+<td style="text-align: left;">Ulla Tørnæs</td>
+<td style="text-align: right;">136388</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">V. Venstre</td>
+<td style="text-align: left;">Jens Rohde</td>
+<td style="text-align: right;">48911</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">V. Venstre</td>
+<td style="text-align: left;">Morten Løkkegaard</td>
+<td style="text-align: right;">44010</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">V. Venstre</td>
+<td style="text-align: left;">Poul-Erik Høyer</td>
+<td style="text-align: right;">14802</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">V. Venstre</td>
+<td style="text-align: left;">Asger Christensen</td>
+<td style="text-align: right;">14709</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">V. Venstre</td>
+<td style="text-align: left;">Jess Myrthu</td>
+<td style="text-align: right;">9397</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">V. Venstre</td>
+<td style="text-align: left;">Harry Jensen</td>
+<td style="text-align: right;">6549</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">V. Venstre</td>
+<td style="text-align: left;">Marcus Knuth</td>
+<td style="text-align: right;">5140</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">V. Venstre</td>
+<td style="text-align: left;">Irene Simonsen</td>
+<td style="text-align: right;">3603</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">V. Venstre</td>
+<td style="text-align: left;">Ole Davidsen</td>
+<td style="text-align: right;">2939</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">V. Venstre</td>
+<td style="text-align: left;">Nils Juhl Andreasen</td>
+<td style="text-align: right;">1815</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">V. Venstre</td>
+<td style="text-align: left;">Diego Gugliotta</td>
+<td style="text-align: right;">1649</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">V. Venstre</td>
+<td style="text-align: left;">Aleksander Aagaard</td>
+<td style="text-align: right;">1428</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">11</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">V. Venstre</td>
+<td style="text-align: left;">Nicolai Svejgaard Poulsen</td>
+<td style="text-align: right;">1356</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">12</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">V. Venstre</td>
+<td style="text-align: left;">Sanni Aakjær-Olesen</td>
+<td style="text-align: right;">1123</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">13</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">V. Venstre</td>
+<td style="text-align: left;">Henrik Frost Rasmussen</td>
+<td style="text-align: right;">1002</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">14</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
