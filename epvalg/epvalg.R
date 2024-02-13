@@ -23,7 +23,7 @@ p_load(tidyverse, xml2, readr, janitor)
 
 ind <- read_xml(ep_xml)
 
-stemmer_land <- hent_parti_stemmer(ind, "Land") %>% 
+stemmer_land <- hent_parti_stemmer(xml_data = ind, xpath = "Land") %>% 
   mutate(stemmer = as.numeric(stemmerantal))
 
 stemmer_land

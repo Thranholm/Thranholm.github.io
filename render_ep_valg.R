@@ -16,3 +16,5 @@ walk(loop_aar, ~quarto_render("EP_rapport.qmd",
                               output_file = paste("EP_rapport", paste0(.x, ".html"), sep = "_")))
 
 
+
+
