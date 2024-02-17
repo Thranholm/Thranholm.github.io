@@ -72,7 +72,6 @@ kampprogram <- kampprogram_fulddata %>%
 
 
 
-
 # stadions_get <- GET(url = paste(base_url,
 #                                 paste0("venues",
 #                                        "?country=germany"),

@@ -18,7 +18,6 @@ kampprogram_nested <- kampprogram_geo %>%
   nest(.by = c("fiktiv_kamprunde"), .key = "kampprogram") %>% 
   mutate(dato = map_dbl(kampprogram, ~min(.x$kampdato)) %>% 
            as.Date()) %>% 
-  # slice_head(n = 1) %>% 
   mutate(plot = map(kampprogram, ~ggplot() + 
                       geom_sf(data = tyskland_geo_json) +
                       geom_point_interactive(data = .x, aes(x = longitude, y = latitude, colour = liga,
