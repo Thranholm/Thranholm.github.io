@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.4.550">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -161,6 +161,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li class="nav-item">
     <a class="nav-link" href="../mio6DK.html"> 
 <span class="menu-text">6 mio danskere</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../fodbold_kalender/Tysk fodboldkort.html"> 
+<span class="menu-text">Fodbold kalender</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -365,6 +369,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(rankings <span class="sc">%&gt;%</span> <span class="fu">filter</span>(mandat_parti) <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>mandat_parti) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(overall_rank),</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">format =</span> <span class="st">"html"</span>, <span class="at">caption =</span> <span class="st">"Rangorden for valgte mandater"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
+<div>
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <caption>Rangorden for valgte mandater</caption>
 <thead>
@@ -488,6 +493,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </div>
 </div>
+</div>
 </section>
 <section id="rangering-kvotienter" class="level2">
 <h2 class="anchored" data-anchor-id="rangering-kvotienter">Rangering kvotienter</h2>
@@ -495,6 +501,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(rankings <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>mandat_parti) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(overall_rank), <span class="at">format =</span> <span class="st">"html"</span>,</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Fuld ranking"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
+<div>
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <caption>Fuld ranking</caption>
 <thead>
@@ -946,6 +953,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </div>
 </div>
+</div>
 </section>
 <section id="rangering-valgte-personer" class="level2">
 <h2 class="anchored" data-anchor-id="rangering-valgte-personer">Rangering valgte personer</h2>
@@ -974,6 +982,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">format =</span> <span class="st">"html"</span>,</span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Valgte personer (Inkl. rang)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
+<div>
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <caption>Valgte personer (Inkl. rang)</caption>
 <thead>
@@ -1097,6 +1106,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </div>
 </div>
+</div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(pers_ranking2 <span class="sc">%&gt;%</span> </span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">filter</span>(mandat) <span class="sc">%&gt;%</span> </span>
@@ -1105,6 +1115,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">format =</span> <span class="st">"html"</span>,</span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Total rang for valgte personer"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
+<div>
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <caption>Total rang for valgte personer</caption>
 <thead>
@@ -1228,6 +1239,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </div>
 </div>
+</div>
 </section>
 <section id="rangering-alle-opstillede-personer" class="level2">
 <h2 class="anchored" data-anchor-id="rangering-alle-opstillede-personer">Rangering alle opstillede personer</h2>
@@ -1238,6 +1250,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">format =</span> <span class="st">"html"</span>,</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Rangorden alle personer"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
+<div>
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <caption>Rangorden alle personer</caption>
 <thead>
@@ -1887,6 +1900,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 
 
+</div>
 </div>
 </div>
 
