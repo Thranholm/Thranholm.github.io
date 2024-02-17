@@ -44,7 +44,7 @@ jobs:
       with:
         cache-version: 1
     
-    - name: locale
+    - name: da_DK.UTF-8
       run: |
         sudo locale-gen da_DK.UTF-8
         sudo update-locale LANG=da_DK.UTF-8
