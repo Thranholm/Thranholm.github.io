@@ -32,8 +32,10 @@ website:
       # - EP_rapport.qmd
       - href: mio6DK.qmd
         text: 6 mio danskere
-      - href: "fodbold_kalender/Tysk fodboldkort.qmd"
-        text: Fodbold kalender
+        text: Fodboldkalender
+        menu: 
+          - href: "fodbold_kalender/Tysk fodboldkort.qmd"
+            text: Tyskland
 format:
   html:
     theme: cosmo
