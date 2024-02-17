@@ -2,9 +2,9 @@
   {
     "objectID": "fodbold_kalender/Tysk fodboldkort.html",
     "href": "fodbold_kalender/Tysk fodboldkort.html",
-    "title": "Fodboldkalender",
+    "title": "Tysk fodboldkalender",
     "section": "",
-    "text": "Warning: There was 1 warning in `mutate()`.\nℹ In argument: `ugedag = wday(...)`.\nℹ In row 1.\nCaused by warning in `Sys.setlocale()`:\n! OS reports request to set locale to \"da_DK.UTF-8\" cannot be honored\n\n\nOBS! Kamptidspunkter bør tjekkes efter. For 3. Liga især er de ikke altid retvisende.\nSeneste opdatering: 17/02/2024 22:36:14"
+    "text": "Warning: There was 1 warning in `mutate()`.\nℹ In argument: `ugedag = wday(...)`.\nℹ In row 1.\nCaused by warning in `Sys.setlocale()`:\n! OS reports request to set locale to \"da_DK.UTF-8\" cannot be honored\n\n\nOBS! Kamptidspunkter bør tjekkes efter. For 3. Liga især er de ikke altid retvisende.\nSeneste opdatering: 17/02/2024 23:11:53"
   },
   {
     "objectID": "epvalg/EP_rapport_2019_fin.html",
@@ -186,6 +186,6 @@
     "href": "mio6DK.html",
     "title": "6 mio. danskere",
     "section": "",
-    "text": "Danmark runder snart et skarpt hjørne eller en slags meget stor rund fødselsdag. Vi er tæt på at være 6 millioner danskere. Vi mangler dog stadig en lille smule og derfor skal vi have en nedtælling.\n\n\n\n\n\n\n\n\n\n\nNedtælling til 6 mio. danskere\n38.751\n\n\n\n\n\n\n\n\n Sidst opdateret: 17/02/2024 22:36:03"
+    "text": "Danmark runder snart et skarpt hjørne eller en slags meget stor rund fødselsdag. Vi er tæt på at være 6 millioner danskere. Vi mangler dog stadig en lille smule og derfor skal vi have en nedtælling.\n\n\n\n\n\n\n\n\n\n\nNedtælling til 6 mio. danskere\n38.751\n\n\n\n\n\n\n\n\n Sidst opdateret: 17/02/2024 23:11:41"
   }
 ]
