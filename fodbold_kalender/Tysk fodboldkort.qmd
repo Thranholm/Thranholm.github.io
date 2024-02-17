@@ -12,10 +12,6 @@ editor_options:
 #| message: false
 #| echo: false
 
-# Sys.setenv(GDAL_DATA = "/Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/library/sf/gdal")
-# Sys.setenv(OGR_ENABLE_PARTIAL_REPROJECTION = TRUE)
-# Sys.setenv(PROJ_GDAL_DATA_COPY=TRUE)
-
 source("Pakker og api.R")
 source("Kampprogram fra api.R")
 source("Finder geodata.R")
@@ -38,7 +34,7 @@ p_load(tidyverse, ggiraph, cowplot)
 girafe(ggobj = plot_grid(plotlist = kampprogram_nested$plot, ncol = 1, nrow = 42, scale = 1)
        , width_svg = 7, height_svg = 250)
 
-# /opt/homebrew/Cellar/proj/9.3.1
+
 
 ```
 
