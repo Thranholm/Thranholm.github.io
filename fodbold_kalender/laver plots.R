@@ -37,10 +37,5 @@ kampprogram_nested <- kampprogram_geo %>%
 
 
 
-# ggplot(data = storkreds_geo_data1)
-
-# widgetframe::frameWidget(girafe(code=print(kampprogram_nested$plot[[18]])))
-
-# map(kampprogram_nested$plot, ~widgetframe::frameWidget(girafe(code=print(.x))))
 
 
