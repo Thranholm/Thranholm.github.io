@@ -43,6 +43,11 @@ jobs:
       uses: r-lib/actions/setup-renv@v2
       with:
         cache-version: 1
+    
+    - name: locale
+      run: |
+        sudo locale-gen da_DK.UTF-8
+        sudo update-locale LANG=da_DK.UTF-8
 
       # NOTE: If Publishing to GitHub Pages, set the permissions correctly (see top of this yaml)
     - name: Publish to GitHub Pages (and render)
@@ -51,9 +56,6 @@ jobs:
         FODBOLD_KEY: ${{ secrets.FODBOLD_KEY }}
         PASS: ${{ secrets.PASS }}
         LANG: "da_DK.UTF-8"
-      run: |
-        sudo locale-gen da_DK.UTF-8
-        sudo update-locale LANG=da_DK.UTF-8
       uses: quarto-dev/quarto-actions/publish@v2
       with:
         target: gh-pages
