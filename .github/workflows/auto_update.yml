@@ -50,6 +50,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # this secret is always available for github actions
         FODBOLD_KEY: ${{ secrets.FODBOLD_KEY }}
         PASS: ${{ secrets.PASS }}
+        LANG: "da_DK.UTF-8"
       run: |
         sudo locale-gen da_DK.UTF-8
         sudo update-locale LANG=da_DK.UTF-8
