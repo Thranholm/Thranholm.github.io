@@ -1,0 +1,13 @@
+env:
+  LANG: "da_DK.UTF-8"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: da_DK.UTF-8
+      run: |
+          sudo locale-gen da_DK.UTF-8
+          sudo update-locale LANG=da_DK.UTF-8
+    - name: date
+      run: |
+          date
