@@ -177,6 +177,5 @@ stedlig_mandatfordeling <- kredsmandater %>%
 
  
 
-tilføjer ny kode her
 
 
