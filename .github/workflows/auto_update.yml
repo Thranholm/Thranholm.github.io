@@ -31,7 +31,9 @@ jobs:
 
       # alle mulige pakker, der har givet fejl
     - name: Install libudunits2 libgdal libgeos libproj
-      run: sudo apt-get install libudunits2-dev libgdal-dev libgeos-dev libproj-dev --fix-missing
+      run: sudo apt-get install libudunits2-dev libgeos-dev libproj-dev
+
+        # libgdal-dev
 
         # From https://github.com/r-lib/actions/tree/v2-branch/setup-r
     - name: setup-R
