@@ -31,7 +31,7 @@ jobs:
 
       # alle mulige pakker, der har givet fejl
     - name: Install libudunits2 libgdal libgeos libproj
-      run: sudo apt-get install libudunits2-dev libgeos-dev libproj-dev
+      run: sudo apt-get install libgdal libudunits2-dev libgeos-dev libproj-dev
 
         # libgdal-dev
 
