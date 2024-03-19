@@ -12,7 +12,7 @@ editor_options:
 
 # Introduktion
 
-Dette dokument giver overblik over resultatet for Folketingsvalget, og kan opdateres dynamisk.
+Dette dokument giver overblik over resultatet for Folketingsvalget, og kan opdateres dynamisk. Den stedlige mandatfordeling bag, hvilke storkredse og landsdele, der har hvor mange kreds- og tillægsmandater kan findes her: [Stedlig mandatfordeling](stedmandat.qmd).
 
 ```{r}
 #| label: "pakker"
