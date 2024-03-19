@@ -2,10 +2,27 @@
 ## Stedlig mandatfordeling
 
 library(pacman)
-
-p_load(dplyr, tibble, tidyr, stringr, lubridate, httr2, 
+p_load(dplyr, tibble, tidyr, stringr, lubridate, httr2,
        jsonlite, readr, sf, httr, xml2, purrr)
+# library(electoral)
 
+# tid <- "2020K1"
+# tabel_navn <- "FOLK1A"
+# tot_mandater <- 175
+# tot_kredsmandater <- 135
+tot_tillaegsmandater <- tot_mandater - tot_kredsmandater
+
+
+source("epvalg/Oversigt over xml links.R")
+
+## Finder seneste valg
+ft_valg_xml <- xml_link_oversigt %>% 
+  filter(valg=="FT" & type=="fintælling") %>% 
+  filter(aar == max(aar)) %>% 
+  pull(xml_link)
+
+
+## Link mellem opstilling og storkreds
 api_opstillingskreds <- GET("https://api.dataforsyningen.dk/opstillingskredse")
 
 opstillingskredse <- fromJSON(rawToChar(api_opstillingskreds$content)) %>% 
@@ -19,10 +36,10 @@ opstilling_til_storkreds <- opstillingskredse %>%
 
 ## Henter geo-data
 api_storkreds <- GET("https://api.dataforsyningen.dk/storkredse?format=geojson")
-
 storkreds_geo_data <- st_read(api_storkreds$content %>% rawToChar(), quiet = TRUE)
+# st_write(storkreds_geo_data, "data/storkreds_geo.geojson")
 
-st_is_valid(storkreds_geo_data, reason = T)
+# storkreds_geo_data <- st_read("data/storkreds_geo.geojson", quiet = TRUE)
 
 areal <- storkreds_geo_data %>% 
   st_make_valid() %>% 
@@ -31,27 +48,24 @@ areal <- storkreds_geo_data %>%
   select(navn, valglandsdelsbogstav, starts_with("areal")) %>% 
   as_tibble()
 
-areal
 sum(areal$areal_km2)
 
 ## Henter befolkningstallet
 statbank_url <- "https://api.statbank.dk/v1"
 
-tabel_navn <- "FOLK1A"
-
-tid <- "2020K1"
-
-bef_data <- request(paste(statbank_url, "data", tabel_navn, "CSV", 
+bef_data <- request(paste(statbank_url, "data", tabel_navn, "CSV",
               paste0("?",
                      paste(
                      "valuePresentation=code",
                      paste0("tid=", tid),
                      "område=*",
-                     sep = "&")), 
-              sep = "/")) %>% 
-  req_perform() %>% 
-  resp_body_string() %>% 
+                     sep = "&")),
+              sep = "/")) %>%
+  req_perform() %>%
+  resp_body_string() %>%
   read_csv2()
+
+# bef_data <- read_csv2("data/folk1a.csv")
 
 folketal <- bef_data %>%
   rename_with(str_to_lower) %>% 
@@ -60,12 +74,11 @@ folketal <- bef_data %>%
   summarise(folketal = sum(indhold), .by = c("storkreds_nummer", "storkreds_navn"))
 
 
-### Henter vælgertal
+### Henter vaelgertal
 
 ## Import af data
-fv_valg_xml <- "https://www.dst.dk/valg/Valg1968094/xml/fintal.xml"
 
-ind2 <- read_xml(fv_valg_xml)
+ind2 <- read_xml(ft_valg_xml)
 
 stemmeberettigede <- xml_find_all(ind2, "//Storkreds") %>% 
   xml_text() %>% 
@@ -96,42 +109,37 @@ data_sted_fordeling <- folketal %>%
   mutate(faktor_sum = folketal+as.numeric(areal_valg)+stemmeberettigede)
 
 
-library(electoral)
-
-
 mandater_landsdel <- data_sted_fordeling %>%
   summarise(faktor_sum_landsdel = sum(faktor_sum), .by = "landsdel_id") %>% 
-  mutate(mandater_landsdel_brøk = faktor_sum_landsdel/(sum(faktor_sum_landsdel)/175),
-         nedrund = floor(mandater_landsdel_brøk),
-         brøk = mandater_landsdel_brøk-nedrund,
-         rank_brøk = rank(-brøk),
-         rest = 175-sum(nedrund),
-         rest_mandat = rank_brøk <= rest,
+  mutate(mandater_landsdel_broek = faktor_sum_landsdel/(sum(faktor_sum_landsdel)/tot_mandater),
+         nedrund = floor(mandater_landsdel_broek),
+         broek = mandater_landsdel_broek-nedrund,
+         rank_broek = rank(-broek),
+         rest = tot_mandater-sum(nedrund),
+         rest_mandat = rank_broek <= rest,
          mandater_landsdel = nedrund+rest_mandat)
 
-## Fordeler på kredse
+## Fordeler paa kredse
 kredsmandater <- data_sted_fordeling %>% 
   mutate(faktor_sum_landsdel = if_else(row_number() == 1, sum(faktor_sum), NA), .by = "landsdel_id") %>% 
   distinct(landsdel_id, storkreds_navn, faktor_sum, faktor_sum_landsdel) %>% 
-  mutate(kreds_mandat_land = faktor_sum_landsdel/(sum(faktor_sum)/135),
+  mutate(kreds_mandat_land = faktor_sum_landsdel/(sum(faktor_sum)/tot_kredsmandater),
          nedrund = floor(kreds_mandat_land),
-         brøk = kreds_mandat_land - nedrund,
-         rank_brøk = dense_rank(desc(brøk)),
-         rest = 135 - sum(nedrund, na.rm = TRUE),
-         rest_mandat = rank_brøk <= rest,
+         broek = kreds_mandat_land - nedrund,
+         rank_broek = dense_rank(desc(broek)),
+         rest = tot_kredsmandater - sum(nedrund, na.rm = TRUE),
+         rest_mandat = rank_broek <= rest,
          kreds_mandat_landsdel = nedrund + rest_mandat) %>% 
   fill(faktor_sum_landsdel, kreds_mandat_landsdel) %>% 
   select(landsdel_id, storkreds_navn, faktor_sum, faktor_sum_landsdel, kreds_mandat_landsdel) %>% 
   mutate(kreds_mandat_stor = faktor_sum/(faktor_sum_landsdel/kreds_mandat_landsdel),
          nedrund = floor(kreds_mandat_stor),
-         brøk = kreds_mandat_stor - nedrund,
-         rank_brøk = dense_rank(desc(brøk)),
+         broek = kreds_mandat_stor - nedrund,
+         rank_broek = dense_rank(desc(broek)),
          rest = kreds_mandat_landsdel - sum(nedrund),
-         rest_mandat = rank_brøk <= rest,
+         rest_mandat = rank_broek <= rest,
          kreds_mandat_storkreds = nedrund + rest_mandat,
-         .by = "landsdel_id") %>% 
-  select(landsdel_id, storkreds_navn, faktor_sum, faktor_sum_landsdel, kreds_mandat_landsdel, kreds_mandat_storkreds)
-  
+         .by = "landsdel_id") 
 
 if(kredsmandater[kredsmandater$storkreds_navn=="Bornholm", "kreds_mandat_storkreds"] < 2) {
   
@@ -146,36 +154,44 @@ if(kredsmandater[kredsmandater$storkreds_navn=="Bornholm", "kreds_mandat_storkre
     filter(storkreds_navn != "Bornholm") %>% 
     mutate(faktor_sum_landsdel = if_else(row_number() == 1, sum(faktor_sum), NA), .by = "landsdel_id") %>% 
     distinct(landsdel_id, storkreds_navn, faktor_sum, faktor_sum_landsdel) %>% 
-    mutate(kreds_mandat_land = faktor_sum_landsdel/(sum(faktor_sum)/133),
+    mutate(kreds_mandat_land = faktor_sum_landsdel/(sum(faktor_sum)/(tot_kredsmandater-2)),
            nedrund = floor(kreds_mandat_land),
-           brøk = kreds_mandat_land - nedrund,
-           rank_brøk = dense_rank(desc(brøk)),
-           rest = 133 - sum(nedrund, na.rm = TRUE),
-           rest_mandat = rank_brøk <= rest,
+           broek = kreds_mandat_land - nedrund,
+           rank_broek = dense_rank(desc(broek)),
+           rest = tot_kredsmandater-2 - sum(nedrund, na.rm = TRUE),
+           rest_mandat = rank_broek <= rest,
            kreds_mandat_landsdel = nedrund + rest_mandat) %>% 
     fill(faktor_sum_landsdel, kreds_mandat_landsdel) %>% 
     select(landsdel_id, storkreds_navn, faktor_sum, faktor_sum_landsdel, kreds_mandat_landsdel) %>% 
     mutate(kreds_mandat_stor = faktor_sum/(faktor_sum_landsdel/kreds_mandat_landsdel),
            nedrund = floor(kreds_mandat_stor),
-           brøk = kreds_mandat_stor - nedrund,
-           rank_brøk = dense_rank(desc(brøk)),
+           broek = kreds_mandat_stor - nedrund,
+           rank_broek = dense_rank(desc(broek)),
            rest = kreds_mandat_landsdel - sum(nedrund),
-           rest_mandat = rank_brøk <= rest,
+           rest_mandat = rank_broek <= rest,
            kreds_mandat_storkreds = nedrund + rest_mandat,
            .by = "landsdel_id") %>% 
-    select(landsdel_id, storkreds_navn, faktor_sum, faktor_sum_landsdel, kreds_mandat_landsdel, kreds_mandat_storkreds) %>% 
+    # select(landsdel_id, storkreds_navn, faktor_sum, faktor_sum_landsdel, kreds_mandat_landsdel, kreds_mandat_storkreds) %>% 
     add_row(bornholm) %>% 
     arrange(landsdel_id)
     
 }
 
-## Kobler landsdelsmandater fra 175 på og udregner tillægsmandater pr. landsdel.
+## Kobler landsdelsmandater fra 175 paa og udregner tillaegsmandater pr. landsdel.
 stedlig_mandatfordeling <- kredsmandater %>% 
   left_join(mandater_landsdel %>% select(landsdel_id, mandater_landsdel), by = "landsdel_id") %>% 
-  mutate(tillægsmandater_landsdel = mandater_landsdel-sum(kreds_mandat_storkreds), .by = "landsdel_id") %>% 
-  select(-mandater_landsdel)
+  mutate(tillaegsmandater_landsdel = mandater_landsdel-sum(kreds_mandat_storkreds), .by = "landsdel_id") %>% 
+  mutate(landsdel_navn = case_when(landsdel_id == "7" ~ "Hovedstaden",
+                                   landsdel_id == "8" ~ "Sjælland-Syddanmark",
+                                   landsdel_id == "9" ~ "Midtjylland-Nordjylland")) %>% 
+  select(landsdel_navn, storkreds_navn, faktor_sum, faktor_sum_landsdel, kreds_mandat_landsdel, kreds_mandat_storkreds, tillaegsmandater_landsdel)
 
- 
+
+stedlig_mandatfordeling_json <- stedlig_mandatfordeling %>% 
+  toJSON()
 
 
-
+# myfunk <- function(){
+#   stedlig_mandatfordeling %>% 
+#     select(storkreds_navn, kreds_mandat_storkreds)
+# }

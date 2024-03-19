@@ -5,6 +5,7 @@ project:
     - index.qmd
     - about.qmd
     - FT_rapport.qmd
+    - stedmandat.qmd
     - "epvalg/EP_rapport_2009_fin.qmd"
     - "epvalg/EP_rapport_2014_fin.qmd"
     - "epvalg/EP_rapport_2019_fin.qmd"
@@ -22,7 +23,7 @@ website:
       - FT_rapport.qmd
       - href: render_ep_rapport.qmd
       - text: Europaparlamentsvalg
-        menu: 
+        menu:
           - href: "epvalg/EP_rapport_2009_fin.qmd"
             text: "2009"
           - href: "epvalg/EP_rapport_2014_fin.qmd"
@@ -36,6 +37,7 @@ website:
         menu: 
           - href: "fodbold_kalender/Tysk fodboldkort.qmd"
             text: Tyskland
+      
 format:
   html:
     theme: cosmo
