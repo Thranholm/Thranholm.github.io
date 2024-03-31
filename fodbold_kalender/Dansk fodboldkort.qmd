@@ -1,0 +1,119 @@
+---
+title: "Dansk fodboldkalender"
+output: html_document
+execute: 
+  echo: false
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r}
+#| label: indlæser data
+#| message: false
+
+library(pacman)
+p_load(tidyverse, ggiraph, cowplot, RColorBrewer, sf, jsonlite, httr2, here)
+
+
+kampprogram_danmark <- read_rds(here("fodbold_kalender", "data", "kampprogram.rds")) %>%
+  filter(land == "Denmark") %>%
+  unnest(data)
+
+```
+
+```{r}
+#| label: henter dansk geo data
+#| warning: false
+
+
+danske_stadion <- request("https://api.dataforsyningen.dk/steder?undertype=stadion") %>%
+  req_perform() %>%
+  resp_body_string() %>%
+  fromJSON()
+
+danske_stadion_geo <- danske_stadion %>%
+  select(stadion = primærtnavn, primærnavnestatus, visueltcenter, kommuner, sekundærenavne) %>%
+  # as_tibble()
+  unnest(kommuner) %>%
+  rename(kommune = navn) %>% 
+  unnest(sekundærenavne, keep_empty = TRUE) %>% 
+  select(-href) %>% 
+  mutate(stadion_navn = case_when(primærnavnestatus == "officielt" ~ stadion,
+                                  navnestatus == "officielt" ~ navn),
+         stadion_navn = case_match(stadion_navn,
+                                   "Jysk Park" ~ "JYSK park",
+                                   "Ceres Park" ~ "Ceres Park & Arena",
+                                   "Cepheus Park" ~ "Cepheus Park Randers",
+                                   "Hvidovre Stadion" ~ "Pro Ventilation Arena",
+                                   .default = stadion_navn)) %>% 
+  mutate(longitude = str_split_i(visueltcenter, ",", 1) %>% str_remove_all("c|\\(") %>% as.numeric(),
+         latitude = str_split_i(visueltcenter, ",", 2) %>% str_remove_all("\\)") %>% as.numeric())
+
+
+
+
+# danmark_geo_json <- request("https://api.dataforsyningen.dk/storkredse?format=geojson") %>% 
+#   req_perform() %>%
+#   resp_body_raw() %>%
+#   rawToChar() %>%
+#   st_read(quiet = TRUE) %>%
+#   filter(navn != "Bornholm") %>%
+#   st_make_valid() %>% 
+#   st_combine()
+
+danmark_geo_json <- st_read(here("fodbold_kalender", "data", "denmark-detailed-boundary_896.geojson"), quiet = TRUE)
+
+```
+
+
+```{r}
+#| label: kampprogram_geo
+
+kampprogram_geo <- kampprogram_danmark %>% 
+  left_join(danske_stadion_geo, by = join_by(stadion == stadion_navn))
+
+
+
+```
+
+```{r}
+#| label: laver plots
+
+kampprogram_nested <- kampprogram_geo %>% 
+  nest(.by = "fiktiv_kamprunde", .key = "kampprogram") %>% 
+  mutate(dato = map_dbl(kampprogram, ~min(.$kampdato)) %>% 
+           as.Date()) %>% 
+  mutate(plot = map(kampprogram, ~ggplot() +
+                      geom_sf(data = danmark_geo_json) + 
+                      geom_point_interactive(data = .x, aes(x = longitude, y = latitude,
+                                                            tooltip = sprintf("%s<br/>%s&nbsp;%s",kamp, format(kampdato, "%d/%m-%Y"), kamptidspunkt))) + 
+                      ggtitle(paste("Kampprogram for kamprunde med start:", unique(.x$min_ugedag))))) %>% 
+    mutate(idag = today(),
+         date_diff = dato-idag,
+         før_idag = idag > dato) %>% 
+  arrange(før_idag, date_diff, fiktiv_kamprunde)
+
+
+
+
+
+```
+
+
+
+```{r}
+#| label: laver kort
+#| fig-align: left
+#| echo: false
+
+
+# map(kampprogram_nested$plot, ~girafe(ggobj = plot_grid(plotlist = )  print(.x)))
+girafe(ggobj = plot_grid(plotlist = kampprogram_nested$plot, ncol = 1, nrow = 25, scale = 1)
+       , width_svg = 7, height_svg = 175)
+
+
+```
+
+
+
