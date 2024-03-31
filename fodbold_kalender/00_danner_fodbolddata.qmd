@@ -80,8 +80,9 @@ kampprogram <- kampprogram_fulddata %>%
                                      tzone = "Europe/Berlin"), 
                                    "%H:%M")),
          ugedag = wday(kampdato, label = TRUE, abbr = FALSE, locale = "da_DK.UTF-8", week_start = 1),
-         kampuge = if_else(ugedag == "Mandag", isoweek(kampdato)-1, isoweek(kampdato)),
-         weekend = if_else(ugedag %in% c("Fredag", "Lørdag", "Søndag", "Mandag"), TRUE, FALSE),
+         ugedag_nr = wday(kampdato, week_start = 1),
+         kampuge = if_else(ugedag_nr == 1, isoweek(kampdato)-1, isoweek(kampdato)),
+         weekend = if_else(ugedag_nr %in% c(1, 5, 6, 7), TRUE, FALSE),
          ugedag_dato = str_c(ugedag, kampdato, sep = " "),
          kamp = paste(teams$home$name, teams$away$name, sep = " - "),
          hjemmehold = teams$home$name,
@@ -102,12 +103,14 @@ kampprogram <- kampprogram_fulddata %>%
                                  kamptidspunkt),
          .by = c("runde", "liga_id")) %>% 
   mutate(min_ugedag = if_else(kampdato == min(kampdato), ugedag_dato, NA), .by = fiktiv_kamprunde) %>% 
-  fill(min_ugedag) %>% 
+  group_by(fiktiv_kamprunde) %>%
+  fill(min_ugedag, .direction = "downup") %>% 
+  ungroup() %>% 
   arrange(runde, match(liga, "Bundesliga")) %>% 
   nest(.by = land) %>% 
   mutate(timestamp_selv = Sys.time())
 
-  
+
 write_rds(kampprogram, "data/kampprogram.rds")
 
 ```
