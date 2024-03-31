@@ -6,19 +6,81 @@ editor_options:
 ---
 
 
-
 ```{r}
-#| label: kører programmer
-#| message: false
+#| label: indlæser data
 #| echo: false
+#| message: false
 
-source("Pakker og api.R")
-source("Kampprogram fra api.R")
-source("Finder geodata.R")
-source("laver plots.R")
+library(pacman)
+p_load(tidyverse, ggiraph, cowplot, RColorBrewer, sf, here)
+
+
+kampprogram_tyskland <- read_rds(here("fodbold_kalender", "data", "kampprogram.rds")) %>%
+  filter(land == "Germany") %>%
+  unnest(data)
 
 ```
 
+
+```{r}
+#| label: henter tysk geodata
+#| echo: false
+
+tyskland_geo_json <- st_read("https://raw.githubusercontent.com/isellsoap/deutschlandGeoJSON/main/1_deutschland/2_hoch.geo.json", quiet = TRUE)
+
+
+## finder byer
+tyske_byer_geo <- readRDS("tyske_byer.Rds")
+
+tyske_byer_geo_filter <- tyske_byer_geo %>% 
+  semi_join(kampprogram_tyskland, by = c("name" = "spilleby")) %>% 
+  filter(population == max(population), .by = "name")
+
+
+```
+
+
+```{r}
+#| label: kampprogram_geo
+#| echo: false
+
+kampprogram_geo <- kampprogram_tyskland %>% 
+  left_join(tyske_byer_geo_filter, by = join_by(spilleby == name))
+
+```
+
+
+
+
+```{r}
+#| label: laver plots
+#| message: false
+#| echo: false
+
+## Laver plots
+
+kampprogram_nested <- kampprogram_geo %>% 
+  mutate(liga = factor(liga, levels = c("Bundesliga", "2. Bundesliga", "3. Liga"))) %>% 
+  nest(.by = c("fiktiv_kamprunde"), .key = "kampprogram") %>% 
+  mutate(dato = map_dbl(kampprogram, ~min(.x$kampdato)) %>% 
+           as.Date()) %>% 
+  mutate(plot = map(kampprogram, ~ggplot() + 
+                      geom_sf(data = tyskland_geo_json) +
+                      geom_point_interactive(data = .x, aes(x = longitude, y = latitude, colour = liga,
+                                                            tooltip=sprintf("%s<br/>%s&nbsp;%s",kamp,format(kampdato, "%d/%m-%Y"), kamptidspunkt))) +
+                      scale_color_manual(values = c("Bundesliga" = "black",
+                                                    "2. Bundesliga" = "red",
+                                                    "3. Liga" = "yellow")) +
+                      ggtitle(paste("Kampprogram for kamprunde med start:", min(.x$ugedag), 
+                                    format(min(.x$kampdato), "%d/%m/%Y"))) +
+                      theme(legend.position = "right"))) %>% 
+  mutate(idag = today(),
+         date_diff = dato-idag,
+         før_idag = idag > dato) %>% 
+  arrange(før_idag, date_diff, fiktiv_kamprunde)
+
+
+```
 
 OBS! Kamptidspunkter bør tjekkes efter. For 3. Liga især er de ikke altid retvisende.
 
@@ -29,11 +91,9 @@ Seneste opdatering: `r format(with_tz(Sys.time(), "CET"), "%d/%m/%Y %H:%M:%S")`
 #| fig-align: left
 #| echo: false
 
-p_load(tidyverse, ggiraph, cowplot)
 # map(kampprogram_nested$plot, ~girafe(ggobj = plot_grid(plotlist = )  print(.x)))
 girafe(ggobj = plot_grid(plotlist = kampprogram_nested$plot, ncol = 1, nrow = 42, scale = 1)
        , width_svg = 7, height_svg = 250)
-
 
 
 ```

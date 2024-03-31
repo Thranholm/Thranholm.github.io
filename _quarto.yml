@@ -10,7 +10,9 @@ project:
     - "epvalg/EP_rapport_2014_fin.qmd"
     - "epvalg/EP_rapport_2019_fin.qmd"
     - mio6DK.qmd
+    - fodbold_kalender/00_danner_fodbolddata.qmd
     - "fodbold_kalender/Tysk fodboldkort.qmd"
+    - "fodbold_kalender/Dansk fodboldkort.qmd"
 
 website:
   title: "Emil Thranholm"
@@ -30,13 +32,14 @@ website:
             text: "2014"
           - href: "epvalg/EP_rapport_2019_fin.qmd"
             text: "2019"
-      # - EP_rapport.qmd
       - href: mio6DK.qmd
         text: 6 mio danskere
       - text: Fodboldkalender
         menu: 
           - href: "fodbold_kalender/Tysk fodboldkort.qmd"
             text: Tyskland
+          - href: "fodbold_kalender/Dansk fodboldkort.qmd"
+            text: Danmark
       
 format:
   html:

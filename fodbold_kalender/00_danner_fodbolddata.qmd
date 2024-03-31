@@ -1,9 +1,40 @@
-## Henter kampprogram for Tyskland
+---
+title: "00_danner_fodbolddata"
+---
+
+
+```{r}
+## Danner fodbold data
+
+## Indlæsning af pakker og sætter parametre for api
+
+rm(list = ls())
+
+library(pacman)
+p_load(tidyverse, lubridate, httr, jsonlite, 
+       devtools, janitor, stringr, httr2)
+
+# key <- secret_make_key()
+
+base_url <- "https://api-football-v1.p.rapidapi.com/v3"
+
+header <- c("X-RapidAPI-Host" = "api-football-v1.p.rapidapi.com",
+            "X-RapidAPI-Key" = secret_decrypt(Sys.getenv("PASS"), "FODBOLD_KEY"))
+
+ny_geo_url <- "https://geography2.p.rapidapi.com"
+
+ny_geo_headers <- c("X-RapidAPI-Host" = "world-geography2.p.rapidapi.com",
+                    "X-RapidAPI-Key" = secret_decrypt(Sys.getenv("PASS"), "FODBOLD_KEY"))
+
+
 
 ## Finder Tyskland 
 ## League info: 78, 79 og 80
 
-liga_get <- tibble(liga_id = c(78, 79, 80),
+## Finder Danmark
+# league: 119
+
+liga_get <- tibble(liga_id = c(78, 79, 80, 119),
                    get = list(NULL),
                    response = list(NULL))
 
@@ -49,8 +80,9 @@ kampprogram <- kampprogram_fulddata %>%
                                      tzone = "Europe/Berlin"), 
                                    "%H:%M")),
          ugedag = wday(kampdato, label = TRUE, abbr = FALSE, locale = "da_DK.UTF-8", week_start = 1),
-         kampuge = if_else(ugedag == "Mon", isoweek(kampdato)-1, isoweek(kampdato)),
-         weekend = if_else(ugedag %in% c("Fri", "Sat", "Sun", "Mon"), TRUE, FALSE),
+         kampuge = if_else(ugedag == "Mandag", isoweek(kampdato)-1, isoweek(kampdato)),
+         weekend = if_else(ugedag %in% c("Fredag", "Lørdag", "Søndag", "Mandag"), TRUE, FALSE),
+         ugedag_dato = str_c(ugedag, kampdato, sep = " "),
          kamp = paste(teams$home$name, teams$away$name, sep = " - "),
          hjemmehold = teams$home$name,
          udehold = teams$away$name,
@@ -64,22 +96,18 @@ kampprogram <- kampprogram_fulddata %>%
   distinct() %>% 
   ungroup() %>% 
   mutate(fiktiv_kamprunde = dense_rank(pick(kampuge, weekend)), .after = "weekend") %>% 
+  ## Specifikt for tysk liga
   mutate(kamptidspunkt = if_else(liga == "3. Liga" & runde != "38" & min(timestamp) == max(timestamp), 
                                  "TBA", 
                                  kamptidspunkt),
          .by = c("runde", "liga_id")) %>% 
-  arrange(runde, match(liga, "Bundesliga"))
+  mutate(min_ugedag = if_else(kampdato == min(kampdato), ugedag_dato, NA), .by = fiktiv_kamprunde) %>% 
+  fill(min_ugedag) %>% 
+  arrange(runde, match(liga, "Bundesliga")) %>% 
+  nest(.by = land)
 
+  
+write_rds(kampprogram, "data/kampprogram.rds")
 
-
-# stadions_get <- GET(url = paste(base_url,
-#                                 paste0("venues",
-#                                        "?country=germany"),
-#                                 sep = "/"),
-#                     config = add_headers(.headers = header))
-# 
-# stadions_list <- fromJSON(rawToChar(stadions_get$content))
-# stadions <- as_tibble(stadions_list$response)
-
-
+```
 
