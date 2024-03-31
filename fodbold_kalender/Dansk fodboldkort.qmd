@@ -22,6 +22,8 @@ kampprogram_danmark <- read_rds(here("fodbold_kalender", "data", "kampprogram.rd
 
 ```
 
+Tjekker tidstempel fra data: `r unique(kampprogram_danmark$timestamp_selv)`
+
 ```{r}
 #| label: henter dansk geo data
 #| warning: false

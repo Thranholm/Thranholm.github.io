@@ -104,7 +104,8 @@ kampprogram <- kampprogram_fulddata %>%
   mutate(min_ugedag = if_else(kampdato == min(kampdato), ugedag_dato, NA), .by = fiktiv_kamprunde) %>% 
   fill(min_ugedag) %>% 
   arrange(runde, match(liga, "Bundesliga")) %>% 
-  nest(.by = land)
+  nest(.by = land) %>% 
+  mutate(timestamp_selv = Sys.time())
 
   
 write_rds(kampprogram, "data/kampprogram.rds")
