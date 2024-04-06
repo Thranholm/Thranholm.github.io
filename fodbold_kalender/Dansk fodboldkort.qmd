@@ -83,7 +83,7 @@ kampprogram_geo <- kampprogram_danmark %>%
 #| label: laver plots
 #| results: hide
 
-Sys.setlocale("LC_TIME", "da_DK")
+Sys.setlocale("LC_TIME", "da_DK.UTF-8")
 
 kampprogram_nested <- kampprogram_geo %>% 
   nest(.by = "fiktiv_kamprunde", .key = "kampprogram") %>% 

@@ -59,7 +59,7 @@ kampprogram_geo <- kampprogram_tyskland %>%
 #| results: hide
 
 
-Sys.setlocale("LC_TIME", "da_DK")
+Sys.setlocale("LC_TIME", "da_DK.UTF-8")
 
 ## Laver plots
 
@@ -119,6 +119,7 @@ iwalk(plots, ~ {
 
 htmltools::tagList(plots[1])
 ```
+
 
 
 
