@@ -30,7 +30,7 @@ tyskland_geo_json <- st_read("https://raw.githubusercontent.com/isellsoap/deutsc
 
 
 ## finder byer
-tyske_byer_geo <- readRDS("tyske_byer.Rds")
+tyske_byer_geo <- readRDS(here("fodbold_kalender", "data", "tyske_byer.Rds"))
 
 tyske_byer_geo_filter <- tyske_byer_geo %>% 
   semi_join(kampprogram_tyskland, by = c("name" = "spilleby")) %>% 
@@ -56,6 +56,10 @@ kampprogram_geo <- kampprogram_tyskland %>%
 #| label: laver plots
 #| message: false
 #| echo: false
+#| results: hide
+
+
+Sys.setlocale("LC_TIME", "da_DK")
 
 ## Laver plots
 
@@ -71,13 +75,20 @@ kampprogram_nested <- kampprogram_geo %>%
                       scale_color_manual(values = c("Bundesliga" = "black",
                                                     "2. Bundesliga" = "red",
                                                     "3. Liga" = "yellow")) +
-                      ggtitle(paste("Kampprogram for kamprunde med start:", min(.x$ugedag), 
-                                    format(min(.x$kampdato), "%d/%m/%Y"))) +
+                      ggtitle(paste("Kampprogram for kamprunde med start:", format(unique(.x$min_ugedag), "%A %d %B %Y"))) +
                       theme(legend.position = "right"))) %>% 
   mutate(idag = today(),
          date_diff = dato-idag,
          før_idag = idag > dato) %>% 
   arrange(før_idag, date_diff, fiktiv_kamprunde)
+
+
+plots <- kampprogram_nested %>% 
+  mutate(plot = map(plot, ~.x %>%
+                       girafe(ggobj = .x))) %>%
+  select(dato, plot) %>% 
+  mutate(dato = format(dato, "%d. %b %Y")) %>% 
+  pivot_wider(names_from = dato, values_from = plot)
 
 
 ```
@@ -86,16 +97,27 @@ OBS! Kamptidspunkter bør tjekkes efter. For 3. Liga især er de ikke altid retv
 
 Seneste opdatering: `r format(with_tz(Sys.time(), "CET"), "%d/%m/%Y %H:%M:%S")`
 
+::: {.panel-tabset .nav-pills}
+
 ```{r}
-#| label: laver kort
-#| fig-align: left
-#| echo: false
+#| results: asis
 
-# map(kampprogram_nested$plot, ~girafe(ggobj = plot_grid(plotlist = )  print(.x)))
-girafe(ggobj = plot_grid(plotlist = kampprogram_nested$plot, ncol = 1, nrow = 42, scale = 1)
-       , width_svg = 7, height_svg = 250)
+iwalk(plots, ~ {
+  cat('## ', .y, '\n\n')
+  
+  print(htmltools::tagList(.x))
+  
+  cat("\n\n")
+})
+```
 
+:::
 
+```{r}
+#| eval: true
+#| include: false
+
+htmltools::tagList(plots[1])
 ```
 
 
