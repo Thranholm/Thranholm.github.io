@@ -81,6 +81,9 @@ kampprogram_geo <- kampprogram_danmark %>%
 
 ```{r}
 #| label: laver plots
+#| results: hide
+
+Sys.setlocale("LC_TIME", "da_DK")
 
 kampprogram_nested <- kampprogram_geo %>% 
   nest(.by = "fiktiv_kamprunde", .key = "kampprogram") %>% 
@@ -90,31 +93,44 @@ kampprogram_nested <- kampprogram_geo %>%
                       geom_sf(data = danmark_geo_json) + 
                       geom_point_interactive(data = .x, aes(x = longitude, y = latitude,
                                                             tooltip = sprintf("%s<br/>%s&nbsp;%s",kamp, format(kampdato, "%d/%m-%Y"), kamptidspunkt))) + 
-                      ggtitle(paste("Kampprogram for kamprunde med start:", unique(.x$min_ugedag))))) %>% 
+                      ggtitle(paste("Kampprogram for kamprunde med start:", format(unique(.x$min_ugedag), "%A %d %B %Y"))))) %>%
     mutate(idag = today(),
          date_diff = dato-idag,
          før_idag = idag > dato) %>% 
   arrange(før_idag, date_diff, fiktiv_kamprunde)
 
-
-
-
+plots <- kampprogram_nested %>% 
+  # slice_head(n = 2) %>%
+  mutate(plot = map(plot, ~.x %>%
+                       girafe(ggobj = .x))) %>%
+  select(dato, plot) %>% 
+  mutate(dato = format(dato, "%d. %b %Y")) %>% 
+  pivot_wider(names_from = dato, values_from = plot)
 
 ```
 
 
+::: {.panel-tabset .nav-pills}
 
 ```{r}
-#| label: laver kort
-#| fig-align: left
-#| echo: false
+#| results: asis
 
+iwalk(plots, ~ {
+  cat('## ', .y, '\n\n')
+  
+  print(htmltools::tagList(.x))
+  
+  cat("\n\n")
+})
+```
 
-# map(kampprogram_nested$plot, ~girafe(ggobj = plot_grid(plotlist = )  print(.x)))
-girafe(ggobj = plot_grid(plotlist = kampprogram_nested$plot, ncol = 1, nrow = 25, scale = 1)
-       , width_svg = 7, height_svg = 175)
+:::
 
+```{r}
+#| eval: true
+#| include: false
 
+htmltools::tagList(plots[1])
 ```
 
 
