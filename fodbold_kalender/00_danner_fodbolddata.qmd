@@ -60,6 +60,8 @@ for (i in 1:nrow(liga_get)) {
 
 kampprogram_fulddata <- bind_rows(liga_get$response)
 
+## Sætter danske lokale
+Sys.setlocale("LC_TIME", "da_DK")
 
 kampprogram <- kampprogram_fulddata %>% 
   rowwise() %>% 
@@ -83,7 +85,6 @@ kampprogram <- kampprogram_fulddata %>%
          ugedag_nr = wday(kampdato, week_start = 1),
          kampuge = if_else(ugedag_nr == 1, isoweek(kampdato)-1, isoweek(kampdato)),
          weekend = if_else(ugedag_nr %in% c(1, 5, 6, 7), TRUE, FALSE),
-         ugedag_dato = str_c(ugedag, kampdato, sep = " "),
          kamp = paste(teams$home$name, teams$away$name, sep = " - "),
          hjemmehold = teams$home$name,
          udehold = teams$away$name,
@@ -102,7 +103,7 @@ kampprogram <- kampprogram_fulddata %>%
                                  "TBA", 
                                  kamptidspunkt),
          .by = c("runde", "liga_id")) %>% 
-  mutate(min_ugedag = if_else(kampdato == min(kampdato), ugedag_dato, NA), .by = fiktiv_kamprunde) %>% 
+  mutate(min_ugedag = if_else(kampdato == min(kampdato), kampdato, NA), .by = fiktiv_kamprunde) %>% 
   group_by(fiktiv_kamprunde) %>%
   fill(min_ugedag, .direction = "downup") %>% 
   ungroup() %>% 
