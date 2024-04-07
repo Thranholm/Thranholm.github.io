@@ -63,7 +63,6 @@ jobs:
       with:
         path: |
           index.qmd
-          mio6DK.qmd
 
     - name: Publish to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
