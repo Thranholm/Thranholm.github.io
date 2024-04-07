@@ -53,16 +53,19 @@ jobs:
         sudo update-locale LANG=da_DK.UTF-8
 
       # NOTE: If Publishing to GitHub Pages, set the permissions correctly (see top of this yaml)
-    - name: Render side
+    - name: Render index
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # this secret is always available for github actions
-        FODBOLD_KEY: ${{ secrets.FODBOLD_KEY }}
-        PASS: ${{ secrets.PASS }}
         LANG: "da_DK.UTF-8"
       uses: quarto-dev/quarto-actions/render@v2
       with:
-        path: |
-          index.qmd
+        path: index.qmd
+
+    - name: Render mio6DK
+      env:
+        LANG: "da_DK.UTF-8"
+      uses: quarto-dev/quarto-actions/render@v2
+      with:
+        path: mio6DK.qmd
 
     - name: Publish to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
