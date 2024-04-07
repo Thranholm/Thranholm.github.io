@@ -13,8 +13,7 @@ permissions:
 
 on:
   schedule:
-    #- cron: "10 7 * * *"
-    - cron: "30 17 * * *"
+    - cron: "10 7 * * *"
   workflow_dispatch:
   #push:
   #  branches: ['main']
@@ -65,5 +64,5 @@ jobs:
       uses: quarto-dev/quarto-actions/publish@v2
       with:
         target: gh-pages
-        path: mio6DK.qmd
+        #path: docs
 
