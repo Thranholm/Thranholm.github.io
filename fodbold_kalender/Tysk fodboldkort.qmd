@@ -76,7 +76,7 @@ kampprogram_nested <- kampprogram_geo %>%
                                                     "2. Bundesliga" = "red",
                                                     "3. Liga" = "yellow")) +
                       ggtitle(paste("Kampprogram for kamprunde med start:", format(unique(.x$min_ugedag), "%A %d %B %Y"))) +
-                      theme(legend.position = "right"))) %>% 
+                      theme(legend.position = "bottom"))) %>% 
   mutate(idag = today(),
          date_diff = dato-idag,
          før_idag = idag > dato) %>% 
