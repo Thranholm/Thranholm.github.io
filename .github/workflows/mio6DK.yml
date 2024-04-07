@@ -1,4 +1,4 @@
-name: test et doku
+name: Opdater 6mioDK
 
 # Allow one concurrent deployment
 concurrency:
@@ -12,6 +12,8 @@ permissions:
   id-token: write
 
 on:
+  schedule:
+    - cron: "10 7 * * *"
   workflow_dispatch:
   #push:
   #  branches: ['main']
