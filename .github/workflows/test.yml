@@ -63,10 +63,8 @@ jobs:
       with:
         path: mio6DK.qmd
 
-    - name: Publish to github pages
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # this secret is always available for github actions
-      uses: quarto-dev/quarto-actions/publish@v2
+    - name: Publish to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
       with:
-        target: gh-pages
-        render: false
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        keep_files: true
