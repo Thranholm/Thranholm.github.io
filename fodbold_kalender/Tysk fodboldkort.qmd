@@ -76,7 +76,7 @@ kampprogram_nested <- kampprogram_geo %>%
                                                     "2. Bundesliga" = "red",
                                                     "3. Liga" = "yellow")) +
                       ggtitle(paste("Kampprogram for kamprunde med start:", format(unique(.x$min_ugedag), "%A %d %B %Y"))) +
-                      theme(legend.position = "bottom"))) %>% 
+                      theme(legend.position = "right"))) %>% 
   mutate(idag = today(),
          date_diff = dato-idag,
          før_idag = idag > dato) %>% 
@@ -85,7 +85,7 @@ kampprogram_nested <- kampprogram_geo %>%
 
 plots <- kampprogram_nested %>% 
   mutate(plot = map(plot, ~.x %>%
-                       girafe(ggobj = .x))) %>%
+                       girafe(ggobj = .x, height_svg = 7))) %>%
   select(dato, plot) %>% 
   mutate(dato = format(dato, "%d. %b %Y")) %>% 
   pivot_wider(names_from = dato, values_from = plot)
