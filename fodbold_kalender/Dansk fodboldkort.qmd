@@ -93,7 +93,11 @@ kampprogram_nested <- kampprogram_geo %>%
                       geom_sf(data = danmark_geo_json) + 
                       geom_point_interactive(data = .x, aes(x = longitude, y = latitude,
                                                             tooltip = sprintf("%s<br/>%s&nbsp;%s",kamp, format(kampdato, "%d/%m-%Y"), kamptidspunkt))) + 
-                      ggtitle(paste("Kampprogram for kamprunde med start:", format(unique(.x$min_ugedag), "%A %d %B %Y"))))) %>%
+                      ggtitle(paste("Kampprogram for kamprunde med start:", format(unique(.x$min_ugedag), "%A %d %B %Y"))) +
+                      theme(axis.title = element_blank(),
+                            axis.text = element_blank(), 
+                            axis.ticks = element_blank(),
+                            panel.background = element_blank()))) %>%
     mutate(idag = today(),
          date_diff = dato-idag,
          før_idag = idag > dato) %>% 
