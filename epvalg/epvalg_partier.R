@@ -8,7 +8,22 @@ mandattal <- xml_link_oversigt %>%
 
 aar <- params$aar
 
-type <- params$type
+valg_dato <- xml_link_oversigt %>% 
+  filter(aar == .env$aar & valg == "EP") %>% 
+  slice(1) %>% 
+  pull(xml_link) %>% 
+  read_xml() %>% 
+  xml_find_all("ValgDato") %>% 
+  xml_text() %>% 
+  dmy()
+
+fintael <- valg_dato < today("Europe/Copenhagen")
+
+if(fintael){
+  type <- "fintælling"
+} else {
+  type <- "valgaften"
+}
 
 ep_xml <- xml_link_oversigt %>% 
   filter(aar == .env$aar & valg == "EP") %>% 
@@ -22,6 +37,7 @@ library(pacman)
 p_load(tidyverse, xml2, readr, janitor)
 
 ind <- read_xml(ep_xml)
+
 
 stemmer_land <- hent_parti_stemmer(xml_data = ind, xpath = "Land") %>% 
   mutate(stemmer = as.numeric(stemmerantal))
@@ -67,11 +83,11 @@ ant_mandater_partier <- kvotienter_partier %>%
 rankings <- kvotienter_partier %>% 
   select(navn, forbund = forbund_bogstav, kvotient_parti, rank_parti, kvotient_forbund, overall_rank, mandat_parti)
 
-kable(ant_mandater_partier, format = "simple")
-
-kable(rankings %>% select(-mandat_parti), format = "simple",
-      caption = "Fuld ranking")
-
-kable(rankings %>% filter(mandat_parti) %>% select(-mandat_parti) %>% arrange(overall_rank),
-      format = "simple", caption = "Rangorden for valgte mandater")
+# kable(ant_mandater_partier, format = "simple")
+# 
+# kable(rankings %>% select(-mandat_parti), format = "simple",
+#       caption = "Fuld ranking")
+# 
+# kable(rankings %>% filter(mandat_parti) %>% select(-mandat_parti) %>% arrange(overall_rank),
+#       format = "simple", caption = "Rangorden for valgte mandater")
 

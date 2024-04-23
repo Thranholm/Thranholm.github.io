@@ -6,9 +6,9 @@ project:
     - about.qmd
     - FT_rapport.qmd
     - stedmandat.qmd
-    - "epvalg/EP_rapport_2009_fin.qmd"
-    - "epvalg/EP_rapport_2014_fin.qmd"
-    - "epvalg/EP_rapport_2019_fin.qmd"
+    - "epvalg/EP_rapport_2009.qmd"
+    - "epvalg/EP_rapport_2014.qmd"
+    - "epvalg/EP_rapport_2019.qmd"
     - mio6DK.qmd
     - fodbold_kalender/00_danner_fodbolddata.qmd
     - "fodbold_kalender/Tysk fodboldkort.qmd"
@@ -26,11 +26,11 @@ website:
       - href: render_ep_rapport.qmd
       - text: Europaparlamentsvalg
         menu:
-          - href: "epvalg/EP_rapport_2009_fin.qmd"
+          - href: "epvalg/EP_rapport_2009.qmd"
             text: "2009"
-          - href: "epvalg/EP_rapport_2014_fin.qmd"
+          - href: "epvalg/EP_rapport_2014.qmd"
             text: "2014"
-          - href: "epvalg/EP_rapport_2019_fin.qmd"
+          - href: "epvalg/EP_rapport_2019.qmd"
             text: "2019"
       - href: mio6DK.qmd
         text: 6 mio danskere

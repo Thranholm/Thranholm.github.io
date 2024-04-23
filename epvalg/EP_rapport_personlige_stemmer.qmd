@@ -1,67 +1,7 @@
 ---
-params:
-  aar: 2014
-  type: "fintælling"
-title: "Europaparlamentsvalg `r paste(params$aar, params$type)`"
-author: "Emil Thranholm"
-editor: source
-editor_options: 
-  chunk_output_type: console
+title: "Rapport_personlige_stemmer"
 ---
 
-```{r}
-#| echo: false
-options(knitr.kable.NA = '')
-```
-
-
-```{r}
-
-library(pacman)
-p_load(tidyverse, xml2, readr, janitor, kableExtra, jsonlite)
-
-## for manuel kørsel
-# setwd(paste(getwd(), "epvalg", sep = "/"))
-
-source("00_funktioner.R")
-source("valgforbund.R")
-source("Oversigt over xml links.R")
-source("epvalg.R")
-source("Personlige stemmer.R")
-```
-
-# Resultater
-
-## Samlet mandater
-
-```{r}
-kable(ant_mandater_partier %>% select(-c(bogstav, forbund_bogstav, stemmer, pct_stemmer)) %>% filter(mandater > 0), format = "simple")
-```
-
-## Procentfordeling og mandater
-
-```{r}
-
-kable(ant_mandater_partier %>% select(-forbund_bogstav), format = "simple")
-
-```
-
-## Rangering af mandater
-
-```{r}
-
-kable(rankings %>% filter(mandat_parti) %>% select(-mandat_parti) %>% arrange(overall_rank),
-      format = "html", caption = "Rangorden for valgte mandater")
-
-```
-
-## Rangering kvotienter
-
-```{r}
-kable(rankings %>% select(-mandat_parti) %>% arrange(overall_rank), format = "html",
-      caption = "Fuld ranking")
-
-```
 
 ## Rangering valgte personer
 
@@ -120,6 +60,3 @@ kable(pers_ranking2 %>%
       caption = "Rangorden alle personer")
 
 ```
-
-
-
