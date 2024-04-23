@@ -5,7 +5,8 @@ xml_link_oversigt <- tibble(aar = seq(2009, year(Sys.time()), by = 5),
   bind_rows(tibble(aar = c(2011, 2015, 2019, 2022),
             valg = "FT")) %>% 
   cross_join(tibble(type = c("valgaften", "fintælling"))) %>% 
-  mutate(xml_link = case_when(aar == 2009 & valg == "EP" ~ "https://www.dst.dk/valg/Valg1191212",
+  mutate(xml_link = case_when(## EP-valg
+                              aar == 2009 & valg == "EP" ~ "https://www.dst.dk/valg/Valg1191212",
                               aar == 2014 & valg == "EP" ~ "https://www.dst.dk/valg/Valg1475795",
                               aar == 2019 & valg == "EP" ~ "https://www.dst.dk/valg/Valg1684426",
                               aar == 2024 & valg == "EP" ~ NA_character_,

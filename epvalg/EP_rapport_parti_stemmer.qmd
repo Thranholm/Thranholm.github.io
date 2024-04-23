@@ -1,0 +1,36 @@
+---
+title: "EP rapport parti stemmer"
+---
+
+# Resultater `r paste(params$aar)`
+
+## Samlet mandater
+
+```{r}
+kable(ant_mandater_partier %>% select(-c(bogstav, forbund_bogstav, stemmer, pct_stemmer)) %>% filter(mandater > 0), format = "simple")
+```
+
+## Procentfordeling og mandater
+
+```{r}
+
+kable(ant_mandater_partier %>% select(-forbund_bogstav), format = "simple")
+
+```
+
+## Rangering af mandater
+
+```{r}
+
+kable(rankings %>% filter(mandat_parti) %>% select(-mandat_parti) %>% arrange(overall_rank),
+      format = "html", caption = "Rangorden for valgte mandater")
+
+```
+
+## Rangering kvotienter
+
+```{r}
+kable(rankings %>% select(-mandat_parti) %>% arrange(overall_rank), format = "html",
+      caption = "Fuld ranking")
+
+```

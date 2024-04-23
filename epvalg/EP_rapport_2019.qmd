@@ -1,0 +1,55 @@
+---
+params:
+  aar: 2019
+title: "Europaparlamentsvalg `r paste(params$aar)`"
+format: 
+  html: 
+    css: sticky_title.css
+editor: source
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+#| label: setup
+#| echo: false
+options(knitr.kable.NA = '')
+```
+
+```{r}
+#| label: koer_programmer
+
+library(pacman)
+p_load(tidyverse, xml2, readr, janitor, kableExtra, jsonlite)
+
+## for manuel kørsel
+# setwd(paste(getwd(), "epvalg", sep = "/"))
+
+source("00_funktioner.R")
+source("valgforbund.R")
+source("Oversigt over xml links.R")
+source("epvalg_partier.R")
+
+if (isTRUE(fintael)){
+  source("Personlige stemmer.R")
+}
+
+```
+
+
+```{r}
+#| label: output_parti_stemmer
+#| child: EP_rapport_parti_stemmer.qmd
+
+```
+
+
+```{r}
+#| label: output_personlige_stemmer
+#| child: EP_rapport_personlige_stemmer.qmd
+#| eval: !expr fintael
+
+```
+
+
+
