@@ -19,7 +19,7 @@ Dette dokument giver overblik over resultatet for Folketingsvalget, og kan opdat
 #| echo: false
 
 library(pacman)
-p_load(tidyverse, readr, xml2, XML, janitor, flatxml, reshape2, maps, sf)
+p_load(tidyverse, readr, xml2, XML, janitor, flatxml, reshape2, maps, sf, reticulate)
 
 ```
 
@@ -45,8 +45,40 @@ source("ftvalg/00_stedlig fordeling.R", encoding = "UTF-8")
 
 ```
 
+```{python}
+
+import pandas as pd
+import numpy as np
+import requests
+import xmltodict
+
+# Læser funktion
+exec(open("Hentdata_python_funktion.py").read())
+
+valg_url = r.fv_22_xml
+land = hent_data(xml_url = valg_url, geo_kreds = "land")
+landsdele = hent_data(xml_url = valg_url, geo_kreds = "Landsdele", stemmer = "Parti")
+storkredse_parti = hent_data(xml_url = valg_url, geo_kreds = "storkredse", stemmer = "parti")
+storkredse_person = hent_data(xml_url = valg_url, geo_kreds = "storkredse", stemmer = "person")
+
+response = requests.get(valg_url)
+data = xmltodict.parse(response.content)
+
+temp1 = pd.json_normalize(pd.Series(data["Data"]["Landsdele"]["Landsdel"]))[["@land_id", "@landsdel_id"]]
+temp2 = pd.json_normalize(pd.Series(data["Data"]["Storkredse"]["Storkreds"]))[["@storkreds_id", "@landsdel_id"]]
+temp3 = pd.json_normalize(pd.Series(data["Data"]["Opstillingskredse"]["Opstillingskreds"]))[["@opstillingskreds_id", "@storkreds_id"]]
+temp4 = pd.json_normalize(pd.Series(data["Data"]["Afstemningsomraader"]["Afstemningsomraade"]))[["@afstemningsomraade_id", "@opstillingskreds_id"]]
+
+id_classification = temp1.join(temp2.set_index("@landsdel_id"), on = "@landsdel_id").join(temp3.set_index("@storkreds_id"), on = "@storkreds_id").join(temp4.set_index("@opstillingskreds_id"), on = "@opstillingskreds_id")
+
+id_classification.columns = id_classification.columns.str.replace("#|@|\\.", "", regex = True)
+
+```
+
+
 ```{r}
 #| label: "henter partistemmer på geo kredse"
+#| warning: false
 
 land <- hent_parti_stemmer(ind2, "Land")
 landsdel <- hent_parti_stemmer(ind2, "//Landsdel")
@@ -54,7 +86,8 @@ storkreds <- hent_parti_stemmer(ind2, "//Storkreds")
 #opstillingskreds <- hent_parti_stemmer(ind2, "//Opstillingskreds")
 #afstemningsomraade <- hent_parti_stemmer(ind2, "//Afstemningsomraade")
 
-ant_landsdel <- storkreds %>% 
+ant_landsdel <- py$id_classification %>% 
+  as_tibble() %>% 
   distinct(storkreds_id, landsdel_id) %>% 
   left_join(ant_kreds, by = "storkreds_id") %>% 
   summarise(landsdel_mandat = sum(kreds), .by = "landsdel_id")

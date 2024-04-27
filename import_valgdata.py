@@ -13,8 +13,4 @@ landsdele = hent_data(xml_url = valg_url, geo_kreds = "Landsdele", stemmer = "Pa
 storkredse_parti = hent_data(xml_url = valg_url, geo_kreds = "storkredse", stemmer = "parti")
 storkredse_person = hent_data(xml_url = valg_url, geo_kreds = "storkredse", stemmer = "person")
 
-landsdele
-storkredse_parti
-storkredse_person
-
 
