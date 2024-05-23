@@ -103,6 +103,7 @@ ant_landsdel <- py$id_classification %>%
 
 ```{r}
 #| label: regner om opstillet på partiliste
+#| warning: false
 
 
 partiliste <- py$ops_person %>% 
