@@ -10,6 +10,11 @@ editor_options:
   chunk_output_type: console
 ---
 
+```{r}
+#| echo: false
+options(knitr.kable.NA = '')
+```
+
 # Introduktion
 
 Dette dokument giver overblik over resultatet for Folketingsvalget, og kan opdateres dynamisk. Den stedlige mandatfordeling bag, hvilke storkredse og landsdele, der har hvor mange kreds- og tillægsmandater kan findes her: [Stedlig mandatfordeling](stedmandat.qmd).
@@ -19,7 +24,7 @@ Dette dokument giver overblik over resultatet for Folketingsvalget, og kan opdat
 #| echo: false
 
 library(pacman)
-p_load(tidyverse, readr, xml2, XML, janitor, flatxml, reshape2, maps, sf)
+p_load(tidyverse, readr, xml2, XML, janitor, flatxml, reshape2, maps, sf, reticulate, DT, htmltools)
 
 ```
 
@@ -45,8 +50,42 @@ source("ftvalg/00_stedlig fordeling.R", encoding = "UTF-8")
 
 ```
 
+```{python}
+#| label: py_hent_data
+
+import pandas as pd
+import numpy as np
+import requests
+import xmltodict
+
+# Læser funktion
+exec(open("Hentdata_python_funktion.py").read())
+
+valg_url = r.fv_22_xml
+land = hent_data(xml_url = valg_url, geo_kreds = "land")
+landsdele = hent_data(xml_url = valg_url, geo_kreds = "Landsdele", stemmer = "Parti")
+storkredse_parti = hent_data(xml_url = valg_url, geo_kreds = "storkredse", stemmer = "parti")
+storkredse_person = hent_data(xml_url = valg_url, geo_kreds = "storkredse", stemmer = "person")
+ops_person = hent_data(xml_url = valg_url, geo_kreds = "opstillingskredse", stemmer = "person")
+
+response = requests.get(valg_url)
+data = xmltodict.parse(response.content)
+
+temp1 = pd.json_normalize(pd.Series(data["Data"]["Landsdele"]["Landsdel"]))[["@land_id", "@landsdel_id"]]
+temp2 = pd.json_normalize(pd.Series(data["Data"]["Storkredse"]["Storkreds"]))[["@storkreds_id", "@landsdel_id"]]
+temp3 = pd.json_normalize(pd.Series(data["Data"]["Opstillingskredse"]["Opstillingskreds"]))[["@opstillingskreds_id", "@storkreds_id"]]
+temp4 = pd.json_normalize(pd.Series(data["Data"]["Afstemningsomraader"]["Afstemningsomraade"]))[["@afstemningsomraade_id", "@opstillingskreds_id"]]
+
+id_classification = temp1.join(temp2.set_index("@landsdel_id"), on = "@landsdel_id").join(temp3.set_index("@storkreds_id"), on = "@storkreds_id").join(temp4.set_index("@opstillingskreds_id"), on = "@opstillingskreds_id")
+
+id_classification.columns = id_classification.columns.str.replace("#|@|\\.", "", regex = True)
+
+```
+
+
 ```{r}
 #| label: "henter partistemmer på geo kredse"
+#| warning: false
 
 land <- hent_parti_stemmer(ind2, "Land")
 landsdel <- hent_parti_stemmer(ind2, "//Landsdel")
@@ -54,13 +93,26 @@ storkreds <- hent_parti_stemmer(ind2, "//Storkreds")
 #opstillingskreds <- hent_parti_stemmer(ind2, "//Opstillingskreds")
 #afstemningsomraade <- hent_parti_stemmer(ind2, "//Afstemningsomraade")
 
-ant_landsdel <- storkreds %>% 
+ant_landsdel <- py$id_classification %>% 
+  as_tibble() %>% 
   distinct(storkreds_id, landsdel_id) %>% 
   left_join(ant_kreds, by = "storkreds_id") %>% 
   summarise(landsdel_mandat = sum(kreds), .by = "landsdel_id")
 
+```
+
+```{r}
+#| label: regner om opstillet på partiliste
+
+
+partiliste <- py$ops_person %>% 
+  mutate(temp = TildeltePartiStemmerParti == TildeltePartiStemmer & TildeltePartiStemmerParti > 0 & !is.na(TildeltePartiStemmerParti)) %>% 
+  mutate(partiliste = as.logical(max(temp)), .by = c("Id", "IdParti"), .keep = "unused") %>%
+  left_join(py$id_classification %>% distinct(storkreds_id, opstillingskreds_id), by = c("Id" = "opstillingskreds_id")) %>% 
+  distinct(storkreds_id, IdParti, Parti, partiliste)
 
 ```
+
 
 ```{r}
 #| label: regn storkredsemandater
@@ -74,7 +126,7 @@ dhont <- storkreds %>%
   mutate(dhont = row_number(), .by = storkreds_id)
 
 kredsmandater <- storkreds %>% 
-  select(storkreds, storkreds_id, landsdel_id, navn, stemmerantal) %>% 
+  select(storkreds, storkreds_id, landsdel_id, id, navn, stemmerantal) %>% 
   # cross_join(dhont) %>% 
   # left_join(ant_kreds, by = "storkreds_id") %>% 
   # left_join(dhont, by = "storkreds_id") %>% 
@@ -248,7 +300,7 @@ mod_saint_lague <- kredsmandater %>%
   unnest(mod_saint_lague)
 
 placering_tillæg <- kredsmandater %>% 
-  summarise(ant_kreds = sum(mandat), .by = c(storkreds, storkreds_id, landsdel_id, navn, stemmerantal)) %>% 
+  summarise(ant_kreds = sum(mandat), .by = c(storkreds, storkreds_id, landsdel_id, id, navn, stemmerantal)) %>% 
   inner_join(tillæg_fordelt_landsdel, by = c("landsdel_id", "navn")) %>% 
   # left_join(mod_saint_lague, by = c("storkreds", "storkreds_id")) %>% 
   left_join(mod_saint_lague, by = c("storkreds", "storkreds_id"), relationship = "many-to-many") %>%
@@ -261,10 +313,76 @@ placering_tillæg <- kredsmandater %>%
   arrange(landsdel, navn)
 
 fordeling_mandat_storkreds <- placering_tillæg %>% 
-  summarise(ant_tillæg = sum(tillæg_mandat), .by = c(storkreds, storkreds_id, landsdel, landsdel_id, navn, ant_kreds)) %>% 
+  summarise(ant_tillæg = sum(tillæg_mandat), .by = c(storkreds, storkreds_id, landsdel, landsdel_id, id, navn, ant_kreds)) %>% 
   arrange(storkreds_id, navn)
 
 ```
+
+
+```{r}
+#| label: regner personlige stemmer
+
+pers <- py$storkredse_person %>% 
+  clean_names() %>% 
+  as_tibble() %>% 
+  select(id, storkreds, bogstav, id_parti, parti, navn, personlige_stemmer, 
+         tildelte_parti_stemmer, personlige_stemmer_i_alt)
+
+## Kobler antal mandater på
+pers_partiliste <- pers %>% 
+  left_join(fordeling_mandat_storkreds %>% select(storkreds_id, id, ant_kreds, ant_tillæg),
+            by = join_by(id == storkreds_id, id_parti == id)) %>% 
+  left_join(partiliste %>% select(-Parti), by = join_by(id == storkreds_id, id_parti == IdParti)) %>% 
+  mutate(total = ant_kreds + ant_tillæg)
+
+```
+
+
+```{r}
+#| label: kandidatudvælgelse
+
+pers_partiliste_temp <- pers_partiliste
+mai_villadsen_test <- pers_partiliste[pers_partiliste$navn == "Mai Villadsen",]
+pers_partiliste_temp[pers_partiliste_temp$navn == "Mai Villadsen",] <- pers_partiliste[pers_partiliste$navn == "Anne Hegelund",]
+pers_partiliste_temp[786,] <- mai_villadsen_test
+
+
+kandidatudvælgelse_partiliste <- pers_partiliste_temp %>% 
+  filter(partiliste) %>% 
+  mutate(personlige_stemmer_i_alt = as.numeric(personlige_stemmer_i_alt)) %>%
+  mutate(fordelingstal = floor((sum(personlige_stemmer_i_alt) / (total+1)+1)),
+         .by = c(id, id_parti)) %>% 
+  mutate(over_fordelingstal = personlige_stemmer_i_alt > fordelingstal) %>% 
+  mutate(pers_rank_temp = row_number(), .by = c(id, id_parti, over_fordelingstal)) %>%
+  mutate(pers_rank = order(order(pers_rank_temp, -over_fordelingstal)), .by = c(id, id_parti)) %>% 
+  select(-pers_rank_temp)
+
+
+kandidatudvælgelse_sideordnet <- pers_partiliste_temp %>% 
+  filter(!partiliste) %>% 
+  mutate(personlige_stemmer_i_alt = as.numeric(personlige_stemmer_i_alt)) %>% 
+  mutate(pers_rank = rank(-personlige_stemmer_i_alt), .by = c(id, id_parti))
+
+
+kandidatudvælgelse <- pers_partiliste_temp %>% 
+  mutate(personlige_stemmer_i_alt = as.numeric(personlige_stemmer_i_alt),
+         fordelingstal = NA_real_, over_fordelingstal = NA, pers_rank = NA_real_) %>% 
+  rows_update(bind_rows(kandidatudvælgelse_partiliste, kandidatudvælgelse_sideordnet),
+              by = c("id", "storkreds", "bogstav", "id_parti", "parti", "navn", "personlige_stemmer",
+                     "tildelte_parti_stemmer", "personlige_stemmer_i_alt", "ant_kreds", "ant_tillæg", "total")) %>% 
+  mutate(valgt = pers_rank <= total) %>% 
+  mutate(mandat_rang = rank(pers_rank), .by = c(id, id_parti, valgt)) %>% 
+  mutate(kredsmandat = if_else(valgt == TRUE & mandat_rang <= ant_kreds, paste0(mandat_rang, "K"), NA)) %>% 
+  mutate(tillæg_temp = if_else(valgt == TRUE & is.na(kredsmandat), rank(-personlige_stemmer_i_alt), NA),
+         tillægsmandat = rank(-tillæg_temp, na.last = "keep") %>% str_c(., "T"),
+         .by = c(id, id_parti)) %>% 
+  mutate(stedfortræder = if_else(valgt == FALSE, mandat_rang, NA)) %>% 
+  select(-tillæg_temp)
+  
+  
+```
+
+
 
 # Resultater
 
@@ -293,6 +411,7 @@ Følgende giver et overblik over placering af mandaterne på storkredse, da de b
 ```{r}
 #| label: resultat_storkredse
 #| results: asis
+#| eval: false
 
 ## En kable per storkreds
 t <- fordeling_mandat_storkreds %>% 
@@ -330,6 +449,55 @@ kvotienttabeller_kredsmandater$tabel
 # kable(kvotienttabeller_kredsmandater$data[[1]], format = "simple")
 
 ```
+
+
+# Personlige stemmer
+
+Her følger en oversigt over valgte kandidater for partierne.
+
+```{r}
+#| label: valgte_kandidater
+
+t <- kandidatudvælgelse %>% 
+  filter(valgt) %>% 
+  select(storkreds, parti, navn, personlige_stemmer_i_alt, kredsmandat, tillægsmandat) %>% 
+  nest(kandidater = -parti) %>% 
+  arrange(parti, .locale = "da") #%>% 
+  # mutate(tabel = kable(kandidater, format.args = list(big.mark = " ")), .by = "parti") %>%
+  # select(-kandidater) %>% 
+  # pivot_wider(names_from = parti, values_from = tabel)
+
+
+```
+
+
+```{r}
+#| include: false
+
+htmltools::tagList(DT::datatable(t$kandidater[[1]]))
+  
+```
+
+::: {.panel-tabset .nav-pills}
+
+
+```{r}
+#| results: asis
+
+walk2(.x = t$parti, .y = t$kandidater, ~ {
+  cat('## ', .x, '\n\n')
+  
+  print(htmltools::tagList(DT::datatable(.y, 
+                                         options = list(pageLength = 175, scrollX='400px', dom = "t"))))
+  
+  cat("\n\n")
+})
+
+
+```
+
+:::
+
 
 # Kort
 
@@ -381,6 +549,7 @@ ggplot(data = storkreds_geo_data1 %>% st_make_valid()) +
   #coord_sf(datum = NA) +
   scale_fill_gradient(low = "pink", high = "darkred") +
   theme_minimal()
+
 
 ```
 
