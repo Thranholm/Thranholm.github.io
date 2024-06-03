@@ -1,5 +1,7 @@
 ---
 title: "Rapport_personlige_stemmer"
+editor_options: 
+  chunk_output_type: console
 ---
 
 
@@ -17,7 +19,7 @@ kvotienter_partier_til_pers <- kvotienter_partier %>%
 pers_ranking2 <- pers_ranking %>% 
   left_join(kvotienter_partier_til_pers, by = "bogstav") %>% 
   rowwise() %>%
-  mutate(overall_rank = list(data[valgt_rang, "overall_rank"])) %>% 
+  mutate(overall_rank = list(data[valgt_rank, "overall_rank"])) %>% 
   select(-data) %>% 
   unnest(cols = overall_rank)
 
@@ -31,8 +33,8 @@ Antagelse at alle er opstillet sideordnet (/kan *ikke* tage højde for partilist
 
 kable(pers_ranking2 %>% 
         filter(mandat) %>% 
-        select(bogstav, parti, navn, personligestemmer, valgt_rang, overall_rank) %>% 
-        arrange(bogstav, valgt_rang, overall_rank),
+        select(bogstav, parti, navn, personlige_stemmer, valgt_rank, overall_rank) %>% 
+        arrange(bogstav, valgt_rank, overall_rank),
       format = "html",
       caption = "Valgte personer (Inkl. rang)")
 
@@ -42,7 +44,7 @@ kable(pers_ranking2 %>%
 
 kable(pers_ranking2 %>% 
         filter(mandat) %>% 
-        select(bogstav, parti, navn, personligestemmer, valgt_rang, overall_rank) %>% 
+        select(bogstav, parti, navn, personlige_stemmer, valgt_rank, overall_rank) %>% 
         arrange(overall_rank),
       format = "html",
       caption = "Total rang for valgte personer")
@@ -54,8 +56,8 @@ kable(pers_ranking2 %>%
 ```{r}
 
 kable(pers_ranking2 %>% 
-        select(bogstav, parti, navn, personligestemmer, valgt_rang, stedfortæder_rang) %>% 
-        arrange(bogstav, valgt_rang, stedfortæder_rang), 
+        select(bogstav, parti, navn, personlige_stemmer, valgt_rank, stedfortræder_rank) %>% 
+        arrange(bogstav, valgt_rank, stedfortræder_rank), 
       format = "html",
       caption = "Rangorden alle personer")
 
