@@ -18,14 +18,14 @@ pers_mandater <- pers_stem %>%
               select(id_parti, stemmer_ialt = stemmer_antal),
             by = "id_parti")
 
-pers_ranking
-valg_sideordnet <- pers_mandater %>% 
-  filter(partiliste == FALSE) %>% 
+
+valgte_sideordnet <- pers_mandater %>% 
+  filter(!partiliste) %>% 
   mutate(pers_rank = rank(desc(personlige_stemmer)), .by = id_parti) %>% 
   mutate(mandat = pers_rank <= mandater) %>% 
-  mutate(mandat_rang = rank(pers_rank), .by = c("id_parti", "mandat")) %>% 
-  mutate(valgt_rang = if_else(mandat == TRUE, mandat_rang, NA), 
-         stedfortæder_rang = if_else(mandat == TRUE, NA, mandat_rang))
+  mutate(mandat_rank = rank(pers_rank), .by = c("id_parti", "mandat")) %>% 
+  mutate(valgt_rank = if_else(mandat == TRUE, mandat_rank, NA), 
+         stedfortræder_rank = if_else(mandat == TRUE, NA, mandat_rank))
 
 
 
@@ -59,11 +59,17 @@ while (sum(pers_mandater_parti_liste$rest_listestemmer > 0, na.rm = TRUE)) {
 valgte_partiliste <- pers_mandater_parti_liste %>% 
   mutate(tildelte_partistemmer = if_else(is.na(tildelte_partistemmer), 0, tildelte_partistemmer),
          mandat = personlige_stemmer+tildelte_partistemmer >= fordelingstal) %>% 
-  mutate(rang = rank(-(personlige_stemmer+tildelte_partistemmer), ties.method = "first"), .by = "id_parti") %>% 
-  mutate(mandat = if_else(mandat == FALSE & rang <= mandater, TRUE, mandat)) %>% 
-  mutate(mandat_rang = if_else(mandat, rang, NA), 
-         stedfortræder_rang = )
+  mutate(pers_rank = rank(-(personlige_stemmer+tildelte_partistemmer), ties.method = "first"), .by = "id_parti") %>% 
+  mutate(mandat = if_else(mandat == FALSE & pers_rank <= mandater, TRUE, mandat)) %>% 
+  mutate(mandat_rank = rank(pers_rank), .by = c("id_parti", "mandat")) %>% 
+  mutate(valgt_rank = if_else(mandat, mandat_rank, NA),
+         stedfortræder_rank = if_else(mandat, NA, mandat_rank)) %>% 
+  select(-c(listeorden, listestemmer, fordelingstal, over_fordelingstal, diff_fordelingstal, rest_listestemmer))
          
   
+pers_ranking <- valgte_sideordnet %>% 
+  bind_rows(valgte_partiliste) %>% 
+  arrange(bogstav, .locale = "da")
+
 
   
