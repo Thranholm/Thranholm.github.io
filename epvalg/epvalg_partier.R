@@ -1,55 +1,23 @@
 ## Europaparlamentsvalg
 
-# mandattal <- 14
+
 mandattal <- xml_link_oversigt %>% 
   filter(valg == "EP" & aar == params$aar) %>% 
   distinct(mandater) %>% 
   pull()
 
-aar <- params$aar
 
-valg_dato <- xml_link_oversigt %>% 
-  filter(aar == .env$aar & valg == "EP") %>% 
-  slice(1) %>% 
-  pull(xml_link) %>% 
-  read_xml() %>% 
-  xml_find_all("ValgDato") %>% 
-  xml_text() %>% 
-  dmy()
-
-fintael <- valg_dato < today("Europe/Copenhagen")
-
-if(fintael){
-  type <- "fintælling"
-} else {
-  type <- "valgaften"
-}
-
-ep_xml <- xml_link_oversigt %>% 
-  filter(aar == .env$aar & valg == "EP") %>% 
-  filter(type == .env$type) %>% 
-  pull(xml_link)
-
-# ep_xml <- "https://www.dst.dk/valg/Valg1684426/xml/fintal.xml"
-
-## Henter libraries
-library(pacman)
-p_load(tidyverse, xml2, readr, janitor)
-
-ind <- read_xml(ep_xml)
-
-
-stemmer_land <- hent_parti_stemmer(xml_data = ind, xpath = "Land") %>% 
-  mutate(stemmer = as.numeric(stemmerantal))
-
-stemmer_land
+stemmer_land <- py$land %>% 
+  clean_names() %>% 
+  mutate(stemmer_antal = as.numeric(stemmer_antal)) %>% 
+  as_tibble()
 
 dhont <- tibble(dhont = 1:mandattal)
 
-kvotienter_forbund <- stemmer_land %>% 
-  select(land, bogstav, navn, stemmer) %>% 
+kvotienter_forbund <- stemmer_land %>%
+  select(type, id_parti, bogstav, navn, stemmer_antal) %>% 
   left_join(valgforbund, by = "bogstav") %>% 
-  summarise(stemmer_forbund = sum(stemmer), .by = c("land", "forbund_bogstav")) %>% 
+  summarise(stemmer_forbund = sum(stemmer_antal), .by = c("forbund_bogstav")) %>% 
   mutate(mandater = mandattal) %>% 
   cross_join(dhont) %>% 
   mutate(kvotient_forbund = stemmer_forbund/dhont,
@@ -63,11 +31,11 @@ ant_mandater_forbund <- kvotienter_forbund %>%
 dhont_forbund <- tibble(dhont = 1:max(ant_mandater_forbund$ant_mandater_forbund))
 
 kvotienter_partier <- stemmer_land %>% 
-  select(land, bogstav, navn, stemmer) %>% 
+  select(type, bogstav, id_parti, navn, stemmer_antal) %>% 
   left_join(valgforbund, by = "bogstav") %>% 
   left_join(ant_mandater_forbund, by = "forbund_bogstav") %>% 
   cross_join(dhont_forbund) %>% 
-  mutate(kvotient_parti = stemmer/dhont) %>% 
+  mutate(kvotient_parti = stemmer_antal/dhont) %>% 
   mutate(rank_parti = rank(-kvotient_parti), .by = forbund_bogstav) %>% 
   mutate(mandat_parti = rank_parti <= ant_mandater_forbund,
          kvotient_forbund = stemmer_forbund/rank_parti,
@@ -75,19 +43,11 @@ kvotienter_partier <- stemmer_land %>%
 
 
 ant_mandater_partier <- kvotienter_partier %>% 
-  summarise(mandater = sum(mandat_parti), .by = c("bogstav", "navn", "stemmer")) %>% 
+  summarise(mandater = sum(mandat_parti), .by = c("bogstav", "id_parti", "navn", "stemmer_antal")) %>% 
   left_join(valgforbund, by = "bogstav") %>% 
-  mutate(pct_stemmer = round_half_up(stemmer/sum(stemmer)*100, 2)) %>% 
-  select(bogstav, forbund_bogstav, navn, stemmer, pct_stemmer, mandater)
+  mutate(pct_stemmer = round_half_up(stemmer_antal/sum(stemmer_antal)*100, 2)) %>% 
+  select(bogstav, forbund_bogstav, id_parti, navn, stemmer_antal, pct_stemmer, mandater)
 
 rankings <- kvotienter_partier %>% 
   select(navn, forbund = forbund_bogstav, kvotient_parti, rank_parti, kvotient_forbund, overall_rank, mandat_parti)
-
-# kable(ant_mandater_partier, format = "simple")
-# 
-# kable(rankings %>% select(-mandat_parti), format = "simple",
-#       caption = "Fuld ranking")
-# 
-# kable(rankings %>% filter(mandat_parti) %>% select(-mandat_parti) %>% arrange(overall_rank),
-#       format = "simple", caption = "Rangorden for valgte mandater")
 
