@@ -1,5 +1,7 @@
 ---
 title: "EP rapport parti stemmer"
+editor_options: 
+  chunk_output_type: console
 ---
 
 # Resultater `r paste(params$aar)`
@@ -7,7 +9,7 @@ title: "EP rapport parti stemmer"
 ## Samlet mandater
 
 ```{r}
-kable(ant_mandater_partier %>% select(-c(bogstav, forbund_bogstav, stemmer, pct_stemmer)) %>% filter(mandater > 0), format = "simple")
+kable(ant_mandater_partier %>% select(-c(bogstav, forbund_bogstav, stemmer_antal, pct_stemmer)) %>% filter(mandater > 0), format = "simple")
 ```
 
 ## Procentfordeling og mandater
