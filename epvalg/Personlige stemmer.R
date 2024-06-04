@@ -21,7 +21,7 @@ pers_mandater <- pers_stem %>%
 
 valgte_sideordnet <- pers_mandater %>% 
   filter(!partiliste) %>% 
-  mutate(pers_rank = rank(desc(personlige_stemmer)), .by = id_parti) %>% 
+  mutate(pers_rank = rank(desc(personlige_stemmer), ties.method = "random"), .by = id_parti) %>% 
   mutate(mandat = pers_rank <= mandater) %>% 
   mutate(mandat_rank = rank(pers_rank), .by = c("id_parti", "mandat")) %>% 
   mutate(valgt_rank = if_else(mandat == TRUE, mandat_rank, NA), 
@@ -62,7 +62,7 @@ valgte_partiliste <- pers_mandater_parti_liste %>%
   mutate(pers_rank = rank(-(personlige_stemmer+tildelte_partistemmer), ties.method = "first"), .by = "id_parti") %>% 
   mutate(mandat = if_else(mandat == FALSE & pers_rank <= mandater, TRUE, mandat)) %>% 
   mutate(mandat_rank = rank(pers_rank), .by = c("id_parti", "mandat")) %>% 
-  mutate(valgt_rank = if_else(mandat, mandat_rank, NA),
+  mutate(valgt_rank = if_else(mandat, listeorden, NA),
          stedfortræder_rank = if_else(mandat, NA, mandat_rank)) %>% 
   select(-c(listeorden, listestemmer, fordelingstal, over_fordelingstal, diff_fordelingstal, rest_listestemmer))
          
