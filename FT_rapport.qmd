@@ -506,7 +506,7 @@ Forsøg på at lave et kort med valgdata
 
 ```{r}
 #| label: Henter adresser fra DAWA
-#| eval: true
+#| eval: false
 
 library(httr)
 library(jsonlite)
@@ -518,7 +518,7 @@ dawa_data <- fromJSON(rawToChar(ind$content)) %>%
 
 # dawa_data$afstemningssted$adgangsadresse
 
-
+## TODO: virker ikke længere
 api_storkreds <- GET("https://api.dataforsyningen.dk/storkredse?format=geojson")
 
 storkreds_geo_data <- st_read(api_storkreds$content %>% rawToChar(), quiet = TRUE)
@@ -541,7 +541,7 @@ storkreds_geo_data1 <- storkreds_geo_data %>%
 
 ```{r}
 #| label: kort
-#| eval: true
+#| eval: false
 
 
 ggplot(data = storkreds_geo_data1 %>% st_make_valid()) +
