@@ -27,7 +27,6 @@ pers_ranking2 <- pers_ranking %>%
 ```
 
 
-Antagelse at alle er opstillet sideordnet (/kan *ikke* tage højde for partilister)
 
 ```{r}
 
