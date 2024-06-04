@@ -2,6 +2,8 @@
 params:
   aar: 2009
 title: "Europaparlamentsvalg `r paste(params$aar)`"
+execute: 
+  echo: false
 format: 
   html: 
     css: sticky_title.css
@@ -16,17 +18,105 @@ options(knitr.kable.NA = '')
 ```
 
 
+
 ```{r}
+#| label: henter_libs
 
 library(pacman)
-p_load(tidyverse, xml2, readr, janitor, kableExtra, jsonlite)
+p_load(tidyverse, xml2, readr, janitor, kableExtra, jsonlite, reticulate)
+
+```
+
+```{r}
+#| label: xml_links
+
+source("Oversigt over xml links.R")
+
+aar <- params$aar
+
+valg_dato <- xml_link_oversigt %>% 
+  filter(aar == .env$aar & valg == "EP") %>% 
+  slice(1) %>% 
+  pull(xml_link) %>% 
+  read_xml() %>% 
+  xml_find_all("ValgDato") %>% 
+  xml_text() %>% 
+  dmy()
+
+fintael <- valg_dato < today("Europe/Copenhagen")
+
+if(fintael){
+  type <- "fintælling"
+} else {
+  type <- "valgaften"
+}
+
+ep_xml <- xml_link_oversigt %>% 
+  filter(aar == .env$aar & valg == "EP") %>% 
+  filter(type == .env$type) %>% 
+  pull(xml_link)
+
+
+```
+
+
+```{r}
+#| label: henter_python_funktion
+
+py_run_file("Hentdata_python_funktion_ep.py")
+
+```
+
+```{python}
+#| label: henter_data
+
+import pandas as pd
+import numpy as np
+import requests
+import xmltodict
+
+
+valg_url = r.ep_xml
+land = hent_data_ep(xml_url = valg_url, geo_kreds = "land")
+land_person = hent_data_ep(xml_url = valg_url, geo_kreds = "land", stemmer = "person")
+# ops_person = hent_data_ep(xml_url = valg_url, geo_kreds = "opstillingskredse", stemmer = "person")
+
+
+```
+
+
+```{r}
+#| label: partiliste
+
+partier_partiliste <- xml_link_oversigt %>% 
+  filter(aar == .env$aar & valg == "EP") %>% 
+  filter(type == .env$type) %>% 
+  pull(partiliste) %>% 
+  str_split("") %>% 
+  unlist()
+
+partiliste <- py$land %>% 
+  as_tibble() %>% 
+  clean_names() %>% 
+  mutate(partiliste = if_else(bogstav %in% partier_partiliste, TRUE, FALSE)) %>% 
+  distinct(id_parti, bogstav, partiliste)
+
+```
+
+```{r}
+#| label: valgforbund
+
+source("valgforbund.R")
+
+```
+
+
+```{r}
+#| label: koer_partier
 
 ## for manuel kørsel
 # setwd(paste(getwd(), "epvalg", sep = "/"))
 
-source("00_funktioner.R")
-source("valgforbund.R")
-source("Oversigt over xml links.R")
 source("epvalg_partier.R")
 
 if (isTRUE(fintael)){
@@ -34,6 +124,7 @@ if (isTRUE(fintael)){
 }
 
 ```
+
 
 ```{r}
 #| label: output_parti_stemmer
