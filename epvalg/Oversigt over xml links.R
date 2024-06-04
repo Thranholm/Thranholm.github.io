@@ -24,7 +24,11 @@ xml_link_oversigt <- tibble(aar = seq(2009, year(Sys.time()), by = 5),
          mandater = case_when(valg == "EP" & aar == 2009 ~ 13,
                               valg == "EP" & aar == 2014 ~ 13,
                               valg == "EP" & aar == 2019 ~ 14,
-                              valg == "EP" & aar == 2024 ~ 15))
+                              valg == "EP" & aar == 2024 ~ 15),
+         partiliste = case_when(valg == "EP" & aar == 2009 ~ NA,
+                                valg == "EP" & aar == 2014 ~ NA,
+                                valg == "EP" & aar == 2019 ~ str_c("O", "Ø", "Å"),
+                                valg == "EP" & aar == 2024 ~ "Ø"))
 
 
 
