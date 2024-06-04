@@ -35,7 +35,7 @@ website:
       - href: mio6DK.qmd
         text: 6 mio danskere
       - text: Fodboldkalender
-        menu: 
+        menu:
           - href: "fodbold_kalender/Tysk fodboldkort.qmd"
             text: Tyskland
           - href: "fodbold_kalender/Dansk fodboldkort.qmd"
