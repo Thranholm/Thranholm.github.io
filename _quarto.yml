@@ -5,7 +5,7 @@ project:
     - index.qmd
     - about.qmd
     - FT_rapport.qmd
-    - stedmandat.qmd
+    # - stedmandat.qmd
     - "epvalg/EP_rapport_2009.qmd"
     - "epvalg/EP_rapport_2014.qmd"
     - "epvalg/EP_rapport_2019.qmd"
