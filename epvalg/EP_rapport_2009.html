@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.554">
+<meta name="generator" content="quarto-1.4.555">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -19,40 +19,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -227,58 +193,48 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pacman)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(tidyverse, xml2, readr, janitor, kableExtra, jsonlite)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="do">## for manuel kørsel</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># setwd(paste(getwd(), "epvalg", sep = "/"))</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"00_funktioner.R"</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"valgforbund.R"</span>)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"Oversigt over xml links.R"</span>)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"epvalg_partier.R"</span>)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">isTRUE</span>(fintael)){</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">source</span>(<span class="st">"Personlige stemmer.R"</span>)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 <section id="resultater-2009" class="level1">
 <h1>Resultater 2009</h1>
 <section id="samlet-mandater" class="level2">
 <h2 class="anchored" data-anchor-id="samlet-mandater">Samlet mandater</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(ant_mandater_partier <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(bogstav, forbund_bogstav, stemmer, pct_stemmer)) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(mandater <span class="sc">&gt;</span> <span class="dv">0</span>), <span class="at">format =</span> <span class="st">"simple"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<table class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
+<th style="text-align: left;">id_parti</th>
 <th style="text-align: left;">navn</th>
 <th style="text-align: right;">mandater</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td style="text-align: left;">5891</td>
 <td style="text-align: left;">Socialdemokratiet</td>
 <td style="text-align: right;">4</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;">5895</td>
 <td style="text-align: left;">Konservative Folkeparti</td>
 <td style="text-align: right;">1</td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;">5897</td>
 <td style="text-align: left;">SF - Socialistisk Folkeparti</td>
 <td style="text-align: right;">2</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;">431971</td>
 <td style="text-align: left;">Folkebevægelsen mod EU</td>
 <td style="text-align: right;">1</td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;">5899</td>
 <td style="text-align: left;">Dansk Folkeparti</td>
 <td style="text-align: right;">2</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;">5903</td>
 <td style="text-align: left;">Venstre</td>
 <td style="text-align: right;">3</td>
 </tr>
@@ -290,14 +246,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="procentfordeling-og-mandater" class="level2">
 <h2 class="anchored" data-anchor-id="procentfordeling-og-mandater">Procentfordeling og mandater</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(ant_mandater_partier <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>forbund_bogstav), <span class="at">format =</span> <span class="st">"simple"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<table class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: left;">bogstav</th>
+<th style="text-align: left;">id_parti</th>
 <th style="text-align: left;">navn</th>
-<th style="text-align: right;">stemmer</th>
+<th style="text-align: right;">stemmer_antal</th>
 <th style="text-align: right;">pct_stemmer</th>
 <th style="text-align: right;">mandater</th>
 </tr>
@@ -305,6 +261,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">A</td>
+<td style="text-align: left;">5891</td>
 <td style="text-align: left;">Socialdemokratiet</td>
 <td style="text-align: right;">503439</td>
 <td style="text-align: right;">21.49</td>
@@ -312,6 +269,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td style="text-align: left;">B</td>
+<td style="text-align: left;">5893</td>
 <td style="text-align: left;">Radikale Venstre</td>
 <td style="text-align: right;">100094</td>
 <td style="text-align: right;">4.27</td>
@@ -319,6 +277,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td style="text-align: left;">C</td>
+<td style="text-align: left;">5895</td>
 <td style="text-align: left;">Konservative Folkeparti</td>
 <td style="text-align: right;">297199</td>
 <td style="text-align: right;">12.69</td>
@@ -326,6 +285,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td style="text-align: left;">F</td>
+<td style="text-align: left;">5897</td>
 <td style="text-align: left;">SF - Socialistisk Folkeparti</td>
 <td style="text-align: right;">371603</td>
 <td style="text-align: right;">15.87</td>
@@ -333,6 +293,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td style="text-align: left;">I</td>
+<td style="text-align: left;">5907</td>
 <td style="text-align: left;">Liberal Alliance</td>
 <td style="text-align: right;">13796</td>
 <td style="text-align: right;">0.59</td>
@@ -340,6 +301,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td style="text-align: left;">J</td>
+<td style="text-align: left;">431970</td>
 <td style="text-align: left;">JuniBevægelsen</td>
 <td style="text-align: right;">55459</td>
 <td style="text-align: right;">2.37</td>
@@ -347,6 +309,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td style="text-align: left;">N</td>
+<td style="text-align: left;">431971</td>
 <td style="text-align: left;">Folkebevægelsen mod EU</td>
 <td style="text-align: right;">168555</td>
 <td style="text-align: right;">7.20</td>
@@ -354,6 +317,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td style="text-align: left;">O</td>
+<td style="text-align: left;">5899</td>
 <td style="text-align: left;">Dansk Folkeparti</td>
 <td style="text-align: right;">357942</td>
 <td style="text-align: right;">15.28</td>
@@ -361,6 +325,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td style="text-align: left;">V</td>
+<td style="text-align: left;">5903</td>
 <td style="text-align: left;">Venstre</td>
 <td style="text-align: right;">474041</td>
 <td style="text-align: right;">20.24</td>
@@ -374,11 +339,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="rangering-af-mandater" class="level2">
 <h2 class="anchored" data-anchor-id="rangering-af-mandater">Rangering af mandater</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(rankings <span class="sc">%&gt;%</span> <span class="fu">filter</span>(mandat_parti) <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>mandat_parti) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(overall_rank),</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">format =</span> <span class="st">"html"</span>, <span class="at">caption =</span> <span class="st">"Rangorden for valgte mandater"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>Rangorden for valgte mandater</caption>
 <thead>
 <tr class="header">
@@ -501,16 +463,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </div>
 </div>
-</div>
 </section>
 <section id="rangering-kvotienter" class="level2">
 <h2 class="anchored" data-anchor-id="rangering-kvotienter">Rangering kvotienter</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(rankings <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>mandat_parti) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(overall_rank), <span class="at">format =</span> <span class="st">"html"</span>,</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Fuld ranking"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>Fuld ranking</caption>
 <thead>
 <tr class="header">
@@ -961,45 +919,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </div>
 </div>
-</div>
 </section>
 <section id="rangering-valgte-personer" class="level2">
 <h2 class="anchored" data-anchor-id="rangering-valgte-personer">Rangering valgte personer</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Kobler med parti kvotienter for at kunne rangere valgorden overall for personer</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: OBS, er afhængig af bestemt sortering. Antager overall rank er stigende, grupperet på partier.</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>kvotienter_partier_til_pers <span class="ot">&lt;-</span> kvotienter_partier <span class="sc">%&gt;%</span> </span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(mandat_parti) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(bogstav, overall_rank) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nest_by</span>(bogstav)</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>pers_ranking2 <span class="ot">&lt;-</span> pers_ranking <span class="sc">%&gt;%</span> </span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(kvotienter_partier_til_pers, <span class="at">by =</span> <span class="st">"bogstav"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">overall_rank =</span> <span class="fu">list</span>(data[valgt_rang, <span class="st">"overall_rank"</span>])) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>data) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(<span class="at">cols =</span> overall_rank)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Antagelse at alle er opstillet sideordnet (/kan <em>ikke</em> tage højde for partilister)</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(pers_ranking2 <span class="sc">%&gt;%</span> </span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">filter</span>(mandat) <span class="sc">%&gt;%</span> </span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">select</span>(bogstav, parti, navn, personligestemmer, valgt_rang, overall_rank) <span class="sc">%&gt;%</span> </span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">arrange</span>(bogstav, valgt_rang, overall_rank),</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">format =</span> <span class="st">"html"</span>,</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Valgte personer (Inkl. rang)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>Valgte personer (Inkl. rang)</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th">bogstav</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th">parti</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th">navn</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">personligestemmer</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">valgt_rang</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">personlige_stemmer</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">valgt_rank</th>
 <th style="text-align: right;" data-quarto-table-cell-role="th">overall_rank</th>
 </tr>
 </thead>
@@ -1114,25 +1047,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </div>
 </div>
-</div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(pers_ranking2 <span class="sc">%&gt;%</span> </span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">filter</span>(mandat) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">select</span>(bogstav, parti, navn, personligestemmer, valgt_rang, overall_rank) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">arrange</span>(overall_rank),</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">format =</span> <span class="st">"html"</span>,</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Total rang for valgte personer"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>Total rang for valgte personer</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th">bogstav</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th">parti</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th">navn</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">personligestemmer</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">valgt_rang</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">personlige_stemmer</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">valgt_rank</th>
 <th style="text-align: right;" data-quarto-table-cell-role="th">overall_rank</th>
 </tr>
 </thead>
@@ -1247,28 +1172,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </div>
 </div>
-</div>
 </section>
 <section id="rangering-alle-opstillede-personer" class="level2">
 <h2 class="anchored" data-anchor-id="rangering-alle-opstillede-personer">Rangering alle opstillede personer</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(pers_ranking2 <span class="sc">%&gt;%</span> </span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">select</span>(bogstav, parti, navn, personligestemmer, valgt_rang, stedfortæder_rang) <span class="sc">%&gt;%</span> </span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">arrange</span>(bogstav, valgt_rang, stedfortæder_rang), </span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">format =</span> <span class="st">"html"</span>,</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Rangorden alle personer"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>Rangorden alle personer</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th">bogstav</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th">parti</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th">navn</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">personligestemmer</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">valgt_rang</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">stedfortæder_rang</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">personlige_stemmer</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">valgt_rank</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">stedfortræder_rank</th>
 </tr>
 </thead>
 <tbody>
@@ -1310,7 +1228,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Claus Larsen-Jensen</td>
 <td style="text-align: right;">8425</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">1</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">A</td>
@@ -1318,7 +1236,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Hüseyin Arac</td>
 <td style="text-align: right;">7258</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">2</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">A</td>
@@ -1326,7 +1244,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Malou Lunderød</td>
 <td style="text-align: right;">6634</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">3.0</td>
+<td style="text-align: right;">3</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">A</td>
@@ -1334,7 +1252,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Henning A. Jensen</td>
 <td style="text-align: right;">3544</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">4.0</td>
+<td style="text-align: right;">4</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">A</td>
@@ -1342,7 +1260,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Mikkel Schøler</td>
 <td style="text-align: right;">3231</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">5.0</td>
+<td style="text-align: right;">5</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">A</td>
@@ -1350,7 +1268,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Einer Lyduch</td>
 <td style="text-align: right;">1812</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">6.0</td>
+<td style="text-align: right;">6</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">C</td>
@@ -1366,7 +1284,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Tove Videbæk</td>
 <td style="text-align: right;">23072</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">1</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">C</td>
@@ -1374,7 +1292,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Mette Abildgaard</td>
 <td style="text-align: right;">14908</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">2</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">C</td>
@@ -1382,7 +1300,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Christian Wedell-Neergaard</td>
 <td style="text-align: right;">8909</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">3.0</td>
+<td style="text-align: right;">3</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">C</td>
@@ -1390,7 +1308,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Pernille Høxbro</td>
 <td style="text-align: right;">7729</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">4.0</td>
+<td style="text-align: right;">4</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">C</td>
@@ -1398,7 +1316,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Julie Broe</td>
 <td style="text-align: right;">5060</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">5.0</td>
+<td style="text-align: right;">5</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">C</td>
@@ -1406,7 +1324,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Peter Norsk</td>
 <td style="text-align: right;">3672</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">6.0</td>
+<td style="text-align: right;">6</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">C</td>
@@ -1414,7 +1332,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Jan Køpke Christensen</td>
 <td style="text-align: right;">2990</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">7.0</td>
+<td style="text-align: right;">7</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">C</td>
@@ -1422,7 +1340,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Thomas Krarup</td>
 <td style="text-align: right;">2699</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">8.0</td>
+<td style="text-align: right;">8</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">C</td>
@@ -1430,7 +1348,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Karsten Skawbo-Jensen</td>
 <td style="text-align: right;">1384</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">9.0</td>
+<td style="text-align: right;">9</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">C</td>
@@ -1438,7 +1356,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Ole Brøkner</td>
 <td style="text-align: right;">1357</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">10.0</td>
+<td style="text-align: right;">10</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">C</td>
@@ -1446,7 +1364,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Michael Christensen</td>
 <td style="text-align: right;">838</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">11.0</td>
+<td style="text-align: right;">11</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">F</td>
@@ -1470,7 +1388,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Fathi El-Abed</td>
 <td style="text-align: right;">6961</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">1</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">F</td>
@@ -1478,7 +1396,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Meta Fuglsang</td>
 <td style="text-align: right;">3764</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">2</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">F</td>
@@ -1486,7 +1404,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Christine Sidenius</td>
 <td style="text-align: right;">3722</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">3.0</td>
+<td style="text-align: right;">3</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">F</td>
@@ -1494,7 +1412,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Marwan Zobi</td>
 <td style="text-align: right;">3080</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">4.0</td>
+<td style="text-align: right;">4</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">F</td>
@@ -1502,7 +1420,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Karen Touborg</td>
 <td style="text-align: right;">2841</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">5.0</td>
+<td style="text-align: right;">5</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">F</td>
@@ -1510,7 +1428,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Sidsel Homann</td>
 <td style="text-align: right;">2269</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">6.0</td>
+<td style="text-align: right;">6</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">F</td>
@@ -1518,7 +1436,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Ole Riisgaard</td>
 <td style="text-align: right;">2075</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">7.0</td>
+<td style="text-align: right;">7</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">F</td>
@@ -1526,7 +1444,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Hans Okholm</td>
 <td style="text-align: right;">1294</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">8.0</td>
+<td style="text-align: right;">8</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">F</td>
@@ -1534,7 +1452,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Sanne Schroll</td>
 <td style="text-align: right;">1232</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">9.0</td>
+<td style="text-align: right;">9</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">F</td>
@@ -1542,7 +1460,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Michael Pinkowsky Tersbøl</td>
 <td style="text-align: right;">765</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">10.0</td>
+<td style="text-align: right;">10</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">F</td>
@@ -1550,7 +1468,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Einar Olsen</td>
 <td style="text-align: right;">528</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">11.0</td>
+<td style="text-align: right;">11</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">N</td>
@@ -1566,7 +1484,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Ditte Staun</td>
 <td style="text-align: right;">6229</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">1</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">N</td>
@@ -1574,7 +1492,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Rina Ronja Kari</td>
 <td style="text-align: right;">3329</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">2</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">N</td>
@@ -1582,7 +1500,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Christian Juhl</td>
 <td style="text-align: right;">955</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">3.0</td>
+<td style="text-align: right;">3</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">N</td>
@@ -1590,7 +1508,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Karina Rohr Sørensen</td>
 <td style="text-align: right;">902</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">4.0</td>
+<td style="text-align: right;">4</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">N</td>
@@ -1598,7 +1516,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Mette Langdal</td>
 <td style="text-align: right;">823</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">5.0</td>
+<td style="text-align: right;">5</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">N</td>
@@ -1606,7 +1524,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Ole Nors Nielsen</td>
 <td style="text-align: right;">726</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">6.0</td>
+<td style="text-align: right;">6</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">N</td>
@@ -1614,7 +1532,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Mehmet Aksoy</td>
 <td style="text-align: right;">688</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">7.0</td>
+<td style="text-align: right;">7</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">N</td>
@@ -1622,7 +1540,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Hans Henrik Larsen</td>
 <td style="text-align: right;">652</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">8.0</td>
+<td style="text-align: right;">8</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">N</td>
@@ -1630,7 +1548,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Jørgen Grøn</td>
 <td style="text-align: right;">515</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">9.0</td>
+<td style="text-align: right;">9</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">N</td>
@@ -1638,7 +1556,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Thorkil Sohn</td>
 <td style="text-align: right;">502</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">10.0</td>
+<td style="text-align: right;">10</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">N</td>
@@ -1646,7 +1564,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Jaleh Tavakoli</td>
 <td style="text-align: right;">450</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">11.0</td>
+<td style="text-align: right;">11</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">N</td>
@@ -1654,7 +1572,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Ebba Bigler</td>
 <td style="text-align: right;">428</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">12.0</td>
+<td style="text-align: right;">12</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">N</td>
@@ -1662,7 +1580,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Johanne Langdal Kristiansen</td>
 <td style="text-align: right;">396</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">13.0</td>
+<td style="text-align: right;">13</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">N</td>
@@ -1670,7 +1588,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Sven Skovmand</td>
 <td style="text-align: right;">385</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">14.0</td>
+<td style="text-align: right;">14</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">N</td>
@@ -1678,23 +1596,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Søren Kolstrup</td>
 <td style="text-align: right;">384</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">15.0</td>
+<td style="text-align: right;">15</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">N</td>
-<td style="text-align: left;">Folkebevægelsen mod EU</td>
-<td style="text-align: left;">Kirsten Annette Christensen</td>
-<td style="text-align: right;">353</td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;">16.5</td>
-</tr>
-<tr class="odd">
 <td style="text-align: left;">N</td>
 <td style="text-align: left;">Folkebevægelsen mod EU</td>
 <td style="text-align: left;">Keld Hvalsø Nedergaard</td>
 <td style="text-align: right;">353</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">16.5</td>
+<td style="text-align: right;">16</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">N</td>
+<td style="text-align: left;">Folkebevægelsen mod EU</td>
+<td style="text-align: left;">Kirsten Annette Christensen</td>
+<td style="text-align: right;">353</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">17</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">N</td>
@@ -1702,7 +1620,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Helge Rørtoft-Madsen</td>
 <td style="text-align: right;">348</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">18.0</td>
+<td style="text-align: right;">18</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">N</td>
@@ -1710,7 +1628,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Povl Kristensen</td>
 <td style="text-align: right;">136</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">19.0</td>
+<td style="text-align: right;">19</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">O</td>
@@ -1734,7 +1652,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Rikke Karlsson</td>
 <td style="text-align: right;">2581</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">1</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">O</td>
@@ -1742,7 +1660,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Kenneth Kristensen Berth</td>
 <td style="text-align: right;">2479</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">2</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">O</td>
@@ -1750,7 +1668,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Jeppe Jakobsen</td>
 <td style="text-align: right;">1793</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">3.0</td>
+<td style="text-align: right;">3</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">O</td>
@@ -1758,7 +1676,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Dennis Flydtkjær</td>
 <td style="text-align: right;">1485</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">4.0</td>
+<td style="text-align: right;">4</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">O</td>
@@ -1766,7 +1684,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Jette Plesner Dali</td>
 <td style="text-align: right;">1128</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">5.0</td>
+<td style="text-align: right;">5</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">O</td>
@@ -1774,7 +1692,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Aia Fog</td>
 <td style="text-align: right;">1107</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">6.0</td>
+<td style="text-align: right;">6</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">O</td>
@@ -1782,7 +1700,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Bente Kronborg Holst Flensted</td>
 <td style="text-align: right;">695</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">7.0</td>
+<td style="text-align: right;">7</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">O</td>
@@ -1790,7 +1708,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Henrik Ræder Clausen</td>
 <td style="text-align: right;">483</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">8.0</td>
+<td style="text-align: right;">8</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">V</td>
@@ -1822,7 +1740,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Charlotte Antonsen</td>
 <td style="text-align: right;">23635</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">1</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">V</td>
@@ -1830,7 +1748,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Bent Claudi Lassen</td>
 <td style="text-align: right;">22548</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">2</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">V</td>
@@ -1838,7 +1756,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Poul Dahl</td>
 <td style="text-align: right;">10385</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">3.0</td>
+<td style="text-align: right;">3</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">V</td>
@@ -1846,7 +1764,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Louise Feilberg</td>
 <td style="text-align: right;">9209</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">4.0</td>
+<td style="text-align: right;">4</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">V</td>
@@ -1854,7 +1772,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Hans Jørgen Dalum</td>
 <td style="text-align: right;">7341</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">5.0</td>
+<td style="text-align: right;">5</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">V</td>
@@ -1862,7 +1780,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Hanne Severinsen</td>
 <td style="text-align: right;">6964</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">6.0</td>
+<td style="text-align: right;">6</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">V</td>
@@ -1870,7 +1788,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Ole B. Sørensen</td>
 <td style="text-align: right;">6880</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">7.0</td>
+<td style="text-align: right;">7</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">V</td>
@@ -1878,7 +1796,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Kasper Elbjørn</td>
 <td style="text-align: right;">5479</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">8.0</td>
+<td style="text-align: right;">8</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">V</td>
@@ -1886,7 +1804,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Poul F. Hansen</td>
 <td style="text-align: right;">4031</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">9.0</td>
+<td style="text-align: right;">9</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">V</td>
@@ -1894,7 +1812,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Jens-Kristian Lütken</td>
 <td style="text-align: right;">1978</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">10.0</td>
+<td style="text-align: right;">10</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">V</td>
@@ -1902,13 +1820,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Jan Winther</td>
 <td style="text-align: right;">1429</td>
 <td style="text-align: right;"></td>
-<td style="text-align: right;">11.0</td>
+<td style="text-align: right;">11</td>
 </tr>
 </tbody>
 </table>
 
 
-</div>
 </div>
 </div>
 

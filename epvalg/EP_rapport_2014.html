@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.554">
+<meta name="generator" content="quarto-1.4.555">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -19,40 +19,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -227,62 +193,53 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pacman)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(tidyverse, xml2, readr, janitor, kableExtra, jsonlite)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="do">## for manuel kørsel</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># setwd(paste(getwd(), "epvalg", sep = "/"))</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"00_funktioner.R"</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"valgforbund.R"</span>)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"Oversigt over xml links.R"</span>)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"epvalg_partier.R"</span>)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">isTRUE</span>(fintael)){</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">source</span>(<span class="st">"Personlige stemmer.R"</span>)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 <section id="resultater-2014" class="level1">
 <h1>Resultater 2014</h1>
 <section id="samlet-mandater" class="level2">
 <h2 class="anchored" data-anchor-id="samlet-mandater">Samlet mandater</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(ant_mandater_partier <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(bogstav, forbund_bogstav, stemmer, pct_stemmer)) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(mandater <span class="sc">&gt;</span> <span class="dv">0</span>), <span class="at">format =</span> <span class="st">"simple"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<table class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
+<th style="text-align: left;">id_parti</th>
 <th style="text-align: left;">navn</th>
 <th style="text-align: right;">mandater</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td style="text-align: left;">5891</td>
 <td style="text-align: left;">A. Socialdemokratiet</td>
 <td style="text-align: right;">3</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;">5893</td>
 <td style="text-align: left;">B. Radikale Venstre</td>
 <td style="text-align: right;">1</td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;">5895</td>
 <td style="text-align: left;">C. Det Konservative Folkeparti</td>
 <td style="text-align: right;">1</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;">5897</td>
 <td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
 <td style="text-align: right;">1</td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;">431971</td>
 <td style="text-align: left;">N. Folkebevægelsen mod EU</td>
 <td style="text-align: right;">1</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;">5899</td>
 <td style="text-align: left;">O. Dansk Folkeparti</td>
 <td style="text-align: right;">4</td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;">5903</td>
 <td style="text-align: left;">V. Venstre, Danmarks Liberale Parti</td>
 <td style="text-align: right;">2</td>
 </tr>
@@ -294,14 +251,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="procentfordeling-og-mandater" class="level2">
 <h2 class="anchored" data-anchor-id="procentfordeling-og-mandater">Procentfordeling og mandater</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(ant_mandater_partier <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>forbund_bogstav), <span class="at">format =</span> <span class="st">"simple"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<table class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: left;">bogstav</th>
+<th style="text-align: left;">id_parti</th>
 <th style="text-align: left;">navn</th>
-<th style="text-align: right;">stemmer</th>
+<th style="text-align: right;">stemmer_antal</th>
 <th style="text-align: right;">pct_stemmer</th>
 <th style="text-align: right;">mandater</th>
 </tr>
@@ -309,6 +266,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">A</td>
+<td style="text-align: left;">5891</td>
 <td style="text-align: left;">A. Socialdemokratiet</td>
 <td style="text-align: right;">435245</td>
 <td style="text-align: right;">19.12</td>
@@ -316,6 +274,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td style="text-align: left;">B</td>
+<td style="text-align: left;">5893</td>
 <td style="text-align: left;">B. Radikale Venstre</td>
 <td style="text-align: right;">148949</td>
 <td style="text-align: right;">6.54</td>
@@ -323,6 +282,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td style="text-align: left;">C</td>
+<td style="text-align: left;">5895</td>
 <td style="text-align: left;">C. Det Konservative Folkeparti</td>
 <td style="text-align: right;">208262</td>
 <td style="text-align: right;">9.15</td>
@@ -330,6 +290,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td style="text-align: left;">F</td>
+<td style="text-align: left;">5897</td>
 <td style="text-align: left;">F. SF - Socialistisk Folkeparti</td>
 <td style="text-align: right;">249305</td>
 <td style="text-align: right;">10.95</td>
@@ -337,6 +298,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td style="text-align: left;">I</td>
+<td style="text-align: left;">5907</td>
 <td style="text-align: left;">I. Liberal Alliance</td>
 <td style="text-align: right;">65480</td>
 <td style="text-align: right;">2.88</td>
@@ -344,6 +306,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td style="text-align: left;">N</td>
+<td style="text-align: left;">431971</td>
 <td style="text-align: left;">N. Folkebevægelsen mod EU</td>
 <td style="text-align: right;">183724</td>
 <td style="text-align: right;">8.07</td>
@@ -351,6 +314,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td style="text-align: left;">O</td>
+<td style="text-align: left;">5899</td>
 <td style="text-align: left;">O. Dansk Folkeparti</td>
 <td style="text-align: right;">605889</td>
 <td style="text-align: right;">26.61</td>
@@ -358,6 +322,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td style="text-align: left;">V</td>
+<td style="text-align: left;">5903</td>
 <td style="text-align: left;">V. Venstre, Danmarks Liberale Parti</td>
 <td style="text-align: right;">379840</td>
 <td style="text-align: right;">16.68</td>
@@ -371,11 +336,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="rangering-af-mandater" class="level2">
 <h2 class="anchored" data-anchor-id="rangering-af-mandater">Rangering af mandater</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(rankings <span class="sc">%&gt;%</span> <span class="fu">filter</span>(mandat_parti) <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>mandat_parti) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(overall_rank),</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">format =</span> <span class="st">"html"</span>, <span class="at">caption =</span> <span class="st">"Rangorden for valgte mandater"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>Rangorden for valgte mandater</caption>
 <thead>
 <tr class="header">
@@ -498,16 +460,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </div>
 </div>
-</div>
 </section>
 <section id="rangering-kvotienter" class="level2">
 <h2 class="anchored" data-anchor-id="rangering-kvotienter">Rangering kvotienter</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(rankings <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>mandat_parti) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(overall_rank), <span class="at">format =</span> <span class="st">"html"</span>,</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Fuld ranking"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>Fuld ranking</caption>
 <thead>
 <tr class="header">
@@ -846,45 +804,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </div>
 </div>
-</div>
 </section>
 <section id="rangering-valgte-personer" class="level2">
 <h2 class="anchored" data-anchor-id="rangering-valgte-personer">Rangering valgte personer</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Kobler med parti kvotienter for at kunne rangere valgorden overall for personer</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: OBS, er afhængig af bestemt sortering. Antager overall rank er stigende, grupperet på partier.</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>kvotienter_partier_til_pers <span class="ot">&lt;-</span> kvotienter_partier <span class="sc">%&gt;%</span> </span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(mandat_parti) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(bogstav, overall_rank) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nest_by</span>(bogstav)</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>pers_ranking2 <span class="ot">&lt;-</span> pers_ranking <span class="sc">%&gt;%</span> </span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(kvotienter_partier_til_pers, <span class="at">by =</span> <span class="st">"bogstav"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">overall_rank =</span> <span class="fu">list</span>(data[valgt_rang, <span class="st">"overall_rank"</span>])) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>data) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(<span class="at">cols =</span> overall_rank)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Antagelse at alle er opstillet sideordnet (/kan <em>ikke</em> tage højde for partilister)</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(pers_ranking2 <span class="sc">%&gt;%</span> </span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">filter</span>(mandat) <span class="sc">%&gt;%</span> </span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">select</span>(bogstav, parti, navn, personligestemmer, valgt_rang, overall_rank) <span class="sc">%&gt;%</span> </span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">arrange</span>(bogstav, valgt_rang, overall_rank),</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">format =</span> <span class="st">"html"</span>,</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Valgte personer (Inkl. rang)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>Valgte personer (Inkl. rang)</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th">bogstav</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th">parti</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th">navn</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">personligestemmer</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">valgt_rang</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">personlige_stemmer</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">valgt_rank</th>
 <th style="text-align: right;" data-quarto-table-cell-role="th">overall_rank</th>
 </tr>
 </thead>
@@ -999,25 +932,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </div>
 </div>
-</div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(pers_ranking2 <span class="sc">%&gt;%</span> </span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">filter</span>(mandat) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">select</span>(bogstav, parti, navn, personligestemmer, valgt_rang, overall_rank) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">arrange</span>(overall_rank),</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">format =</span> <span class="st">"html"</span>,</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Total rang for valgte personer"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>Total rang for valgte personer</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th">bogstav</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th">parti</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th">navn</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">personligestemmer</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">valgt_rang</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">personlige_stemmer</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">valgt_rank</th>
 <th style="text-align: right;" data-quarto-table-cell-role="th">overall_rank</th>
 </tr>
 </thead>
@@ -1132,28 +1057,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </div>
 </div>
-</div>
 </section>
 <section id="rangering-alle-opstillede-personer" class="level2">
 <h2 class="anchored" data-anchor-id="rangering-alle-opstillede-personer">Rangering alle opstillede personer</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(pers_ranking2 <span class="sc">%&gt;%</span> </span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">select</span>(bogstav, parti, navn, personligestemmer, valgt_rang, stedfortæder_rang) <span class="sc">%&gt;%</span> </span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">arrange</span>(bogstav, valgt_rang, stedfortæder_rang), </span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">format =</span> <span class="st">"html"</span>,</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Rangorden alle personer"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>Rangorden alle personer</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th">bogstav</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th">parti</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th">navn</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">personligestemmer</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">valgt_rang</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">stedfortæder_rang</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">personlige_stemmer</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">valgt_rank</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">stedfortræder_rank</th>
 </tr>
 </thead>
 <tbody>
@@ -1889,7 +1807,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 
 
-</div>
 </div>
 </div>
 
