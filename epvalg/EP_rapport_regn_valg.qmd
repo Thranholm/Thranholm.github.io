@@ -11,7 +11,7 @@ editor_options:
 
 partier_partiliste <- xml_link_oversigt %>% 
   filter(aar == .env$aar & valg == "EP") %>% 
-  filter(type == .envvalg_type) %>% 
+  filter(type == .env$valg_type) %>% 
   pull(partiliste) %>% 
   str_split("") %>% 
   unlist()
