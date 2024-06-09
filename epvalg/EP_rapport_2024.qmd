@@ -1,0 +1,111 @@
+---
+params:
+  aar: 2024
+title: "Europaparlamentsvalg `r paste(params$aar)`"
+execute: 
+  echo: false
+format: 
+  html: 
+    css: sticky_title.css
+editor: source
+editor_options: 
+  chunk_output_type: console
+---
+
+
+
+```{r}
+#| label: setup
+#| echo: false
+options(knitr.kable.NA = '')
+```
+
+```{r}
+#| label: henter_libs
+
+## manuel afvikling
+# setwd("/Users/ethranholm/Documents/GitHub/Thranholm.github.io/epvalg")
+
+library(pacman)
+p_load(tidyverse, xml2, readr, janitor, kableExtra, jsonlite, reticulate)
+
+```
+
+Senest opdateret: `r format(with_tz(Sys.time(), "CET"), "%d/%m/%Y %H:%M:%S")`
+
+```{r}
+#| label: xml_links
+
+source("Oversigt over xml links.R")
+
+aar <- params$aar
+
+valg_dato <- xml_link_oversigt %>% 
+  filter(aar == .env$aar & valg == "EP") %>% 
+  slice(1) %>% 
+  pull(xml_link) %>% 
+  read_xml() %>% 
+  xml_find_all("ValgDato") %>% 
+  xml_text() %>% 
+  dmy()
+
+fintael <- valg_dato < today("Europe/Copenhagen")
+
+if(fintael){
+  type <- "fintælling"
+} else {
+  type <- "valgaften"
+}
+
+ep_xml <- xml_link_oversigt %>% 
+  filter(aar == .env$aar & valg == "EP") %>% 
+  filter(type == .env$type) %>% 
+  pull(xml_link)
+
+
+```
+
+
+```{r}
+#| label: henter_python_funktion
+
+py_run_file("Hentdata_python_funktion_ep.py")
+
+```
+
+```{python}
+#| label: henter_data
+
+import pandas as pd
+import numpy as np
+import requests
+import xmltodict
+
+
+valg_url = r.ep_xml
+valg_type = r.type
+land = hent_data_ep(xml_url = valg_url, geo_kreds = "land", valg_type = valg_type)
+if (valg_type == "fintælling"):
+  land_person = hent_data_ep(xml_url = valg_url, geo_kreds = "land", stemmer = "person")
+
+
+```
+
+```{r}
+#| label: er_der_resultater
+
+resultat_klar <- is.data.frame(py$land)
+
+```
+
+
+```{r}
+#| label: koer_child_qmd
+#| eval: !expr resultat_klar
+#| child: EP_rapport_regn_valg.qmd
+
+
+```
+
+`r if(!resultat_klar){"Resultat er ikke klar endnu"}`
+
