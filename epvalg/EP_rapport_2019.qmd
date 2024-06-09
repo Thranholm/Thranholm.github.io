@@ -54,7 +54,7 @@ if(fintael){
 
 ep_xml <- xml_link_oversigt %>% 
   filter(aar == .env$aar & valg == "EP") %>% 
-  filter(type == .env$type) %>% 
+  filter(type == .env$valg_type) %>% 
   pull(xml_link)
 
 
