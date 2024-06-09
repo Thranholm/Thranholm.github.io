@@ -52,9 +52,9 @@ valg_dato <- xml_link_oversigt %>%
 fintael <- valg_dato < today("Europe/Copenhagen")
 
 if(fintael){
-  type <- "fintælling"
+  valg_type <- "fintælling"
 } else {
-  type <- "valgaften"
+  valg_type <- "valgaften"
 }
 
 ep_xml <- xml_link_oversigt %>% 
