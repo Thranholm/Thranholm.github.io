@@ -38,6 +38,11 @@ jobs:
     - name: Set up Quarto
       uses: quarto-dev/quarto-actions/setup@v2
 
+    - name: Set up Python
+      uses: actions/setup-python@5.1.0
+      with:
+        python-version: '3.12'
+
         # From https://github.com/r-lib/actions/tree/v2-branch/setup-r
     - name: setup-R
       uses: r-lib/actions/setup-r@v2
@@ -62,12 +67,12 @@ jobs:
       with:
         path: index.qmd
 
-    - name: Render mio6DK
+    - name: Render EP2024
       env:
         LANG: "da_DK.UTF-8"
       uses: quarto-dev/quarto-actions/render@v2
       with:
-        path: mio6DK.qmd
+        path: 'epvalg/EP_rapport_2024.qmd'
 
     - name: Publish to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
