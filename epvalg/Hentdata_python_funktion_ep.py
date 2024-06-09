@@ -1,4 +1,4 @@
-def hent_data_ep(xml_url, geo_kreds = "Storkredse", stemmer = "parti"):
+def hent_data_ep(xml_url, geo_kreds = "Storkredse", stemmer = "parti", valg_type = "fintælling"):
   
   geo_kreds = geo_kreds.lower().capitalize()
   stemmer = stemmer.lower().capitalize()
@@ -24,8 +24,11 @@ def hent_data_ep(xml_url, geo_kreds = "Storkredse", stemmer = "parti"):
   #geo_xml = data["Data"][geo_kreds][temp_geo_kreds]
   geo_xml = data["Data"][geo_kreds] if geo_kreds == "Land" else data["Data"][geo_kreds][temp_geo_kreds]
   
-  xml = [item["@filnavn"] for item in geo_xml] if geo_kreds != "Land" else geo_xml["@filnavn"]
-  
+  if (valg_type == "valgaften"):
+    xml = [item["@filnavn"] for item in geo_xml] if geo_kreds != "Land" else geo_xml[1]["@filnavn"]
+  else:
+    xml = [item["@filnavn"] for item in geo_xml] if geo_kreds != "Land" else geo_xml["@filnavn"]
+
   ## Laver xml til dict
   resp = list(map(requests.get, xml)) if geo_kreds != "Land" else requests.get(xml)
   xml_dict = [xmltodict.parse(resp[item].content) for item in range(len(resp))] if geo_kreds != "Land" else xmltodict.parse(resp.content)
@@ -37,6 +40,11 @@ def hent_data_ep(xml_url, geo_kreds = "Storkredse", stemmer = "parti"):
   else:
     raise TypeError("Ikke gyldig værdi i stemmer, skal være 'Parti' eller 'Person'")
   exit
+
+  if (xml_dict["Data"]["Status"]["#text"] == "Resultatet foreligger endnu ikke."):
+    text = "Resultat ikke klar endnu"
+    return(text)
+
 
   if geo_kreds != "Land":
     data_liste = [pd.Series(xml_dict[item]["Data"]["Sted"]).to_frame().transpose().join(pd.json_normalize(pd.Series(xml_dict[item]["Data"][temp_stemmer]["Parti"])), rsuffix = "Parti", how = "cross") for item in range(len(xml_dict))]
