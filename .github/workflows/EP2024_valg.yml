@@ -38,8 +38,8 @@ jobs:
     - name: Set up Quarto
       uses: quarto-dev/quarto-actions/setup@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@5.1.0
+    - name: setup python
+      uses: actions/setup-python@v5.1.0
       with:
         python-version: '3.12'
 
