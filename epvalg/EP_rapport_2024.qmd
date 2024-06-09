@@ -83,7 +83,7 @@ import xmltodict
 
 
 valg_url = r.ep_xml
-valg_type = r.type
+valg_type = r.valg_type
 land = hent_data_ep(xml_url = valg_url, geo_kreds = "land", valg_type = valg_type)
 if (valg_type == "fintælling"):
   land_person = hent_data_ep(xml_url = valg_url, geo_kreds = "land", stemmer = "person")
