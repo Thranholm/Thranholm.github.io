@@ -26,14 +26,14 @@ jobs:
     - name: Check out repository
       uses: actions/checkout@v4
 
-    - name: Update apt package lists
-      run: |
-        sudo apt-get update
-        sudo apt-get install --fix-missing
+ #   - name: Update apt package lists
+ #     run: |
+ #      sudo apt-get update
+ #       sudo apt-get install --fix-missing
 
 # alle mulige pakker, der har givet fejl
-    - name: Install libudunits2 libgdal libgeos libproj
-      run: sudo apt-get install libgdal-dev libudunits2-dev libgeos-dev libproj-dev
+    #- name: Install libudunits2 libgdal libgeos libproj
+    #  run: sudo apt-get install libgdal-dev libudunits2-dev libgeos-dev libproj-dev
 
     - name: Set up Quarto
       uses: quarto-dev/quarto-actions/setup@v2
