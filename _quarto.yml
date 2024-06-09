@@ -5,10 +5,11 @@ project:
     - index.qmd
     - about.qmd
     - FT_rapport.qmd
-    # - stedmandat.qmd
+    - stedmandat.qmd
     - "epvalg/EP_rapport_2009.qmd"
     - "epvalg/EP_rapport_2014.qmd"
     - "epvalg/EP_rapport_2019.qmd"
+    - "epvalg/EP_rapport_2024.qmd"
     - mio6DK.qmd
     - fodbold_kalender/00_danner_fodbolddata.qmd
     - "fodbold_kalender/Tysk fodboldkort.qmd"
@@ -32,6 +33,8 @@ website:
             text: "2014"
           - href: "epvalg/EP_rapport_2019.qmd"
             text: "2019"
+          - href: "epvalg/EP_rapport_2024.qmd"
+            text: "2024"
       - href: mio6DK.qmd
         text: 6 mio danskere
       - text: Fodboldkalender

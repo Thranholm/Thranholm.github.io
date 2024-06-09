@@ -1,0 +1,65 @@
+---
+title: "Regn mandater underrapport"
+editor_options: 
+  chunk_output_type: console
+---
+
+
+
+```{r}
+#| label: partiliste
+
+partier_partiliste <- xml_link_oversigt %>% 
+  filter(aar == .env$aar & valg == "EP") %>% 
+  filter(type == .env$type) %>% 
+  pull(partiliste) %>% 
+  str_split("") %>% 
+  unlist()
+
+partiliste <- py$land %>% 
+  as_tibble() %>% 
+  clean_names() %>% 
+  mutate(partiliste = if_else(bogstav %in% partier_partiliste, TRUE, FALSE)) %>% 
+  distinct(id_parti, bogstav, partiliste)
+
+
+```
+
+```{r}
+#| label: valgforbund
+
+source("valgforbund.R")
+
+```
+
+
+```{r}
+#| label: koer_partier
+
+## for manuel kørsel
+# setwd(paste(getwd(), "epvalg", sep = "/"))
+
+source("epvalg_partier.R")
+
+if (isTRUE(fintael)){
+  source("Personlige stemmer.R")
+}
+
+```
+
+
+```{r}
+#| label: output_parti_stemmer
+#| child: EP_rapport_parti_stemmer.qmd
+
+```
+
+
+```{r}
+#| label: output_personlige_stemmer
+#| child: EP_rapport_personlige_stemmer.qmd
+#| eval: !expr fintael
+
+```
+
+

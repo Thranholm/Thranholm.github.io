@@ -1,6 +1,6 @@
 ---
 params:
-  aar: 2019
+  aar: 2024
 title: "Europaparlamentsvalg `r paste(params$aar)`"
 execute: 
   echo: false
@@ -12,6 +12,8 @@ editor_options:
   chunk_output_type: console
 ---
 
+
+
 ```{r}
 #| label: setup
 #| echo: false
@@ -20,6 +22,9 @@ options(knitr.kable.NA = '')
 
 ```{r}
 #| label: henter_libs
+
+## manuel afvikling
+# setwd("/Users/ethranholm/Documents/GitHub/Thranholm.github.io/epvalg")
 
 library(pacman)
 p_load(tidyverse, xml2, readr, janitor, kableExtra, jsonlite, reticulate)
@@ -103,5 +108,4 @@ resultat_klar <- is.data.frame(py$land)
 ```
 
 `r if(!resultat_klar){"Resultat er ikke klar endnu"}`
-
 

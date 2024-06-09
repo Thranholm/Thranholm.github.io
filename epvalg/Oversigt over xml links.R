@@ -9,7 +9,7 @@ xml_link_oversigt <- tibble(aar = seq(2009, year(Sys.time()), by = 5),
                               aar == 2009 & valg == "EP" ~ "https://www.dst.dk/valg/Valg1191212",
                               aar == 2014 & valg == "EP" ~ "https://www.dst.dk/valg/Valg1475795",
                               aar == 2019 & valg == "EP" ~ "https://www.dst.dk/valg/Valg1684426",
-                              aar == 2024 & valg == "EP" ~ NA_character_,
+                              aar == 2024 & valg == "EP" ~ "https://www.dst.dk/valg/Valg2546524",
                               
                               ## FT-valg
                               aar == 2011 & valg == "FT" ~ "https://www.dst.dk/valg/Valg1204271",
