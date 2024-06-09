@@ -13,10 +13,10 @@ permissions:
 
 on:
   schedule:
+    - cron: "*/10 14 9 6 *"
     - cron: "*/5 18-23 9 6 *"
     - cron: "*/5 00-01 10 6 *"
     - cron: "*/5 8-21 10 6 *"
-    - cron: "*/5 14 9 6 *"
   workflow_dispatch:
   #push:
   #  branches: ['main']
