@@ -35,10 +35,10 @@ jobs:
     - name: Install libudunits2 libgdal libgeos libproj
       run: sudo apt-get install libgdal-dev libudunits2-dev libgeos-dev libproj-dev
 
-    - name: Set up python
-    - uses: actions/setup-python@v5
-      with:
-        python-version: '3.12'
+    #- name: Set up python
+   # - uses: actions/setup-python@v5.1.0
+  #    with:
+ #       python-version: '3.12'
 
     - name: Set up Quarto
       uses: quarto-dev/quarto-actions/setup@v2
