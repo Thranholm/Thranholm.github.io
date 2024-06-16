@@ -1,5 +1,7 @@
 ---
 title: "00_danner_fodbolddata"
+editor_options: 
+  chunk_output_type: console
 ---
 
 
@@ -45,7 +47,7 @@ for (i in 1:nrow(liga_get)) {
                                      paste0("fixtures",
                                             "?league=",
                                             liga_get$liga_id[i],
-                                            "&season=2023"),
+                                            "&season=2024"),
                                      sep = "/")) %>% 
     req_headers(!!!header) %>% 
     req_perform()
