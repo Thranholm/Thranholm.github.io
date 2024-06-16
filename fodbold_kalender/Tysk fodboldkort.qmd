@@ -19,12 +19,19 @@ kampprogram_tyskland <- read_rds(here("fodbold_kalender", "data", "kampprogram.r
   filter(land == "Germany") %>%
   unnest(data)
 
+if(nrow(kampprogram_tyskland) == 0){
+  kampprogram_klar <- FALSE
+} else {
+  kampprogram_klar <- TRUE
+}
+
 ```
 
 
 ```{r}
 #| label: henter tysk geodata
 #| echo: false
+#| eval: !expr kampprogram_klar
 
 tyskland_geo_json <- st_read("https://raw.githubusercontent.com/isellsoap/deutschlandGeoJSON/main/1_deutschland/2_hoch.geo.json", quiet = TRUE)
 
@@ -43,6 +50,7 @@ tyske_byer_geo_filter <- tyske_byer_geo %>%
 ```{r}
 #| label: kampprogram_geo
 #| echo: false
+#| eval: !expr kampprogram_klar
 
 kampprogram_geo <- kampprogram_tyskland %>% 
   left_join(tyske_byer_geo_filter, by = join_by(spilleby == name))
@@ -57,6 +65,7 @@ kampprogram_geo <- kampprogram_tyskland %>%
 #| message: false
 #| echo: false
 #| results: hide
+#| eval: !expr kampprogram_klar
 
 
 Sys.setlocale("LC_TIME", "da_DK.UTF-8")
@@ -103,10 +112,13 @@ OBS! Kamptidspunkter bør tjekkes efter. For 3. Liga især er de ikke altid retv
 
 Seneste opdatering: `r format(with_tz(Sys.time(), "CET"), "%d/%m/%Y %H:%M:%S")`
 
+`r if(!kampprogram_klar){"**Kampkalender er ikke klar endnu**"}`
+
 ::: {.panel-tabset .nav-pills}
 
 ```{r}
 #| results: asis
+#| eval: !expr kampprogram_klar
 
 iwalk(plots, ~ {
   cat('## ', .y, '\n\n')
@@ -120,8 +132,8 @@ iwalk(plots, ~ {
 :::
 
 ```{r}
-#| eval: true
 #| include: false
+#| eval: !expr kampprogram_klar
 
 htmltools::tagList(plots[1])
 ```
