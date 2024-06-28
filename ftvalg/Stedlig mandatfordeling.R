@@ -4,7 +4,7 @@
 library(pacman)
 
 p_load(dplyr, tibble, tidyr, stringr, lubridate, httr2, 
-       jsonlite, readr, sf, httr, xml2, purrr)
+       jsonlite, readr, sf, httr, xml2, purrr, electoral)
 
 api_opstillingskreds <- GET("https://api.dataforsyningen.dk/opstillingskredse")
 
@@ -94,9 +94,6 @@ data_sted_fordeling <- folketal %>%
   left_join(areal, by = c("storkreds_navn" = "navn")) %>% 
   left_join(stemmeberettigede, by = "storkreds_navn") %>% 
   mutate(faktor_sum = folketal+as.numeric(areal_valg)+stemmeberettigede)
-
-
-library(electoral)
 
 
 mandater_landsdel <- data_sted_fordeling %>%
