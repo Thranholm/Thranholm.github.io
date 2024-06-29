@@ -22,9 +22,9 @@ server <- function(input, output) {
                                     distinct()) %>% 
                         select(landsdel_navn, storkreds_navn, kreds_mandat_storkreds, tillaegsmandater_landsdel) %>% 
                         arrange(match(landsdel_navn, "Hovedstaden"), 
-                                match(storkreds_navn, c("Koebenhavn", "Koebenhavns Omegn", "Nordsjaelland", "Bornholm")),
-                                match(landsdel_navn, "Sjaelland-Syddanmark"),
-                                match(storkreds_navn, c("Sjaelland", "Fyn", "Sydjylland")),
+                                match(storkreds_navn, c("København", "Københavns Omegn", "Nordsjælland", "Bornholm")),
+                                match(landsdel_navn, "Sjælland-Syddanmark"),
+                                match(storkreds_navn, c("Sjælland", "Fyn", "Sydjylland")),
                                 match(landsdel_navn, "Midtjylland-Nordjylland")),
                   options = list(paging = FALSE,
                                  ordering = FALSE,
