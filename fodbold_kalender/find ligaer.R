@@ -15,3 +15,8 @@ liga_url <-  "https://api-football-v1.p.rapidapi.com/v3/leagues"
    arrange(country$country)
  
 ## Superliga: 119s
+## Jupiler: 144
+## Æresdivisionen: 88
+ 
+ ligaer[ligaer$league$id == 144,]$seasons
+ 
