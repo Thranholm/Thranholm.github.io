@@ -13,7 +13,7 @@ editor_options:
 #| message: false
 
 library(pacman)
-p_load(tidyverse, ggiraph, cowplot, RColorBrewer, sf, jsonlite, httr2, here)
+p_load(tidyverse, ggiraph, cowplot, RColorBrewer, sf, jsonlite, httr2, here, rnaturalearth)
 
 
 kampprogram_danmark <- read_rds(here("fodbold_kalender", "data", "kampprogram.rds")) %>%

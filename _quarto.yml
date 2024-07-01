@@ -14,6 +14,7 @@ project:
     - fodbold_kalender/00_danner_fodbolddata.qmd
     - "fodbold_kalender/Tysk fodboldkort.qmd"
     - "fodbold_kalender/Dansk fodboldkort.qmd"
+    - "fodbold_kalender/Belgisk fodboldkort.qmd"
 
 website:
   title: "Emil Thranholm"
@@ -43,6 +44,8 @@ website:
             text: Tyskland
           - href: "fodbold_kalender/Dansk fodboldkort.qmd"
             text: Danmark
+          - href: "fodbold_kalender/Belgisk fodboldkort.qmd"
+            text: Belgien
       
 format:
   html:

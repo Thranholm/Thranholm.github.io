@@ -1,0 +1,143 @@
+---
+title: "Belgisk fodboldkort"
+output: html_document
+execute: 
+  echo: false
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r}
+#| label: indlæser data
+#| message: false
+
+library(pacman)
+p_load(tidyverse, ggiraph, cowplot, RColorBrewer, sf, jsonlite, httr2, here, 
+       rnaturalearth, osmdata)
+
+kampprogram_belgium <- read_rds(here("fodbold_kalender", "data", "kampprogram.rds")) %>%
+  filter(land == "Belgium") %>%
+  unnest(data)
+
+```
+
+```{r}
+#| label: tilpas bynavne
+
+kampprogram_belgium <- kampprogram_belgium %>% 
+  mutate(spilleby = case_when(
+    str_detect(hjemmehold %>% tolower(), "anderlecht") ~ "Anderlecht",
+    str_detect(hjemmehold %>% tolower(), "gilloise") ~ "Forest",
+    str_detect(spilleby %>% tolower(), "anvers") ~ "Antwerpen",
+    str_detect(spilleby %>% tolower(), "deurne") ~ "Antwerpen",
+    str_detect(hjemmehold %>% tolower(), "mechelen") ~ "Mechelen",
+    str_detect(hjemmehold %>% tolower(), "truiden") ~ "Sint-Truiden",
+    str_detect(hjemmehold %>% tolower(), "liege") ~ "Liège",
+    str_detect(spilleby %>% tolower(), "heverlee") ~ "Oud-Heverlee",
+    .default = spilleby))
+  
+  
+```
+
+
+Tjekker tidstempel fra data: `r unique(kampprogram_belgium$timestamp_selv)`
+
+```{r}
+#| label: henter belgisk geo data
+#| warning: false
+
+belgisk_geo <- ne_countries(country = "Belgium", scale = "large")
+
+belgisk_byer_geo <- st_read(here("fodbold_kalender", "data", "BELGIUM_-_Municipalities.geojson"), quiet = TRUE) %>% 
+  mutate(across(c("ADMUNAFR", "ADMUNADU", "ADMUNAGE"), ~str_to_title(.)))
+
+belgisk_byer_geo <- belgisk_byer_geo %>% 
+  cbind(belgisk_byer_geo %>% st_centroid() %>% st_coordinates())
+
+
+```
+
+
+```{r}
+#| label: kampprogram_geo
+
+kampprogram_geo <- kampprogram_belgium %>% 
+  left_join(belgisk_byer_geo, by = join_by(spilleby == Communes)) %>% 
+  ## TODO: tjek om det virker
+  mutate(X = if_else(duplicated(geometry), X+0.05, X), .by = "runde")
+
+
+manglende_geo <- kampprogram_geo %>% 
+  filter(is.na(X) | is.na(Y)) %>% 
+  distinct(spilleby) %>% 
+  pull()
+
+```
+
+`r if (!is_empty(manglende_geo)){paste0("Der er spillebyer, hvor der ikke er geo-data. Det drejer sig om: ", manglende_geo)}`
+
+
+
+```{r}
+#| label: laver plots
+#| results: hide
+
+Sys.setlocale("LC_TIME", "da_DK.UTF-8")
+
+kampprogram_nested <- kampprogram_geo %>% 
+  nest(.by = "fiktiv_kamprunde", .key = "kampprogram") %>% 
+  mutate(dato = map_dbl(kampprogram, ~min(.$kampdato)) %>% 
+           as.Date()) %>% 
+  mutate(plot = map(kampprogram, ~ggplot() +
+                      geom_sf(data = belgisk_geo) + 
+                      geom_point_interactive(data = .x, aes(x = X, y = Y,
+                                                            tooltip = sprintf("%s<br/>%s&nbsp;%s",kamp, format(kampdato, "%d/%m-%Y"), kamptidspunkt))) + 
+                      ggtitle(paste("Kampprogram for kamprunde med start:", format(unique(.x$min_ugedag), "%A %d %B %Y"))) +
+                      theme(axis.title = element_blank(),
+                            axis.text = element_blank(), 
+                            axis.ticks = element_blank(),
+                            panel.background = element_blank()))) %>%
+    mutate(idag = today(),
+         date_diff = dato-idag,
+         før_idag = idag > dato) %>% 
+  arrange(før_idag, date_diff, fiktiv_kamprunde)
+
+plots <- kampprogram_nested %>% 
+  # slice_head(n = 2) %>%
+  mutate(plot = map(plot, ~.x %>%
+                       girafe(ggobj = .x))) %>%
+  select(dato, plot) %>% 
+  mutate(dato = format(dato, "%d. %b %Y")) %>% 
+  pivot_wider(names_from = dato, values_from = plot)
+
+```
+
+
+::: {.panel-tabset .nav-pills}
+
+```{r}
+#| results: asis
+
+iwalk(plots, ~ {
+  cat('## ', .y, '\n\n')
+  
+  print(htmltools::tagList(.x))
+  
+  cat("\n\n")
+})
+```
+
+:::
+
+```{r}
+#| eval: true
+#| include: false
+
+htmltools::tagList(plots[1])
+```
+
+
+
+
+

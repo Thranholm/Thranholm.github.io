@@ -28,15 +28,16 @@ ny_geo_url <- "https://geography2.p.rapidapi.com"
 ny_geo_headers <- c("X-RapidAPI-Host" = "world-geography2.p.rapidapi.com",
                     "X-RapidAPI-Key" = secret_decrypt(Sys.getenv("PASS"), "FODBOLD_KEY"))
 
-
-
 ## Finder Tyskland 
 ## League info: 78, 79 og 80
 
 ## Finder Danmark
 # league: 119
 
-liga_get <- tibble(liga_id = c(78, 79, 80, 119),
+## Finder Belgien
+# league: 144
+
+liga_get <- tibble(liga_id = c(78, 79, 80, 119, 144),
                    get = list(NULL),
                    response = list(NULL))
 
