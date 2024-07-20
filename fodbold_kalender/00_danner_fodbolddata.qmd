@@ -14,7 +14,7 @@ rm(list = ls())
 
 library(pacman)
 p_load(tidyverse, lubridate, httr, jsonlite, 
-       devtools, janitor, stringr, httr2)
+       devtools, janitor, stringr, httr2, here)
 
 # key <- secret_make_key()
 
@@ -115,7 +115,7 @@ kampprogram <- kampprogram_fulddata %>%
   mutate(timestamp_selv = Sys.time())
 
 
-write_rds(kampprogram, "data/kampprogram.rds")
+write_rds(kampprogram, here("fodbold_kalender", "data", "kampprogram.rds"))
 
 ```
 
