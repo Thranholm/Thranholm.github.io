@@ -66,6 +66,7 @@ kampprogram_geo <- kampprogram_belgium %>%
   left_join(belgisk_byer_geo, by = join_by(spilleby == Communes)) %>% 
   ## TODO: tjek om det virker
   mutate(X = if_else(duplicated(geometry), X+0.05, X), .by = "runde")
+## evt. brug fiktiv kamprunde
 
 
 manglende_geo <- kampprogram_geo %>% 

@@ -53,11 +53,19 @@ tyske_byer_geo_filter <- tyske_byer_geo %>%
 #| eval: !expr kampprogram_klar
 
 kampprogram_geo <- kampprogram_tyskland %>% 
-  left_join(tyske_byer_geo_filter, by = join_by(spilleby == name))
+  left_join(tyske_byer_geo_filter, by = join_by(spilleby == name)) %>% 
+  mutate(longitude = if_else(duplicated(str_c(longitude, latitude)), longitude+0.15, longitude), .by = "fiktiv_kamprunde")
+  
+## Tjekker om der mangler geografi på byer
+manglende_geo <- kampprogram_geo %>% 
+  filter(is.na(longitude) | is.na(latitude)) %>% 
+  distinct(spilleby) %>% 
+  pull()
+
 
 ```
 
-
+`r if (!is_empty(manglende_geo)){paste0("Der er spillebyer, hvor der ikke er geo-data. Det drejer sig om: ", manglende_geo)}`
 
 
 ```{r}
