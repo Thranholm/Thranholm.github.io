@@ -65,7 +65,7 @@ manglende_geo <- kampprogram_geo %>%
 
 ```
 
-`r if (!is_empty(manglende_geo)){paste0("Der er spillebyer, hvor der ikke er geo-data. Det drejer sig om: ", manglende_geo)}`
+`r if (kampprogram_klar && !is_empty(manglende_geo)){paste0("Der er spillebyer, hvor der ikke er geo-data. Det drejer sig om: ", manglende_geo)}`
 
 
 ```{r}
