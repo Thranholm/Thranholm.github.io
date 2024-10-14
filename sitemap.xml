@@ -1,11 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://thranholm.github.io/FT_rapport.html</loc>
+    <lastmod>2024-10-14T12:47:47.895Z</lastmod>
+  </url>
+  <url>
+    <loc>https://thranholm.github.io/epvalg/EP_rapport_2024.html</loc>
+    <lastmod>2024-10-14T12:47:47.896Z</lastmod>
+  </url>
+  <url>
+    <loc>https://thranholm.github.io/epvalg/EP_rapport_2014.html</loc>
+    <lastmod>2024-10-14T12:47:47.895Z</lastmod>
+  </url>
+  <url>
+    <loc>https://thranholm.github.io/stedmandat.html</loc>
+    <lastmod>2024-10-14T12:47:48.136Z</lastmod>
+  </url>
+  <url>
+    <loc>https://thranholm.github.io/fodbold_kalender/Tysk fodboldkort.html</loc>
+    <lastmod>2024-10-14T12:47:47.897Z</lastmod>
+  </url>
+  <url>
+    <loc>https://thranholm.github.io/fodbold_kalender/00_danner_fodbolddata.html</loc>
+    <lastmod>2024-10-14T12:47:47.896Z</lastmod>
+  </url>
+  <url>
     <loc>https://thranholm.github.io/index.html</loc>
-    <lastmod>2024-10-14T06:36:17.115Z</lastmod>
+    <lastmod>2024-10-14T12:47:48.135Z</lastmod>
+  </url>
+  <url>
+    <loc>https://thranholm.github.io/about.html</loc>
+    <lastmod>2024-10-14T12:47:47.895Z</lastmod>
   </url>
   <url>
     <loc>https://thranholm.github.io/mio6DK.html</loc>
-    <lastmod>2024-10-14T06:36:17.115Z</lastmod>
+    <lastmod>2024-10-14T12:47:48.136Z</lastmod>
+  </url>
+  <url>
+    <loc>https://thranholm.github.io/fodbold_kalender/Dansk fodboldkort.html</loc>
+    <lastmod>2024-10-14T12:47:47.897Z</lastmod>
+  </url>
+  <url>
+    <loc>https://thranholm.github.io/epvalg/EP_rapport_2009.html</loc>
+    <lastmod>2024-10-14T12:47:47.895Z</lastmod>
+  </url>
+  <url>
+    <loc>https://thranholm.github.io/epvalg/EP_rapport_2019.html</loc>
+    <lastmod>2024-10-14T12:47:47.896Z</lastmod>
+  </url>
+  <url>
+    <loc>https://thranholm.github.io/fodbold_kalender/Belgisk fodboldkort.html</loc>
+    <lastmod>2024-10-14T12:47:47.896Z</lastmod>
   </url>
 </urlset>
