@@ -72,7 +72,7 @@ jobs:
         LANG: "da_DK.UTF-8"
       uses: quarto-dev/quarto-actions/render@v2
       with:
-        path: mio6DK.qmd
+        path: FT_rapport.qmd
 
     - name: Publish to GitHub Pages
       uses: peaceiris/actions-gh-pages@v4
