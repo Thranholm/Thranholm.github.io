@@ -70,10 +70,10 @@ jobs:
       with:
         path: |
           index.qmd
-          fodbold_kalender/00_danner_fodbolddata.qmd
-          fodbold_kalender/Tysk fodboldkort.qmd
-          fodbold_kalender/Dansk fodboldkort.qmd
-          fodbold_kalender/Belgisk fodboldkort.qmd
+          "fodbold_kalender/00_danner_fodbolddata.qmd"
+          "fodbold_kalender/Tysk fodboldkort.qmd"
+          "fodbold_kalender/Dansk fodboldkort.qmd"
+          "fodbold_kalender/Belgisk fodboldkort.qmd"
 
 
     - name: Publish to GitHub Pages
