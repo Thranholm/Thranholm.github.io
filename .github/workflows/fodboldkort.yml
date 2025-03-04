@@ -12,8 +12,8 @@ permissions:
   id-token: write
 
 on:
-  schedule:
-    - cron: "3 7 * * *"
+  # schedule:
+  #   - cron: "3 7 * * *"
   workflow_dispatch:
   #push:
   #  branches: ['main']
