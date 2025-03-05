@@ -78,35 +78,34 @@ jobs:
         LANG: "da_DK.UTF-8"
       uses: quarto-dev/quarto-actions/render@v2
       with:
-        path: |
-          "fodbold_kalender/00_danner_fodbolddata.qmd"
-          "fodbold_kalender/Tysk fodboldkort.qmd"
-          "fodbold_kalender/Dansk fodboldkort.qmd"
-          "fodbold_kalender/Belgisk fodboldkort.qmd"
+        path: "fodbold_kalender/00_danner_fodbolddata.qmd"
+          # "fodbold_kalender/Tysk fodboldkort.qmd"
+          # "fodbold_kalender/Dansk fodboldkort.qmd"
+          # "fodbold_kalender/Belgisk fodboldkort.qmd"
 
-    # - name: Render tyskland
-    #   env:
-    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # this secret is always available for github actions
-    #     LANG: "da_DK.UTF-8"
-    #   uses: quarto-dev/quarto-actions/render@v2
-    #   with:
-    #     path: "fodbold_kalender/Tysk fodboldkort.qmd"
-    #       
-    # - name: Render danmark
-    #   env:
-    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # this secret is always available for github actions
-    #     LANG: "da_DK.UTF-8"
-    #   uses: quarto-dev/quarto-actions/render@v2
-    #   with:
-    #     path: "fodbold_kalender/Dansk fodboldkort.qmd"
-    # 
-    # - name: Render belgien
-    #   env:
-    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # this secret is always available for github actions
-    #     LANG: "da_DK.UTF-8"
-    #   uses: quarto-dev/quarto-actions/render@v2
-    #   with:
-    #     path: "fodbold_kalender/Belgisk fodboldkort.qmd"
+    - name: Render tyskland
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # this secret is always available for github actions
+        LANG: "da_DK.UTF-8"
+      uses: quarto-dev/quarto-actions/render@v2
+      with:
+        path: "fodbold_kalender/Tysk fodboldkort.qmd"
+
+    - name: Render danmark
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # this secret is always available for github actions
+        LANG: "da_DK.UTF-8"
+      uses: quarto-dev/quarto-actions/render@v2
+      with:
+        path: "fodbold_kalender/Dansk fodboldkort.qmd"
+
+    - name: Render belgien
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # this secret is always available for github actions
+        LANG: "da_DK.UTF-8"
+      uses: quarto-dev/quarto-actions/render@v2
+      with:
+        path: "fodbold_kalender/Belgisk fodboldkort.qmd"
 
 
     - name: Publish to GitHub Pages
