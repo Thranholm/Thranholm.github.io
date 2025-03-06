@@ -87,7 +87,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # this secret is always available for github actions
         LANG: "da_DK.UTF-8"
-      uses: quarto-dev/quarto-actions/render@v2
+      #uses: quarto-dev/quarto-actions/render@v2
       run: |
         pwd
         ls -la fodbold_kalender/
