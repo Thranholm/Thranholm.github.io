@@ -89,7 +89,7 @@ jobs:
         LANG: "da_DK.UTF-8"
       #uses: quarto-dev/quarto-actions/render@v2
       run: |
-        quarto render "fodbold_kalender/Tysk fodboldkort.qmd" --verbose
+        quarto render "fodbold_kalender/Tysk fodboldkort.qmd"
 
     - name: Render danmark
       env:
