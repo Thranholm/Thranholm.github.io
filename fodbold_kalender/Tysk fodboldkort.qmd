@@ -17,7 +17,8 @@ p_load(tidyverse, ggiraph, cowplot, RColorBrewer, sf, here)
 
 kampprogram_tyskland <- read_rds(here("fodbold_kalender", "data", "kampprogram.rds")) %>%
   filter(land == "Germany") %>%
-  unnest(data)
+  unnest(data) %>% 
+  filter(str_detect(liga, "Regionalliga", negate = TRUE))
 
 if(nrow(kampprogram_tyskland) == 0){
   kampprogram_klar <- FALSE
