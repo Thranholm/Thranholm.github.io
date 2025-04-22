@@ -13,6 +13,7 @@ project:
     - mio6DK.qmd
     - fodbold_kalender/00_danner_fodbolddata.qmd
     - "fodbold_kalender/Tysk fodboldkort.qmd"
+    - "fodbold_kalender/Tysk fodboldkort_amateur.qmd"
     - "fodbold_kalender/Dansk fodboldkort.qmd"
     - "fodbold_kalender/Belgisk fodboldkort.qmd"
 
@@ -25,7 +26,6 @@ website:
         text: Home
       - about.qmd
       - FT_rapport.qmd
-      - href: render_ep_rapport.qmd
       - text: Europaparlamentsvalg
         menu:
           - href: "epvalg/EP_rapport_2009.qmd"
@@ -42,6 +42,8 @@ website:
         menu:
           - href: "fodbold_kalender/Tysk fodboldkort.qmd"
             text: Tyskland
+          - href: "fodbold_kalender/Tysk fodboldkort_amateur.qmd"
+            text: Tyskland Regionalliga
           - href: "fodbold_kalender/Dansk fodboldkort.qmd"
             text: Danmark
           - href: "fodbold_kalender/Belgisk fodboldkort.qmd"

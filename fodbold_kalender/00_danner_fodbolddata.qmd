@@ -30,6 +30,8 @@ ny_geo_headers <- c("X-RapidAPI-Host" = "world-geography2.p.rapidapi.com",
 
 ## Finder Tyskland 
 ## League info: 78, 79 og 80
+## Pokal: 81
+## Regionalliga: 83, 84, 85, 86, 87
 
 ## Finder Danmark
 # league: 119
@@ -37,7 +39,7 @@ ny_geo_headers <- c("X-RapidAPI-Host" = "world-geography2.p.rapidapi.com",
 ## Finder Belgien
 # league: 144
 
-liga_get <- tibble(liga_id = c(78, 79, 80, 119, 144),
+liga_get <- tibble(liga_id = c(78, 79, 80, 83, 84, 85, 86, 87, 119, 144),
                    get = list(NULL),
                    response = list(NULL))
 

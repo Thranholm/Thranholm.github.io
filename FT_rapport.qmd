@@ -518,7 +518,6 @@ dawa_data <- fromJSON(rawToChar(ind$content)) %>%
 
 # dawa_data$afstemningssted$adgangsadresse
 
-## TODO: virker ikke længere
 api_storkreds <- GET("https://api.dataforsyningen.dk/storkredse?format=geojson")
 
 storkreds_geo_data <- st_read(api_storkreds$content %>% rawToChar(), quiet = TRUE)

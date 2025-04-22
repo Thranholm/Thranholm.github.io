@@ -1,5 +1,5 @@
 ---
-title: "Tysk fodboldkalender"
+title: "Tysk Regionalliga"
 output: html_document
 editor_options: 
   chunk_output_type: console
@@ -18,7 +18,7 @@ p_load(tidyverse, ggiraph, cowplot, RColorBrewer, sf, here)
 kampprogram_tyskland <- read_rds(here("fodbold_kalender", "data", "kampprogram.rds")) %>%
   filter(land == "Germany") %>%
   unnest(data) %>% 
-  filter(str_detect(liga, "Regionalliga", negate = TRUE))
+  filter(str_detect(liga, "Regionalliga"))
 
 if(nrow(kampprogram_tyskland) == 0){
   kampprogram_klar <- FALSE
@@ -82,7 +82,7 @@ Sys.setlocale("LC_TIME", "da_DK.UTF-8")
 ## Laver plots
 
 kampprogram_nested <- kampprogram_geo %>% 
-  mutate(liga = factor(liga, levels = c("Bundesliga", "2. Bundesliga", "3. Liga"))) %>% 
+  # mutate(liga = factor(liga, levels = c("Bundesliga", "2. Bundesliga", "3. Liga"))) %>% 
   nest(.by = c("fiktiv_kamprunde"), .key = "kampprogram") %>% 
   mutate(dato = map_dbl(kampprogram, ~min(.x$kampdato)) %>% 
            as.Date()) %>% 
@@ -90,9 +90,9 @@ kampprogram_nested <- kampprogram_geo %>%
                       geom_sf(data = tyskland_geo_json) +
                       geom_point_interactive(data = .x, aes(x = longitude, y = latitude, colour = liga,
                                                             tooltip=sprintf("%s<br/>%s&nbsp;%s",kamp,format(kampdato, "%d/%m-%Y"), kamptidspunkt))) +
-                      scale_color_manual(values = c("Bundesliga" = "black",
-                                                    "2. Bundesliga" = "red",
-                                                    "3. Liga" = "yellow")) +
+                      # scale_color_manual(values = c("Bundesliga" = "black",
+                      #                               "2. Bundesliga" = "red",
+                      #                               "3. Liga" = "yellow")) +
                       ggtitle(paste("Kampprogram for kamprunde med start:", format(unique(.x$min_ugedag), "%A %d %B %Y"))) +
                       theme(legend.position = "right",
                             legend.title = element_blank(),

@@ -19,15 +19,14 @@ manglende_byer <- by_i_data %>%
 
 ## Henter byer
 
-ny_geo_headers <- c("X-RapidAPI-Host" = "geography2.p.rapidapi.com",
+ny_geo_headers <- c("X-RapidAPI-Host" = "wft-geo-db.p.rapidapi.com",
                     "X-RapidAPI-Key" = secret_decrypt(Sys.getenv("PASS"), "FODBOLD_KEY"))
 
 byer_list <- list(NULL)
 for (i in seq_along(manglende_byer)){
   
-  find_by <- request(paste0("https://geography2.p.rapidapi.com/cities?page=1&pagesize=10&name=", 
-                            manglende_byer[i])) %>%
-    req_url_query() %>% 
+  find_by <- request("https://wft-geo-db.p.rapidapi.com/v1/geo/cities") %>% 
+    req_url_query(namePrefix = manglende_byer[i]) %>% 
     req_headers(!!!ny_geo_headers) %>% 
     req_perform()
   
@@ -35,7 +34,7 @@ for (i in seq_along(manglende_byer)){
   byer_df <- find_by %>% 
     resp_body_string() %>% 
     fromJSON() %>% 
-    pluck("cities")
+    pluck("data")
   
   if (length(byer_df) > 0) {
     byer_df <- filter(byer_df, population == max(population))
@@ -48,8 +47,9 @@ for (i in seq_along(manglende_byer)){
 
 byer_update <- byer_list %>% 
   bind_rows() %>% 
-  unnest(location) %>% 
-  bind_rows(byer) %>% 
+  select(id, name, latitude, longitude, population) %>% 
+  bind_rows(byer, .) %>% 
+  fill(countryId, code, locationType) %>% 
   distinct()
 
 ## Gemmer nyt datasæt
