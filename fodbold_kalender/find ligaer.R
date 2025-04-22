@@ -18,5 +18,5 @@ liga_url <-  "https://api-football-v1.p.rapidapi.com/v3/leagues"
 ## Jupiler: 144
 ## Æresdivisionen: 88
  
- ligaer[ligaer$league$id == 80,]$seasons
+ligaer[ligaer$league$id == 745,]$seasons
  
