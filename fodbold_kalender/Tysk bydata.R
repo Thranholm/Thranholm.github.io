@@ -26,7 +26,8 @@ byer_list <- list(NULL)
 for (i in seq_along(manglende_byer)){
   
   find_by <- request(paste0("https://geography2.p.rapidapi.com/cities?page=1&pagesize=10&name=", 
-                            manglende_byer[i])) %>% 
+                            manglende_byer[i])) %>%
+    req_url_query() %>% 
     req_headers(!!!ny_geo_headers) %>% 
     req_perform()
   
@@ -34,8 +35,11 @@ for (i in seq_along(manglende_byer)){
   byer_df <- find_by %>% 
     resp_body_string() %>% 
     fromJSON() %>% 
-    pluck("cities") %>% 
-    filter(population == max(population))
+    pluck("cities")
+  
+  if (length(byer_df) > 0) {
+    byer_df <- filter(byer_df, population == max(population))
+  }
     
   byer_list[[i]] <- byer_df
   
