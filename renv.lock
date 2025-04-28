@@ -8,6 +8,11 @@
       }
     ]
   },
+  "Python": {
+    "Version": "3.12.0",
+    "Type": "virtualenv",
+    "Name": "r-reticulate"
+  },
   "Packages": {
     "DBI": {
       "Package": "DBI",
