@@ -6,3 +6,5 @@ toc: false
 ## Welcome!
 
 This website containing different hobby project regarding data. I have a background in political science and love sports. So all topics on this page will revolve around data in combination with either politics or sports (and if really crazy, both).
+
+[Regn valg](komvalg_shiny.qmd)

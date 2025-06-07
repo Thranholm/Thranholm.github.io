@@ -14,7 +14,7 @@ editor_options:
 
 library(pacman)
 p_load(tidyverse, ggiraph, cowplot, RColorBrewer, sf, jsonlite, httr2, here, 
-       rnaturalearth, osmdata)
+       rnaturalearth)
 
 kampprogram_belgium <- read_rds(here("fodbold_kalender", "data", "kampprogram.rds")) %>%
   filter(land == "Belgium") %>%
