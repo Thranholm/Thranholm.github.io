@@ -1,6 +1,7 @@
 ---
 format:
   html:
+    page-layout: full
     embed-resources: false
     resources: 
       - shinylive-sw.js
@@ -10,7 +11,6 @@ filters:
 
 ```{shinylive-r}
 #| standalone: true
-#| viewerHeight: 1000
 #| viewerWidth: 800
 
 library(shiny)
