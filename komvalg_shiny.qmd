@@ -11,7 +11,7 @@ filters:
 
 ```{shinylive-r}
 #| standalone: true
-#| viewerWidth: 800
+#| viewerHeight: 1200
 
 library(shiny)
 library(magrittr)
