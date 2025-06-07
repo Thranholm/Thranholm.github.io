@@ -10,7 +10,8 @@ filters:
 
 ```{shinylive-r}
 #| standalone: true
-#| viewerHeight: 600
+#| viewerHeight: 1000
+#| viewerWidth: 800
 
 library(shiny)
 library(magrittr)
