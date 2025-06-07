@@ -11,7 +11,7 @@
   "Python": {
     "Version": "3.12.0",
     "Type": "virtualenv",
-    "Name": "r-reticulate"
+    "Name": "./renv/python/virtualenvs/renv-python-3.12"
   },
   "Packages": {
     "DBI": {
@@ -205,45 +205,6 @@
       "NeedsCompilation": "yes",
       "Author": "Douglas Bates [aut] (<https://orcid.org/0000-0001-8316-9503>), Martin Maechler [aut, cre] (<https://orcid.org/0000-0002-8685-9910>), Mikael Jagan [aut] (<https://orcid.org/0000-0002-3542-2938>), Timothy A. Davis [ctb] (<https://orcid.org/0000-0001-7614-6899>, SuiteSparse libraries, collaborators listed in dir(system.file(\"doc\", \"SuiteSparse\", package=\"Matrix\"), pattern=\"License\", full.names=TRUE, recursive=TRUE)), George Karypis [ctb] (<https://orcid.org/0000-0003-2753-1437>, METIS library, Copyright: Regents of the University of Minnesota), Jason Riedy [ctb] (<https://orcid.org/0000-0002-4345-4200>, GNU Octave's condest() and onenormest(), Copyright: Regents of the University of California), Jens Oehlschlägel [ctb] (initial nearPD()), R Core Team [ctb] (02zz1nj61, base R's matrix implementation)",
       "Maintainer": "Martin Maechler <mmaechler+Matrix@gmail.com>",
-      "Repository": "CRAN"
-    },
-    "PROJ": {
-      "Package": "PROJ",
-      "Version": "0.6.0",
-      "Source": "Repository",
-      "Title": "Generic Coordinate System Transformations Using 'PROJ'",
-      "Authors@R": "c(person(given = \"Michael D.\", family = \"Sumner\", role = c(\"aut\", \"cre\"), email = \"mdsumner@gmail.com\", comment = c(ORCID = \"0000-0002-2471-7511\")), person(\"Jeroen\", \"Ooms\", role = c(\"ctb\"), comment = \"provided PROJ library support on Windows, and assistance with Windows configuration\"), person(\"Simon\", \"Urbanek\", role = c(\"cph\", \"ctb\"), comment = \"wrote original code versions for PROJ version 6\"), person(\"Dewey\", \"Dunnington\", role = c(\"ctb\"), comment = \"key code contributions\"),  person(\"Anthony\", \"North\", role = c(\"ctb\") ) )",
-      "Description": "A wrapper around the generic coordinate transformation software 'PROJ' that transforms coordinates from one coordinate reference system ('CRS') to another. This includes cartographic projections as well as geodetic transformations.  The intention is for this package to be used by user-packages such as 'reproj', and that the older 'PROJ.4' and version 5 pathways be provided by the 'proj4' package.",
-      "Depends": [
-        "R (>= 3.0.2)"
-      ],
-      "License": "GPL-3",
-      "Encoding": "UTF-8",
-      "LazyData": "true",
-      "Imports": [
-        "lifecycle",
-        "wk"
-      ],
-      "LinkingTo": [
-        "wk"
-      ],
-      "Suggests": [
-        "testthat (>= 3.0.0)",
-        "spelling",
-        "knitr",
-        "rmarkdown",
-        "sf"
-      ],
-      "URL": "https://github.com/hypertidy/PROJ, https://hypertidy.github.io/PROJ/",
-      "BugReports": "https://github.com/hypertidy/PROJ/issues",
-      "Language": "en-US",
-      "VignetteBuilder": "knitr",
-      "SystemRequirements": "PROJ (>= 6.3.1)",
-      "RoxygenNote": "7.3.2",
-      "Config/testthat/edition": "3",
-      "NeedsCompilation": "yes",
-      "Author": "Michael D. Sumner [aut, cre] (<https://orcid.org/0000-0002-2471-7511>), Jeroen Ooms [ctb] (provided PROJ library support on Windows, and assistance with Windows configuration), Simon Urbanek [cph, ctb] (wrote original code versions for PROJ version 6), Dewey Dunnington [ctb] (key code contributions), Anthony North [ctb]",
-      "Maintainer": "Michael D. Sumner <mdsumner@gmail.com>",
       "Repository": "CRAN"
     },
     "R6": {
@@ -1378,35 +1339,6 @@
       "NeedsCompilation": "no",
       "Author": "Joe Cheng [aut], Carson Sievert [aut, cre] (<https://orcid.org/0000-0002-4958-2844>), Posit Software, PBC [cph, fnd], jQuery Foundation [cph] (jQuery library and jQuery UI library), jQuery contributors [ctb, cph] (jQuery library; authors listed in inst/www/shared/jquery-AUTHORS.txt), Mark Otto [ctb] (Bootstrap library), Jacob Thornton [ctb] (Bootstrap library), Bootstrap contributors [ctb] (Bootstrap library), Twitter, Inc [cph] (Bootstrap library), Brian Reavis [ctb, cph] (selectize.js library), Kristopher Michael Kowal [ctb, cph] (es5-shim library), es5-shim contributors [ctb, cph] (es5-shim library), Denis Ineshin [ctb, cph] (ion.rangeSlider library), Sami Samhuri [ctb, cph] (Javascript strftime library)",
       "Maintainer": "Carson Sievert <carson@posit.co>",
-      "Repository": "CRAN"
-    },
-    "crsmeta": {
-      "Package": "crsmeta",
-      "Version": "0.3.0",
-      "Source": "Repository",
-      "Title": "Extract Coordinate System Metadata",
-      "Authors@R": "person(given = \"Michael\", family = \"Sumner\", role = c(\"aut\", \"cre\"), email = \"mdsumner@gmail.com\", comment = c(ORCID = \"0000-0002-2471-7511\"))",
-      "Description": "Obtain coordinate system metadata from various data formats. There  are functions to extract a 'CRS' (coordinate reference system,  <https://en.wikipedia.org/wiki/Spatial_reference_system>) in 'EPSG' (European  Petroleum Survey Group, <http://www.epsg.org/>), 'PROJ4' <https://proj.org/>,  or 'WKT2' (Well-Known Text 2,  <http://docs.opengeospatial.org/is/12-063r5/12-063r5.html>) forms. This is  purely for getting simple metadata from in-memory formats, please use other  tools for out of memory data sources.",
-      "License": "GPL-3",
-      "Encoding": "UTF-8",
-      "LazyData": "true",
-      "RoxygenNote": "7.1.0",
-      "Depends": [
-        "R (>= 3.5.0)"
-      ],
-      "Suggests": [
-        "testthat (>= 2.1.0)",
-        "spelling"
-      ],
-      "Imports": [
-        "methods"
-      ],
-      "URL": "https://github.com/hypertidy/crsmeta",
-      "BugReports": "https://github.com/hypertidy/crsmeta/issues",
-      "Language": "en-US",
-      "NeedsCompilation": "no",
-      "Author": "Michael Sumner [aut, cre] (<https://orcid.org/0000-0002-2471-7511>)",
-      "Maintainer": "Michael Sumner <mdsumner@gmail.com>",
       "Repository": "CRAN"
     },
     "curl": {
@@ -3833,57 +3765,6 @@
       "Maintainer": "Jeroen Ooms <jeroenooms@gmail.com>",
       "Repository": "CRAN"
     },
-    "osmdata": {
-      "Package": "osmdata",
-      "Version": "0.2.5",
-      "Source": "Repository",
-      "Title": "Import 'OpenStreetMap' Data as Simple Features or Spatial Objects",
-      "Authors@R": "c( person(\"Mark\", \"Padgham\", , \"mark.padgham@email.com\", role = c(\"aut\", \"cre\")), person(\"Bob\", \"Rudis\", role = \"aut\"), person(\"Robin\", \"Lovelace\", role = \"aut\"), person(\"Maëlle\", \"Salmon\", role = \"aut\"), person(\"Joan\", \"Maspons\", role = \"aut\", comment = c(ORCID=\"0000-0003-2286-8727\")), person(\"Andrew\", \"Smith\", role = \"ctb\"), person(\"James\", \"Smith\", role = \"ctb\"), person(\"Andrea\", \"Gilardi\", role = \"ctb\"), person(\"Enrico\", \"Spinielli\", role = \"ctb\"), person(\"Anthony\", \"North\", role = \"ctb\"), person(\"Martin\", \"Machyna\", role = \"ctb\"), person(\"Marcin\", \"Kalicinski\", role = c(\"ctb\", \"cph\"), comment = \"Author of included RapidXML code\"), person(\"Eli\", \"Pousson\", , \"eli.pousson@gmail.com\", role = c(\"ctb\"), comment = c(ORCID = \"0000-0001-8280-1706\")) )",
-      "Maintainer": "Mark Padgham <mark.padgham@email.com>",
-      "Description": "Download and import of 'OpenStreetMap' ('OSM') data as 'sf' or 'sp' objects.  'OSM' data are extracted from the 'Overpass' web server (<https://overpass-api.de/>) and processed with very fast 'C++' routines for return to 'R'.",
-      "License": "GPL-3",
-      "URL": "https://docs.ropensci.org/osmdata/ (website) https://github.com/ropensci/osmdata/ (devel)",
-      "BugReports": "https://github.com/ropensci/osmdata/issues",
-      "Depends": [
-        "R (>= 3.2.4)"
-      ],
-      "Imports": [
-        "curl",
-        "httr2",
-        "lubridate",
-        "magrittr",
-        "methods",
-        "Rcpp (>= 0.12.4)",
-        "reproj",
-        "rvest",
-        "tibble",
-        "utils",
-        "xml2"
-      ],
-      "Suggests": [
-        "httptest2",
-        "jsonlite",
-        "knitr",
-        "markdown",
-        "raster",
-        "rmarkdown",
-        "sf",
-        "sp",
-        "testthat"
-      ],
-      "LinkingTo": [
-        "Rcpp"
-      ],
-      "VignetteBuilder": "knitr",
-      "Encoding": "UTF-8",
-      "NeedsCompilation": "yes",
-      "RoxygenNote": "7.2.3",
-      "X-schema.org-applicationCategory": "Data Access",
-      "X-schema.org-isPartOf": "https://ropensci.org",
-      "X-schema.org-keywords": "open0street0map, openstreetmap, overpass0API, OSM",
-      "Author": "Mark Padgham [aut, cre], Bob Rudis [aut], Robin Lovelace [aut], Maëlle Salmon [aut], Joan Maspons [aut] (<https://orcid.org/0000-0003-2286-8727>), Andrew Smith [ctb], James Smith [ctb], Andrea Gilardi [ctb], Enrico Spinielli [ctb], Anthony North [ctb], Martin Machyna [ctb], Marcin Kalicinski [ctb, cph] (Author of included RapidXML code), Eli Pousson [ctb] (<https://orcid.org/0000-0001-8280-1706>)",
-      "Repository": "CRAN"
-    },
     "pacman": {
       "Package": "pacman",
       "Version": "0.5.1",
@@ -4359,25 +4240,6 @@
       "NeedsCompilation": "no",
       "Author": "Gábor Csárdi [aut, cre], Rich FitzJohn [aut], Posit Software, PBC [cph, fnd]",
       "Maintainer": "Gábor Csárdi <csardi.gabor@gmail.com>",
-      "Repository": "CRAN"
-    },
-    "proj4": {
-      "Package": "proj4",
-      "Version": "1.0-15",
-      "Source": "Repository",
-      "Title": "A simple interface to the PROJ.4 cartographic projections library",
-      "Depends": [
-        "R (>= 2.0.0)"
-      ],
-      "Author": "Simon Urbanek [aut, cre, cph] (https://urbanek.org, <https://orcid.org/0000-0003-2297-1732>)",
-      "Authors@R": "person(\"Simon\", \"Urbanek\", role=c(\"aut\",\"cre\",\"cph\"), email=\"simon.urbanek@r-project.org\", comment=c(\"https://urbanek.org\", ORCID=\"0000-0003-2297-1732\"))",
-      "Maintainer": "Simon Urbanek <simon.urbanek@r-project.org>",
-      "Description": "A simple interface to lat/long projection and datum transformation of the PROJ.4 cartographic projections library. It allows transformation of geographic coordinates from one projection and/or datum to another.",
-      "SystemRequirements": "proj 4.4.6 or higher (https://proj.org/)",
-      "License": "GPL-2",
-      "URL": "https://www.rforge.net/proj4/",
-      "BugReports": "https://github.com/s-u/proj4/issues",
-      "NeedsCompilation": "yes",
       "Repository": "CRAN"
     },
     "promises": {
@@ -4979,37 +4841,6 @@
       "Maintainer": "Jennifer Bryan <jenny@posit.co>",
       "Repository": "CRAN"
     },
-    "reproj": {
-      "Package": "reproj",
-      "Version": "0.7.0",
-      "Source": "Repository",
-      "Type": "Package",
-      "Title": "Coordinate System Transformations for Generic Map Data",
-      "Authors@R": "person(\"Michael D.\",\"Sumner\", role = c(\"aut\", \"cre\"), email = \"mdsumner@gmail.com\", comment=c(ORCID = \"0000-0002-2471-7511\"))",
-      "Description": "Transform coordinates from a specified source to a specified  target map projection. This uses the 'PROJ' library directly, by wrapping the  'PROJ' package which leverages 'libproj', otherwise the 'proj4' package. The 'reproj()'  function is generic, methods may be added to remove the need for an explicit  source definition. If 'proj4' is in use 'reproj()' handles the requirement for  conversion of angular units where necessary. This is for use primarily to  transform generic data formats and direct leverage of the underlying 'PROJ' library. (There are transformations that aren't possible with 'PROJ' and that are provided by the 'GDAL' library, a limitation which users of this  package should be aware of.) The 'PROJ' library is available at  <https://proj.org/>.",
-      "License": "GPL-3",
-      "Depends": [
-        "R (>= 3.2.5)"
-      ],
-      "Imports": [
-        "proj4",
-        "crsmeta (>= 0.3.0)",
-        "PROJ (>= 0.4.5)"
-      ],
-      "Suggests": [
-        "testthat",
-        "covr"
-      ],
-      "RoxygenNote": "7.3.1",
-      "Encoding": "UTF-8",
-      "SystemRequirements": "PROJ (>= 4.4.6)",
-      "BugReports": "https://github.com/hypertidy/reproj/issues",
-      "URL": "https://github.com/hypertidy/reproj, https://hypertidy.github.io/reproj/",
-      "NeedsCompilation": "no",
-      "Author": "Michael D. Sumner [aut, cre] (<https://orcid.org/0000-0002-2471-7511>)",
-      "Maintainer": "Michael D. Sumner <mdsumner@gmail.com>",
-      "Repository": "CRAN"
-    },
     "reshape2": {
       "Package": "reshape2",
       "Version": "1.4.4",
@@ -5091,6 +4922,40 @@
       "NeedsCompilation": "yes",
       "Author": "Tomasz Kalinowski [ctb, cre], Kevin Ushey [aut], JJ Allaire [aut], RStudio [cph, fnd], Yuan Tang [aut, cph] (<https://orcid.org/0000-0001-5243-233X>), Dirk Eddelbuettel [ctb, cph], Bryan Lewis [ctb, cph], Sigrid Keydana [ctb], Ryan Hafen [ctb, cph], Marcus Geelnard [ctb, cph] (TinyThread library, http://tinythreadpp.bitsnbites.eu/)",
       "Maintainer": "Tomasz Kalinowski <tomasz@posit.co>",
+      "Repository": "CRAN"
+    },
+    "rhandsontable": {
+      "Package": "rhandsontable",
+      "Version": "0.3.8",
+      "Source": "Repository",
+      "Type": "Package",
+      "Title": "Interface to the 'Handsontable.js' Library",
+      "Authors@R": "c( person(\"Jonathan\", \"Owen\", email = \"jonathanro@gmail.com\", role = c(\"aut\", \"cre\", \"cph\")), person(\"Jeff\", \"Allen\", role = c(\"ctb\")), person(\"Yihui\", \"Xie\", role = c(\"ctb\")), person(\"Enzo\", \"Martoglio\", email = \"enzo@smartinsightsfromdata.com\", role = c(\"ctb\")), person(\"Inberg\", \"Ger\", role = c(\"ctb\")), person(\"Warpechowski\", \"Marcin\", role = c(\"ctb\", \"cph\"), comment = \"Handsontable.js library\"), person(\"Handsoncode sp. z o.o.\", role = c(\"ctb\", \"cph\"), comment = \"Handsontable.js library\"), person(\"Aisch\", \"Gregor\", role = c(\"ctb\", \"cph\"), comment = \"Chroma.js library\"), person(\"Företagsplatsen\", role = c(\"ctb\", \"cph\"), comment = \"Numbro.js library\"), person(\"Draper\", \"Adam\", role = c(\"ctb\", \"cph\"), comment = \"Numeral.js library\"), person(\"Wood\", \"Tim\", role = c(\"ctb\", \"cph\"), comment = \"Moment.js library\"), person(\"Chernev\", \"Iskren\", role = c(\"ctb\", \"cph\"), comment = \"Moment.js library\"), person(\"Moment.js contributors\", role = c(\"ctb\", \"cph\"), comment = \"Moment.js library\"), person(\"Bushell\", \"David\", role = c(\"ctb\", \"cph\"), comment = \"Pikaday.js library\"), person(\"jQuery Foundation\", role = c(\"ctb\", \"cph\"), comment = \"jQuery.js library\"), person(\"Splunk Inc\", role = c(\"ctb\", \"cph\"), comment = \"Sparkline.js library\"), person(\"Russell\", \"Kent\", role = c(\"ctb\", \"cph\"), comment = \"Sparkline.js library\"), person(\"Rohan\", \"Jon\", role = c(\"ctb\", \"cph\"), comment = \"ZeroClipboard library\"), person(\"Greene\", \"James\", role = c(\"ctb\", \"cph\"), comment = \"ZeroClipboard library\"), person(\"Hammill\", \"Dillon\", role = c(\"ctb\")))",
+      "Maintainer": "Jonathan Owen <jonathanro@gmail.com>",
+      "Description": "An R interface to the 'Handsontable' JavaScript library, which is a minimalist Excel-like data grid editor.  See <https://handsontable.com/> for details.",
+      "License": "MIT + file LICENSE",
+      "URL": "http://jrowen.github.io/rhandsontable/",
+      "BugReports": "https://github.com/jrowen/rhandsontable/issues",
+      "Imports": [
+        "jsonlite",
+        "htmlwidgets (>= 0.3.3)",
+        "magrittr",
+        "methods",
+        "utils"
+      ],
+      "Suggests": [
+        "knitr",
+        "rmarkdown",
+        "shiny (>= 0.13)",
+        "miniUI (>= 0.1.1)",
+        "rstudioapi (>= 0.6)",
+        "htmltools"
+      ],
+      "VignetteBuilder": "knitr",
+      "RoxygenNote": "7.1.1",
+      "Encoding": "UTF-8",
+      "NeedsCompilation": "no",
+      "Author": "Jonathan Owen [aut, cre, cph], Jeff Allen [ctb], Yihui Xie [ctb], Enzo Martoglio [ctb], Inberg Ger [ctb], Warpechowski Marcin [ctb, cph] (Handsontable.js library), Handsoncode sp. z o.o. [ctb, cph] (Handsontable.js library), Aisch Gregor [ctb, cph] (Chroma.js library), Företagsplatsen [ctb, cph] (Numbro.js library), Draper Adam [ctb, cph] (Numeral.js library), Wood Tim [ctb, cph] (Moment.js library), Chernev Iskren [ctb, cph] (Moment.js library), Moment.js contributors [ctb, cph] (Moment.js library), Bushell David [ctb, cph] (Pikaday.js library), jQuery Foundation [ctb, cph] (jQuery.js library), Splunk Inc [ctb, cph] (Sparkline.js library), Russell Kent [ctb, cph] (Sparkline.js library), Rohan Jon [ctb, cph] (ZeroClipboard library), Greene James [ctb, cph] (ZeroClipboard library), Hammill Dillon [ctb]",
       "Repository": "CRAN"
     },
     "rlang": {
