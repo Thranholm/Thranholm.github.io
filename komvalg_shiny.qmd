@@ -1,10 +1,16 @@
 ---
+format:
+  html:
+    embed-resources: false
+    resources: 
+      - shinylive-sw.js
 filters: 
  - shinylive
 ---
 
 ```{shinylive-r}
 #| standalone: true
+#| viewerHeight: 600
 
 library(shiny)
 library(magrittr)
