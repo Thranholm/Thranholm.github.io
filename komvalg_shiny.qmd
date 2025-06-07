@@ -1,10 +1,4 @@
 ---
-title: "Regn Kommunalvalg"
-format:
-  html:
-    embed-resources: false
-    resources: 
-      - shinylive-sw.js
 filters: 
  - shinylive
 ---
