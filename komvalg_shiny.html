@@ -615,6 +615,49 @@ server &lt;- function(input, output, session) {
   
   
   ##### Laver uden at der må indgås valgforbund ########
+  uden_forbund &lt;- reactive({
+    calc_results &lt;- uden_valgforbund(values$df, input$mandater)
+  })
+  
+  output$uden_valgforbund &lt;- renderRHandsontable({
+    results &lt;- uden_forbund()
+    rhandsontable(results, readOnly = TRUE, rowHeaders = NULL,
+                  colHeaders = c("Parti", "Stemmer (%)", "Antal mandater")) %&gt;% 
+      hot_table(highlightCol = TRUE, highlightRow = TRUE,
+                stretchH = "all") %&gt;% 
+      hot_col(2, format = "0.00 %")
+  })
+
+  
+  # kvotienter
+  uden_valgforbund_kvotienter_res &lt;- reactive({
+    calc_results &lt;- uden_valgforbund_kvotienter(values$df, input$mandater) %&gt;% 
+      kvotient_tab_format(sorting = "Parti", type = "Parti") %&gt;%
+      rename(Divisor = dhont)
+  })
+  
+  uden_valgforbund_kvotienter_highlight &lt;- reactive({
+    calc_results &lt;- uden_valgforbund_kvotienter(values$df, input$mandater) %&gt;% 
+      mandat_pos_format(sorting = "Parti", type = "Parti")
+  })
+  
+  
+  output$uden_valgforbund_kvotient &lt;- renderRHandsontable({
+    results &lt;- uden_valgforbund_kvotienter_res()
+    
+    highlight &lt;- uden_valgforbund_kvotienter_highlight()
+    
+    rhandsontable(results, readOnly = TRUE,
+                  col_highlight = highlight$col,
+                  row_highlight = highlight$row,
+                  rowHeaders = NULL,
+                  digits = 2) %&gt;% 
+      hot_cols(renderer = myrenderer) %&gt;%
+      hot_col("Divisor", halign = "htLeft")
+    
+  })
+  
+  ##### Laver uden at der må indgås valgforbund ########
   myrenderer2 &lt;- "function(instance, td, row, col, prop, value, cellProperties) {
        Handsontable.renderers.TextRenderer.apply(this, arguments);
        
