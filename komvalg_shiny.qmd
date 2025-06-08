@@ -446,6 +446,49 @@ server <- function(input, output, session) {
   
   
   ##### Laver uden at der må indgås valgforbund ########
+  uden_forbund <- reactive({
+    calc_results <- uden_valgforbund(values$df, input$mandater)
+  })
+  
+  output$uden_valgforbund <- renderRHandsontable({
+    results <- uden_forbund()
+    rhandsontable(results, readOnly = TRUE, rowHeaders = NULL,
+                  colHeaders = c("Parti", "Stemmer (%)", "Antal mandater")) %>% 
+      hot_table(highlightCol = TRUE, highlightRow = TRUE,
+                stretchH = "all") %>% 
+      hot_col(2, format = "0.00 %")
+  })
+
+  
+  # kvotienter
+  uden_valgforbund_kvotienter_res <- reactive({
+    calc_results <- uden_valgforbund_kvotienter(values$df, input$mandater) %>% 
+      kvotient_tab_format(sorting = "Parti", type = "Parti") %>%
+      rename(Divisor = dhont)
+  })
+  
+  uden_valgforbund_kvotienter_highlight <- reactive({
+    calc_results <- uden_valgforbund_kvotienter(values$df, input$mandater) %>% 
+      mandat_pos_format(sorting = "Parti", type = "Parti")
+  })
+  
+  
+  output$uden_valgforbund_kvotient <- renderRHandsontable({
+    results <- uden_valgforbund_kvotienter_res()
+    
+    highlight <- uden_valgforbund_kvotienter_highlight()
+    
+    rhandsontable(results, readOnly = TRUE,
+                  col_highlight = highlight$col,
+                  row_highlight = highlight$row,
+                  rowHeaders = NULL,
+                  digits = 2) %>% 
+      hot_cols(renderer = myrenderer) %>%
+      hot_col("Divisor", halign = "htLeft")
+    
+  })
+  
+  ##### Laver uden at der må indgås valgforbund ########
   myrenderer2 <- "function(instance, td, row, col, prop, value, cellProperties) {
        Handsontable.renderers.TextRenderer.apply(this, arguments);
        
