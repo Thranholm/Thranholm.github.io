@@ -9,7 +9,7 @@ project:
     - about.qmd
     - FT_rapport.qmd
     - stedmandat.qmd
-    - komvalg_shiny.qmd
+    - komvalg_shiny/komvalg_shiny.qmd
     - "epvalg/EP_rapport_2009.qmd"
     - "epvalg/EP_rapport_2014.qmd"
     - "epvalg/EP_rapport_2019.qmd"
