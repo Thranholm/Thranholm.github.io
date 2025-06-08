@@ -328,6 +328,31 @@ server <- function(input, output, session) {
   
   ### Sammenligning, med og uden valgforbund
   
+  myrenderer2 <- "function(instance, td, row, col, prop, value, cellProperties) {
+       Handsontable.renderers.TextRenderer.apply(this, arguments);
+       
+         // Format column 2 as percentage
+        if (col === 1) { // Column 2 (0-indexed)
+          if (typeof value === 'number') {
+            td.innerHTML = (value * 100).toFixed(2) + ' %';
+          }
+          td.style.textAlign = 'right';
+        }
+       
+       if (instance.params) {
+         hcols = instance.params.col_highlight
+         hcols = hcols instanceof Array ? hcols : [hcols]
+         hrows = instance.params.row_highlight
+         hrows = hrows instanceof Array ? hrows : [hrows]
+         
+         for (i = 0; i < hcols.length; i++) { 
+           if (hcols[i] == col && hrows[i] == row) {
+             td.style.background = '#FFFF00';
+           }
+         }
+       }
+     }"
+  
   versus_regn <- reactive({
     calc_results <- regn_parti(values$df, input$mandater) %>% 
       rename(med_forbund = Antal_mandater) %>% 
@@ -338,16 +363,40 @@ server <- function(input, output, session) {
       select(Parti, Stemmer_pct, med_forbund, uden_forbund) 
   })
   
+  versus_regn_pos <- reactive({
+    calc_results <- regn_parti(values$df, input$mandater) %>% 
+      rename(med_forbund = Antal_mandater) %>% 
+      left_join(uden_valgforbund(values$df, input$mandater) %>% 
+                  rename(uden_forbund = Antal_mandater) %>% 
+                  select(-Stemmer_pct), 
+                by = "Parti") %>% 
+      select(Parti, Stemmer_pct, med_forbund, uden_forbund) %>% 
+      mutate(forskel = med_forbund != uden_forbund) %>% 
+      select(forskel) %>% 
+      as.matrix() %>% 
+      which(arr.ind = TRUE) %>% 
+      as_tibble() %>% 
+      mutate(row = row-1,
+             col = col+1)
+      
+      
+  })
+  
   output$versus <- renderRHandsontable({
     results <- versus_regn()
     
+    pos <- versus_regn_pos()
+    
     rhandsontable(results, rowHeaders = NULL,
-                  colHeaders = c("Parti", 
+                  colHeaders = c("Parti",
                                  "Stemmer (%)",
-                                 "Antal mandater <br> med valgforbund", 
-                                 "Antal mandater <br> uden valgforbund")) %>% 
-      hot_col(2, format = "0.00 %") %>% 
-      hot_table(stretchH = "all")
+                                 "Antal mandater <br> med valgforbund",
+                                 "Antal mandater <br> uden valgforbund"),
+                  col_highlight = pos$col,
+                  row_highlight = pos$row) %>%
+      hot_table(stretchH = "all") %>%
+      hot_cols(renderer = myrenderer2)
+      
     
   })
   
