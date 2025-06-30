@@ -50,7 +50,7 @@ for (i in 1:nrow(liga_get)) {
                                      paste0("fixtures",
                                             "?league=",
                                             liga_get$liga_id[i],
-                                            "&season=2024"),
+                                            "&season=2025"),
                                      sep = "/")) %>% 
     req_headers(!!!header) %>% 
     req_perform()
