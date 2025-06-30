@@ -45,7 +45,7 @@ danske_stadion_geo <- danske_stadion %>%
                                   navnestatus == "officielt" ~ navn),
          stadion_navn = case_match(stadion_navn,
                                    "Jysk Park" ~ "JYSK park",
-                                   "Ceres Park" ~ "Ceres Park & Arena",
+                                   "Ceres Park" ~ "Ceres Park Vejlby",
                                    "Cepheus Park" ~ "Cepheus Park Randers",
                                    "Hvidovre Stadion" ~ "Pro Ventilation Arena",
                                    .default = stadion_navn)) %>% 
