@@ -17,7 +17,7 @@ project:
     - mio6DK.qmd
     - fodbold_kalender/00_danner_fodbolddata.qmd
     - "fodbold_kalender/Tysk fodboldkort.qmd"
-    - "fodbold_kalender/Tysk fodboldkort_amateur.qmd"
+    #- "fodbold_kalender/Tysk fodboldkort_amateur.qmd"
     - "fodbold_kalender/Dansk fodboldkort.qmd"
     - "fodbold_kalender/Belgisk fodboldkort.qmd"
 
