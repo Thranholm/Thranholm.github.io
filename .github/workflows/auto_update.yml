@@ -67,6 +67,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # this secret is always available for github actions
         FODBOLD_KEY: ${{ secrets.FODBOLD_KEY }}
         PASS: ${{ secrets.PASS }}
+        SR_PASS: ${{ secrets.SR_PASS }}
         LANG: "da_DK.UTF-8"
       uses: quarto-dev/quarto-actions/publish@v2
       with:
