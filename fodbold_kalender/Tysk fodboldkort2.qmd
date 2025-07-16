@@ -61,7 +61,7 @@ Sys.setlocale("LC_TIME", "da_DK.UTF-8")
 ## Laver plots
 
 kampprogram_nested <- kampprogram_tyskland %>% 
-  mutate(liga = factor(liga, levels = c("Bundesliga", "2. Bundesliga", "3. Liga"))) %>% 
+  mutate(liga = factor(liga, levels = c("Bundesliga", "2. Bundesliga", "3. Liga", "DFB Pokal"))) %>% 
   nest(.by = c("fiktiv_kamprunde"), .key = "kampprogram") %>% 
   mutate(dato = map_dbl(kampprogram, ~min(.x$kampdato)) %>% 
            as.Date()) %>% 
@@ -71,7 +71,8 @@ kampprogram_nested <- kampprogram_tyskland %>%
                                                             tooltip=sprintf("%s<br/>%s&nbsp;%s",kamp,format(kampdato, "%d/%m-%Y"), kamptidspunkt))) +
                       scale_color_manual(values = c("Bundesliga" = "black",
                                                     "2. Bundesliga" = "red",
-                                                    "3. Liga" = "yellow")) +
+                                                    "3. Liga" = "yellow",
+                                                    "DFB Pokal" = "darkgreen")) +
                       ggtitle(paste("Kampprogram for kamprunde med start:", format(unique(.x$min_ugedag), "%A %d %B %Y"))) +
                       theme(legend.position = "right",
                             legend.title = element_blank(),
