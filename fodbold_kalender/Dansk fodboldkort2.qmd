@@ -1,0 +1,146 @@
+---
+title: "Dansk fodboldkalender"
+output: html_document
+execute: 
+  echo: false
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r}
+#| label: indlæser data
+#| message: false
+
+library(pacman)
+p_load(tidyverse, ggiraph, cowplot, RColorBrewer, sf, jsonlite, httr2, here, rnaturalearth)
+
+
+kampprogram_danmark <- read_rds(here("fodbold_kalender", "data", "kampprogram_sportradar.rds")) %>%
+  filter(land == "Denmark") %>%
+  unnest(data)
+
+```
+
+Tjekker tidstempel fra data: `r unique(kampprogram_danmark$timestamp_selv)`
+
+```{r}
+#| label: henter dansk geo data
+#| warning: false
+#| eval: false
+
+
+danske_stadion <- request("https://api.dataforsyningen.dk/steder?undertype=stadion") %>%
+  req_perform() %>%
+  resp_body_string() %>%
+  fromJSON()
+
+danske_stadion_geo <- danske_stadion %>%
+  select(stadion = primærtnavn, primærnavnestatus, visueltcenter, kommuner, sekundærenavne) %>%
+  # as_tibble()
+  unnest(kommuner) %>%
+  rename(kommune = navn) %>% 
+  unnest(sekundærenavne, keep_empty = TRUE) %>% 
+  select(-href) %>% 
+  mutate(stadion_navn = case_when(primærnavnestatus == "officielt" ~ stadion,
+                                  navnestatus == "officielt" ~ navn),
+         stadion_navn = case_match(stadion_navn,
+                                   "Jysk Park" ~ "JYSK park",
+                                   "Ceres Park" ~ "Ceres Park Vejlby",
+                                   "Cepheus Park" ~ "Cepheus Park Randers",
+                                   "Hvidovre Stadion" ~ "Pro Ventilation Arena",
+                                   .default = stadion_navn)) %>% 
+  mutate(longitude = str_split_i(visueltcenter, ",", 1) %>% str_remove_all("c|\\(") %>% as.numeric(),
+         latitude = str_split_i(visueltcenter, ",", 2) %>% str_remove_all("\\)") %>% as.numeric())
+
+
+```
+
+```{r}
+#| label: dk_geo_json
+
+danmark_geo_json <- st_read(here("fodbold_kalender", "data", "denmark-detailed-boundary_896.geojson"), quiet = TRUE)
+
+```
+
+
+```{r}
+#| label: kampprogram_geo
+#| eval: false
+
+kampprogram_geo <- kampprogram_danmark %>% 
+  left_join(danske_stadion_geo, by = join_by(stadion == stadion_navn))
+
+manglende_geo <- kampprogram_geo %>% 
+  filter(is.na(longitude) | is.na(latitude)) %>% 
+  distinct(spilleby) %>% 
+  pull()
+
+`r if (!is_empty(manglende_geo)){paste0("Der er spillebyer, hvor der ikke er geo-data. Det drejer sig om: ", manglende_geo)}`
+
+```
+
+
+
+```{r}
+#| label: laver plots
+#| results: hide
+
+Sys.setlocale("LC_TIME", "da_DK.UTF-8")
+
+# kampprogram_nested <- kampprogram_geo %>% 
+kampprogram_nested <- kampprogram_danmark %>% 
+  nest(.by = "fiktiv_kamprunde", .key = "kampprogram") %>% 
+  mutate(dato = map_dbl(kampprogram, ~min(.$kampdato)) %>% 
+           as.Date()) %>% 
+  mutate(plot = map(kampprogram, ~ggplot() +
+                      geom_sf(data = danmark_geo_json) + 
+                      geom_point_interactive(data = .x, aes(x = longitude, y = latitude,
+                                                            tooltip = sprintf("%s<br/>%s&nbsp;%s",kamp, format(kampdato, "%d/%m-%Y"), kamptidspunkt))) + 
+                      ggtitle(paste("Kampprogram for kamprunde med start:", format(unique(.x$min_ugedag), "%A %d %B %Y"))) +
+                      theme(axis.title = element_blank(),
+                            axis.text = element_blank(), 
+                            axis.ticks = element_blank(),
+                            panel.background = element_blank()))) %>%
+    mutate(idag = today(),
+         date_diff = dato-idag,
+         før_idag = idag > dato) %>% 
+  arrange(før_idag, date_diff, fiktiv_kamprunde)
+
+
+plots <- kampprogram_nested %>% 
+  # slice_head(n = 2) %>%
+  mutate(plot = map(plot, ~.x %>%
+                       girafe(ggobj = .x))) %>%
+  select(dato, plot) %>% 
+  mutate(dato = format(dato, "%d. %b %Y")) %>% 
+  pivot_wider(names_from = dato, values_from = plot)
+
+```
+
+
+::: {.panel-tabset .nav-pills}
+
+```{r}
+#| results: asis
+
+iwalk(plots, ~ {
+  cat('## ', .y, '\n\n')
+  
+  print(htmltools::tagList(.x))
+  
+  cat("\n\n")
+})
+```
+
+:::
+
+```{r}
+#| eval: true
+#| include: false
+
+htmltools::tagList(plots[1])
+```
+
+
+

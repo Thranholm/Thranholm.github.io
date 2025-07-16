@@ -1,0 +1,104 @@
+---
+title: "00_danner_fodbolddata"
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r}
+## Danner fodbold data
+
+## Indlæsning af pakker og sætter parametre for api
+
+rm(list = ls())
+
+library(pacman)
+p_load(httr2, tidyverse, jsonlite)
+
+# key <- secret_make_key()
+
+header <- c("x-api-key" = secret_decrypt(Sys.getenv("SR_PASS"), "FODBOLD_KEY"))
+
+
+comp_ids <- c(38, 39, 35, 44, 491, 217)
+
+
+seasons_req <- map(comp_ids, ~request("https://api.sportradar.com/soccer/trial/v4/en/") %>% 
+                     req_url_path_append("competitions", paste0("sr:competition:", .x), "seasons.json") %>% 
+                     req_headers_redacted(!!!header) %>% 
+                     req_throttle(capacity = 1, fill_time_s = 1))
+
+seasons_get <- seasons_req %>% 
+  req_perform_sequential()
+
+seasons_data <- resps_data(seasons_get, \(seasons_get) resp_body_string(seasons_get) %>% 
+                             fromJSON() %>% 
+                             pluck("seasons") %>% 
+                             as_tibble() %>% 
+                             mutate(comp_id = as.numeric(str_extract(competition_id, "\\d+")),
+                                    across(c("start_date", "end_date"), date)))
+
+
+seasons_id <- tibble(comp_id = comp_ids,
+                     idag = today()) %>% 
+  left_join(seasons_data,
+            by = join_by(comp_id, closest(idag <= end_date))) %>% 
+  pull(id)
+
+## Henter sæsoner og deres fodboldkampe
+
+schedule_req <- map(seasons_id, ~request("https://api.sportradar.com/soccer/trial/v4/en/") %>% 
+                      req_url_path_append("seasons", .x, "schedules.json") %>% 
+                      req_headers_redacted(!!!header) %>% 
+                      req_throttle(capacity = 1, fill_time_s = 10))
+
+schedule_get <- schedule_req %>% 
+  req_perform_sequential()
+
+
+schedules_df <- resps_data(schedule_get, \(schedule_get) resp_body_string(schedule_get) %>% 
+                             fromJSON() %>% 
+                             pluck("schedules") %>% 
+                             as_tibble())
+
+# kampprogram <- 
+kampprogram <- schedules_df %>% 
+  transmute(land = sport_event$sport_event_context$category$name,
+            landekode = sport_event$sport_event_context$category$country_code,
+            liga = sport_event$sport_event_context$competition$name,
+            liga_season = sport_event$sport_event_context$season$name,
+            season_start_dato = sport_event$sport_event_context$season$start_date,
+            season_slut_dato = sport_event$sport_event_context$season$end_date,
+            runde = sport_event$sport_event_context$round$number,
+            kampdato = date(sport_event$start_time),
+            kamptidspunkt = format(as_datetime(sport_event$start_time), "%H:%M"),
+            ugedag = wday(kampdato, label = TRUE, abbr = FALSE, locale = "da_DK.UTF-8", week_start = 1),
+            ugedag_nr = wday(kampdato, week_start = 1),
+            kampuge = if_else(ugedag_nr == 1, isoweek(kampdato)-1, isoweek(kampdato)),
+            weekend = if_else(ugedag_nr %in% c(1, 5, 6, 7), TRUE, FALSE),
+            competitors = sport_event$competitors,
+            stadion = sport_event$venue$name,
+            kapacitet = sport_event$venue$capacity,
+            spilleby = sport_event$venue$city_name,
+            koordinater = sport_event$venue$map_coordinates
+         ) %>% 
+  separate(koordinater, c("latitude", "longitude"), sep = ",", convert = TRUE) %>% 
+  mutate(kamp = map(competitors, ~.x %>% 
+                      select(name, qualifier) %>% 
+                      pivot_wider(values_from = name,
+                                  names_from = qualifier) %>% 
+                      mutate(kamp = paste(home, away, sep = " - ")))) %>% 
+  unnest(kamp) %>% 
+  mutate(fiktiv_kamprunde = dense_rank(pick(kampuge, weekend)), .after = "weekend") %>% 
+  mutate(min_ugedag = if_else(kampdato == min(kampdato), kampdato, NA), .by = fiktiv_kamprunde) %>% 
+  group_by(fiktiv_kamprunde) %>%
+  fill(min_ugedag, .direction = "downup") %>% 
+  ungroup() %>% 
+  arrange(runde, match(liga, "Bundesliga")) %>% 
+  nest(.by = land) %>% 
+  mutate(timestamp_selv = Sys.time())
+
+write_rds(kampprogram, here("fodbold_kalender", "data", "kampprogram_sportradar.rds"))
+
+```
+
