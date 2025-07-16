@@ -26,7 +26,7 @@ comp_ids <- c(38, 39, 35, 44, 491, 217)
 seasons_req <- map(comp_ids, ~request("https://api.sportradar.com/soccer/trial/v4/en/") %>% 
                      req_url_path_append("competitions", paste0("sr:competition:", .x), "seasons.json") %>% 
                      req_headers_redacted(!!!header) %>% 
-                     req_throttle(capacity = 1, fill_time_s = 1))
+                     req_throttle(capacity = 1, fill_time_s = 10))
 
 seasons_get <- seasons_req %>% 
   req_perform_sequential()
