@@ -13,7 +13,7 @@ editor_options:
 rm(list = ls())
 
 library(pacman)
-p_load(httr2, tidyverse, jsonlite)
+p_load(httr2, tidyverse, jsonlite, here)
 
 # key <- secret_make_key()
 
@@ -30,6 +30,8 @@ seasons_req <- map(comp_ids, ~request("https://api.sportradar.com/soccer/trial/v
 
 seasons_get <- seasons_req %>% 
   req_perform_sequential()
+
+Sys.sleep(5)
 
 seasons_data <- resps_data(seasons_get, \(seasons_get) resp_body_string(seasons_get) %>% 
                              fromJSON() %>% 
