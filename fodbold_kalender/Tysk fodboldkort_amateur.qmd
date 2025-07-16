@@ -117,7 +117,7 @@ plots <- kampprogram_nested %>%
 
 ```
 
-OBS! Kamptidspunkter bør tjekkes efter. For 3. Liga især er de ikke altid retvisende.
+OBS! Kamptidspunkter er ikke altid retvisende for regionalliga.
 
 Seneste opdatering: `r format(with_tz(Sys.time(), "CET"), "%d/%m/%Y %H:%M:%S")`
 
