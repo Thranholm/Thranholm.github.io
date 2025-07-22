@@ -17,7 +17,7 @@ project:
     - mio6DK.qmd
     - fodbold_kalender/00_danner_fodbolddata_sportradar.qmd
     - "fodbold_kalender/Tysk fodboldkort2.qmd"
-    #- "fodbold_kalender/Tysk fodboldkort_amateur.qmd"
+    - "fodbold_kalender/Tysk fodboldkort_amateur2.qmd"
     - "fodbold_kalender/Dansk fodboldkort2.qmd"
     - "fodbold_kalender/Belgisk fodboldkort2.qmd"
 
@@ -46,7 +46,7 @@ website:
         menu:
           - href: "fodbold_kalender/Tysk fodboldkort2.qmd"
             text: Tyskland
-          - href: "fodbold_kalender/Tysk fodboldkort_amateur.qmd"
+          - href: "fodbold_kalender/Tysk fodboldkort_amateur2.qmd"
             text: Tyskland Regionalliga
           - href: "fodbold_kalender/Dansk fodboldkort2.qmd"
             text: Danmark

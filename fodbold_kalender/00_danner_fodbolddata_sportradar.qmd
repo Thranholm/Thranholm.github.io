@@ -15,12 +15,9 @@ rm(list = ls())
 library(pacman)
 p_load(httr2, tidyverse, jsonlite, here)
 
-# key <- secret_make_key()
-
 header <- c("x-api-key" = secret_decrypt(Sys.getenv("SR_PASS"), "FODBOLD_KEY"))
 
-
-comp_ids <- c(38, 39, 35, 44, 491, 217)
+comp_ids <- c(38, 39, 35, 44, 491, 217, 493, 1079, 1083, 42, 1085)
 
 
 seasons_req <- map(comp_ids, ~request("https://api.sportradar.com/soccer/trial/v4/en/") %>% 

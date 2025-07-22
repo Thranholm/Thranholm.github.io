@@ -1,0 +1,121 @@
+---
+title: "Tysk Regionalliga"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r}
+#| label: indlæser data
+#| echo: false
+#| message: false
+
+library(pacman)
+p_load(tidyverse, ggiraph, cowplot, RColorBrewer, sf, here)
+
+
+kampprogram_tyskland <- read_rds(here("fodbold_kalender", "data", "kampprogram.rds")) %>%
+  filter(land == "Germany") %>%
+  unnest(data) %>% 
+  filter(str_detect(liga, "Regionalliga"))
+
+if(nrow(kampprogram_tyskland) == 0){
+  kampprogram_klar <- FALSE
+} else {
+  kampprogram_klar <- TRUE
+}
+
+```
+
+
+```{r}
+#| label: henter tysk geodata
+#| echo: false
+#| eval: !expr kampprogram_klar
+
+tyskland_geo_json <- st_read("https://raw.githubusercontent.com/isellsoap/deutschlandGeoJSON/main/1_deutschland/2_hoch.geo.json", quiet = TRUE)
+
+
+```
+
+
+
+```{r}
+#| label: laver plots
+#| message: false
+#| echo: false
+#| results: hide
+#| eval: !expr kampprogram_klar
+
+
+Sys.setlocale("LC_TIME", "da_DK.UTF-8")
+
+## Laver plots
+
+kampprogram_nested <- kampprogram_tyskland %>% 
+  # mutate(liga = factor(liga, levels = c("Bundesliga", "2. Bundesliga", "3. Liga"))) %>% 
+  nest(.by = c("fiktiv_kamprunde"), .key = "kampprogram") %>% 
+  mutate(dato = map_dbl(kampprogram, ~min(.x$kampdato)) %>% 
+           as.Date()) %>% 
+  mutate(plot = map(kampprogram, ~ggplot() + 
+                      geom_sf(data = tyskland_geo_json) +
+                      geom_point_interactive(data = .x, aes(x = longitude, y = latitude, colour = liga,
+                                                            tooltip=sprintf("%s<br/>%s&nbsp;%s",kamp,format(kampdato, "%d/%m-%Y"), kamptidspunkt))) +
+                      ggtitle(paste("Kampprogram for kamprunde med start:", format(unique(.x$min_ugedag), "%A %d %B %Y"))) +
+                      theme(legend.position = "right",
+                            legend.title = element_blank(),
+                            legend.justification = "top",
+                            axis.title = element_blank(),
+                            axis.text = element_blank(), 
+                            axis.ticks = element_blank(),
+                            panel.background = element_blank()))) %>% 
+  mutate(idag = today(),
+         date_diff = dato-idag,
+         før_idag = idag > dato) %>% 
+  arrange(før_idag, date_diff, fiktiv_kamprunde)
+
+
+plots <- kampprogram_nested %>% 
+  mutate(plot = map(plot, ~.x %>%
+                       girafe(ggobj = .x, height_svg = 7))) %>%
+  select(dato, plot) %>% 
+  mutate(dato = format(dato, "%d. %b %Y")) %>% 
+  pivot_wider(names_from = dato, values_from = plot)
+
+
+```
+
+OBS! Kamptidspunkter er ikke altid retvisende for regionalliga.
+
+Seneste opdatering: `r format(with_tz(Sys.time(), "CET"), "%d/%m/%Y %H:%M:%S")`
+
+`r if(!kampprogram_klar){"**Kampkalender er ikke klar endnu**"}`
+
+::: {.panel-tabset .nav-pills}
+
+```{r}
+#| results: asis
+#| eval: !expr kampprogram_klar
+
+iwalk(plots, ~ {
+  cat('## ', .y, '\n\n')
+  
+  print(htmltools::tagList(.x))
+  
+  cat("\n\n")
+})
+```
+
+:::
+
+```{r}
+#| include: false
+#| eval: !expr kampprogram_klar
+
+htmltools::tagList(plots[1])
+```
+
+
+
+
