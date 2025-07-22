@@ -17,7 +17,7 @@ p_load(httr2, tidyverse, jsonlite, here)
 
 header <- c("x-api-key" = secret_decrypt(Sys.getenv("SR_PASS"), "FODBOLD_KEY"))
 
-comp_ids <- c(38, 39, 35, 44, 491, 217, 493, 1079, 1083, 42, 1085)
+comp_ids <- c(38, 39, 35, 44, 491, 217)
 
 
 seasons_req <- map(comp_ids, ~request("https://api.sportradar.com/soccer/trial/v4/en/") %>% 
@@ -60,7 +60,6 @@ schedules_df <- resps_data(schedule_get, \(schedule_get) resp_body_string(schedu
                              pluck("schedules") %>% 
                              as_tibble())
 
-# kampprogram <- 
 kampprogram <- schedules_df %>% 
   transmute(land = sport_event$sport_event_context$category$name,
             landekode = sport_event$sport_event_context$category$country_code,
