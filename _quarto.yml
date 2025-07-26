@@ -40,6 +40,8 @@ website:
             text: "2019"
           - href: "epvalg/EP_rapport_2024.qmd"
             text: "2024"
+      - href: komvalg_shiny.qmd
+        text: Udregn KV/EP-valg
       - href: mio6DK.qmd
         text: 6 mio danskere
       - text: Fodboldkalender
