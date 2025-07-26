@@ -61,6 +61,7 @@ schedules_df <- resps_data(schedule_get, \(schedule_get) resp_body_string(schedu
                              as_tibble())
 
 kampprogram <- schedules_df %>% 
+  rowwise() %>% 
   transmute(land = sport_event$sport_event_context$category$name,
             landekode = sport_event$sport_event_context$category$country_code,
             liga = sport_event$sport_event_context$competition$name,
@@ -69,7 +70,11 @@ kampprogram <- schedules_df %>%
             season_slut_dato = sport_event$sport_event_context$season$end_date,
             runde = sport_event$sport_event_context$round$number,
             kampdato = date(sport_event$start_time),
-            kamptidspunkt = format(as_datetime(sport_event$start_time), "%H:%M"),
+            kamptidspunkt = format(
+              with_tz(
+                as_datetime(sport_event$start_time, tz = sport_event$venue$timezone),
+                tzone = "Europe/Berlin"),
+              "%H:%M"),
             ugedag = wday(kampdato, label = TRUE, abbr = FALSE, locale = "da_DK.UTF-8", week_start = 1),
             ugedag_nr = wday(kampdato, week_start = 1),
             kampuge = if_else(ugedag_nr == 1, isoweek(kampdato)-1, isoweek(kampdato)),
@@ -81,6 +86,7 @@ kampprogram <- schedules_df %>%
             koordinater = sport_event$venue$map_coordinates
          ) %>% 
   separate(koordinater, c("latitude", "longitude"), sep = ",", convert = TRUE) %>% 
+  ungroup() %>% 
   mutate(kamp = map(competitors, ~.x %>% 
                       select(name, qualifier) %>% 
                       pivot_wider(values_from = name,
