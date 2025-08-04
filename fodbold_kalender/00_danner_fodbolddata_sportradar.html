@@ -249,146 +249,162 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>seasons_get <span class="ot">&lt;-</span> seasons_req <span class="sc">%&gt;%</span> </span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">req_perform_sequential</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Iterating ■■■■■■                            17% | ETA:  6s</code></pre>
+<pre><code>Waiting 9s for throttling delay ■■■■                            </code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Waiting 8s for throttling delay ■■■■                            </code></pre>
+<pre><code>Waiting 9s for throttling delay ■■■■■                           </code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Waiting 8s for throttling delay ■■■■■■■■■■■■■■■                 </code></pre>
+<pre><code>Waiting 9s for throttling delay ■■■■■■■■■■■■■■                  </code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Waiting 8s for throttling delay ■■■■■■■■■■■■■■■■■■■■■■■■■■      </code></pre>
+<pre><code>Waiting 9s for throttling delay ■■■■■■■■■■■■■■■■■■■■■■■■■       </code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Waiting 8s for throttling delay ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </code></pre>
+<pre><code>Waiting 9s for throttling delay ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </code></pre>
 </div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Waiting 9s for throttling delay ■■■■                            </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Waiting 9s for throttling delay ■■■■■■■■■■■■■                   </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Waiting 9s for throttling delay ■■■■■■■■■■■■■■■■■■■■■■■         </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Waiting 9s for throttling delay ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Iterating ■■■■■■■■■■■■■■■■                  50% | ETA: 20s</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Waiting 10s for throttling delay ■■■■■■■■■■                      </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Waiting 10s for throttling delay ■■■■■■■■■■■■■■■■■■■             </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Waiting 10s for throttling delay ■■■■■■■■■■■■■■■■■■■■■■■■■■■■    </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Waiting 10s for throttling delay ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Iterating ■■■■■■■■■■■■■■■■                  50% | ETA: 20s
+Waiting 9s for throttling delay ■■■■■                           
+Waiting 9s for throttling delay ■■■■■■■■■■■■■■■                 
+Waiting 9s for throttling delay ■■■■■■■■■■■■■■■■■■■■■■■■■       
+Waiting 9s for throttling delay ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 
+Iterating ■■■■■■■■■■■■■■■■                  50% | ETA: 20s
+Waiting 9s for throttling delay ■■■■                            
+Waiting 9s for throttling delay ■■■■■■■■■■■■■                   
+Waiting 9s for throttling delay ■■■■■■■■■■■■■■■■■■■■■■■         
+Waiting 9s for throttling delay ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 
+Iterating ■■■■■■■■■■■■■■■■                  50% | ETA: 20s
+Iterating ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  100% | ETA:  0s</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.sleep</span>(<span class="dv">5</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>seasons_data <span class="ot">&lt;-</span> <span class="fu">resps_data</span>(seasons_get, \(seasons_get) <span class="fu">resp_body_string</span>(seasons_get) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>                             <span class="fu">fromJSON</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>                             <span class="fu">pluck</span>(<span class="st">"seasons"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>                             <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>                             <span class="fu">mutate</span>(<span class="at">comp_id =</span> <span class="fu">as.numeric</span>(<span class="fu">str_extract</span>(competition_id, <span class="st">"</span><span class="sc">\\</span><span class="st">d+"</span>)),</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>                                    <span class="fu">across</span>(<span class="fu">c</span>(<span class="st">"start_date"</span>, <span class="st">"end_date"</span>), date)))</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>seasons_id <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">comp_id =</span> comp_ids,</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>                     <span class="at">idag =</span> <span class="fu">today</span>()) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(seasons_data,</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">by =</span> <span class="fu">join_by</span>(comp_id, <span class="fu">closest</span>(idag <span class="sc">&lt;=</span> end_date))) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(id)</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="do">## Henter sæsoner og deres fodboldkampe</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>schedule_req <span class="ot">&lt;-</span> <span class="fu">map</span>(seasons_id, <span class="sc">~</span><span class="fu">request</span>(<span class="st">"https://api.sportradar.com/soccer/trial/v4/en/"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">req_url_path_append</span>(<span class="st">"seasons"</span>, .x, <span class="st">"schedules.json"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">req_headers_redacted</span>(<span class="sc">!!!</span>header) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">req_throttle</span>(<span class="at">capacity =</span> <span class="dv">1</span>, <span class="at">fill_time_s =</span> <span class="dv">10</span>))</span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>schedule_get <span class="ot">&lt;-</span> schedule_req <span class="sc">%&gt;%</span> </span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">req_perform_sequential</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Iterating ■■■■■■                            17% | ETA:  6s
-Waiting 10s for throttling delay ■■■■                            
-Waiting 10s for throttling delay ■■■■■■■■■■■■■                   
-Waiting 10s for throttling delay ■■■■■■■■■■■■■■■■■■■■■■          
-Waiting 10s for throttling delay ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 
+Waiting 8s for throttling delay ■■■■■■■■■■                      
+Waiting 8s for throttling delay ■■■■■■■■■■■■■■■■■■■■■■          
+Waiting 8s for throttling delay ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 
 Iterating ■■■■■■                            17% | ETA:  6s
-Iterating ■■■■■■■■■■■■■■■■                  50% | ETA: 21s
+Iterating ■■■■■■■■■■■                       33% | ETA: 21s
 Waiting 9s for throttling delay ■■■■■■■■■                       
 Waiting 9s for throttling delay ■■■■■■■■■■■■■■■■■■■             
-Waiting 9s for throttling delay ■■■■■■■■■■■■■■■■■■■■■■■■■■■■    
+Waiting 9s for throttling delay ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■   
 Waiting 9s for throttling delay ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 
-Iterating ■■■■■■■■■■■■■■■■                  50% | ETA: 21s
-Waiting 9s for throttling delay ■■■■■■                          
-Waiting 9s for throttling delay ■■■■■■■■■■■■■■■■                
-Waiting 9s for throttling delay ■■■■■■■■■■■■■■■■■■■■■■■■■■      
+Iterating ■■■■■■■■■■■                       33% | ETA: 21s
+Waiting 9s for throttling delay ■■■■■                           
+Waiting 9s for throttling delay ■■■■■■■■■■■■■■■                 
+Waiting 9s for throttling delay ■■■■■■■■■■■■■■■■■■■■■■■■■       
 Waiting 9s for throttling delay ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 
-Iterating ■■■■■■■■■■■■■■■■                  50% | ETA: 21s
-Waiting 10s for throttling delay ■■■■                            
-Waiting 10s for throttling delay ■■■■■■■■■■■■■                   
-Waiting 10s for throttling delay ■■■■■■■■■■■■■■■■■■■■■■          
-Waiting 10s for throttling delay ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 
-Iterating ■■■■■■■■■■■■■■■■                  50% | ETA: 21s
-Iterating ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  100% | ETA:  0s</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.sleep</span>(<span class="dv">5</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>seasons_data <span class="ot">&lt;-</span> <span class="fu">resps_data</span>(seasons_get, \(seasons_get) <span class="fu">resp_body_string</span>(seasons_get) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>                             <span class="fu">fromJSON</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>                             <span class="fu">pluck</span>(<span class="st">"seasons"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>                             <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>                             <span class="fu">mutate</span>(<span class="at">comp_id =</span> <span class="fu">as.numeric</span>(<span class="fu">str_extract</span>(competition_id, <span class="st">"</span><span class="sc">\\</span><span class="st">d+"</span>)),</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>                                    <span class="fu">across</span>(<span class="fu">c</span>(<span class="st">"start_date"</span>, <span class="st">"end_date"</span>), date)))</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>seasons_id <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">comp_id =</span> comp_ids,</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>                     <span class="at">idag =</span> <span class="fu">today</span>()) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(seasons_data,</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">by =</span> <span class="fu">join_by</span>(comp_id, <span class="fu">closest</span>(idag <span class="sc">&lt;=</span> end_date))) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(id)</span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="do">## Henter sæsoner og deres fodboldkampe</span></span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>schedule_req <span class="ot">&lt;-</span> <span class="fu">map</span>(seasons_id, <span class="sc">~</span><span class="fu">request</span>(<span class="st">"https://api.sportradar.com/soccer/trial/v4/en/"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">req_url_path_append</span>(<span class="st">"seasons"</span>, .x, <span class="st">"schedules.json"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">req_headers_redacted</span>(<span class="sc">!!!</span>header) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">req_throttle</span>(<span class="at">capacity =</span> <span class="dv">1</span>, <span class="at">fill_time_s =</span> <span class="dv">10</span>))</span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>schedule_get <span class="ot">&lt;-</span> schedule_req <span class="sc">%&gt;%</span> </span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">req_perform_sequential</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Iterating ■■■■■■                            17% | ETA:  6s
-Waiting 9s for throttling delay ■■■■■■■                         
-Waiting 9s for throttling delay ■■■■■■■■■■■■■■■■■               
-Waiting 9s for throttling delay ■■■■■■■■■■■■■■■■■■■■■■■■■■■     
-Waiting 9s for throttling delay ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 
-Iterating ■■■■■■                            17% | ETA:  6s
-Waiting 9s for throttling delay ■■■■                            
-Waiting 9s for throttling delay ■■■■■■■■■■■■■■                  
-Waiting 9s for throttling delay ■■■■■■■■■■■■■■■■■■■■■■■■        
-Waiting 9s for throttling delay ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 
-Iterating ■■■■■■                            17% | ETA:  6s
-Iterating ■■■■■■■■■■■■■■■■                  50% | ETA: 22s
-Waiting 8s for throttling delay ■■■■■■■■■■                      
-Waiting 8s for throttling delay ■■■■■■■■■■■■■■■■■■■■■           
-Waiting 8s for throttling delay ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 
-Iterating ■■■■■■■■■■■■■■■■                  50% | ETA: 22s
+Iterating ■■■■■■■■■■■                       33% | ETA: 21s
 Iterating ■■■■■■■■■■■■■■■■■■■■■             67% | ETA: 16s
-Waiting 8s for throttling delay ■■■■■■■                         
-Waiting 8s for throttling delay ■■■■■■■■■■■■■■■■■■              
-Waiting 8s for throttling delay ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■   
+Waiting 8s for throttling delay ■■■■■■■■■■■                     
+Waiting 8s for throttling delay ■■■■■■■■■■■■■■■■■■■■■■          
 Waiting 8s for throttling delay ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 
 Iterating ■■■■■■■■■■■■■■■■■■■■■             67% | ETA: 16s
-Waiting 9s for throttling delay ■■■■                            
-Waiting 9s for throttling delay ■■■■■■■■■■■■■■                  
-Waiting 9s for throttling delay ■■■■■■■■■■■■■■■■■■■■■■■■        
+Iterating ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  8s
+Waiting 9s for throttling delay ■■■■■■■■■                       
+Waiting 9s for throttling delay ■■■■■■■■■■■■■■■■■■■             
+Waiting 9s for throttling delay ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■   
 Waiting 9s for throttling delay ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 
-Iterating ■■■■■■■■■■■■■■■■■■■■■             67% | ETA: 16s
+Iterating ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  8s
 Iterating ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  100% | ETA:  0s</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>schedules_df <span class="ot">&lt;-</span> <span class="fu">resps_data</span>(schedule_get, \(schedule_get) <span class="fu">resp_body_string</span>(schedule_get) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>                             <span class="fu">fromJSON</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>                             <span class="fu">pluck</span>(<span class="st">"schedules"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>                             <span class="fu">as_tibble</span>())</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>kampprogram <span class="ot">&lt;-</span> schedules_df <span class="sc">%&gt;%</span> </span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(<span class="at">land =</span> sport_event<span class="sc">$</span>sport_event_context<span class="sc">$</span>category<span class="sc">$</span>name,</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">landekode =</span> sport_event<span class="sc">$</span>sport_event_context<span class="sc">$</span>category<span class="sc">$</span>country_code,</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">liga =</span> sport_event<span class="sc">$</span>sport_event_context<span class="sc">$</span>competition<span class="sc">$</span>name,</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">liga_season =</span> sport_event<span class="sc">$</span>sport_event_context<span class="sc">$</span>season<span class="sc">$</span>name,</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">season_start_dato =</span> sport_event<span class="sc">$</span>sport_event_context<span class="sc">$</span>season<span class="sc">$</span>start_date,</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">season_slut_dato =</span> sport_event<span class="sc">$</span>sport_event_context<span class="sc">$</span>season<span class="sc">$</span>end_date,</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">runde =</span> sport_event<span class="sc">$</span>sport_event_context<span class="sc">$</span>round<span class="sc">$</span>number,</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>            <span class="at">kampdato =</span> <span class="fu">date</span>(sport_event<span class="sc">$</span>start_time),</span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>            <span class="at">kamptidspunkt =</span> <span class="fu">format</span>(</span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>              <span class="fu">with_tz</span>(</span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>                <span class="fu">as_datetime</span>(sport_event<span class="sc">$</span>start_time, <span class="at">tz =</span> sport_event<span class="sc">$</span>venue<span class="sc">$</span>timezone),</span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>                <span class="at">tzone =</span> <span class="st">"Europe/Berlin"</span>),</span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>              <span class="st">"%H:%M"</span>),</span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>            <span class="at">ugedag =</span> <span class="fu">wday</span>(kampdato, <span class="at">label =</span> <span class="cn">TRUE</span>, <span class="at">abbr =</span> <span class="cn">FALSE</span>, <span class="at">locale =</span> <span class="st">"da_DK.UTF-8"</span>, <span class="at">week_start =</span> <span class="dv">1</span>),</span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>            <span class="at">ugedag_nr =</span> <span class="fu">wday</span>(kampdato, <span class="at">week_start =</span> <span class="dv">1</span>),</span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>            <span class="at">kampuge =</span> <span class="fu">if_else</span>(ugedag_nr <span class="sc">==</span> <span class="dv">1</span>, <span class="fu">isoweek</span>(kampdato)<span class="sc">-</span><span class="dv">1</span>, <span class="fu">isoweek</span>(kampdato)),</span>
-<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>            <span class="at">weekend =</span> <span class="fu">if_else</span>(ugedag_nr <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>), <span class="cn">TRUE</span>, <span class="cn">FALSE</span>),</span>
-<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>            <span class="at">competitors =</span> sport_event<span class="sc">$</span>competitors,</span>
-<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>            <span class="at">stadion =</span> sport_event<span class="sc">$</span>venue<span class="sc">$</span>name,</span>
-<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>            <span class="at">kapacitet =</span> sport_event<span class="sc">$</span>venue<span class="sc">$</span>capacity,</span>
-<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>            <span class="at">spilleby =</span> sport_event<span class="sc">$</span>venue<span class="sc">$</span>city_name,</span>
-<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>            <span class="at">koordinater =</span> sport_event<span class="sc">$</span>venue<span class="sc">$</span>map_coordinates</span>
-<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>         ) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(koordinater, <span class="fu">c</span>(<span class="st">"latitude"</span>, <span class="st">"longitude"</span>), <span class="at">sep =</span> <span class="st">","</span>, <span class="at">convert =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">kamp =</span> <span class="fu">map</span>(competitors, <span class="sc">~</span>.x <span class="sc">%&gt;%</span> </span>
-<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">select</span>(name, qualifier) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">pivot_wider</span>(<span class="at">values_from =</span> name,</span>
-<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">names_from =</span> qualifier) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">mutate</span>(<span class="at">kamp =</span> <span class="fu">paste</span>(home, away, <span class="at">sep =</span> <span class="st">" - "</span>)))) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(kamp) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">fiktiv_kamprunde =</span> <span class="fu">dense_rank</span>(<span class="fu">pick</span>(kampuge, weekend)), <span class="at">.after =</span> <span class="st">"weekend"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">min_ugedag =</span> <span class="fu">if_else</span>(kampdato <span class="sc">==</span> <span class="fu">min</span>(kampdato), kampdato, <span class="cn">NA</span>), <span class="at">.by =</span> fiktiv_kamprunde) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(fiktiv_kamprunde) <span class="sc">%&gt;%</span></span>
-<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(min_ugedag, <span class="at">.direction =</span> <span class="st">"downup"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(runde, <span class="fu">match</span>(liga, <span class="st">"Bundesliga"</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nest</span>(<span class="at">.by =</span> land) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">timestamp_selv =</span> <span class="fu">Sys.time</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>schedules_df <span class="ot">&lt;-</span> <span class="fu">resps_data</span>(schedule_get, \(schedule_get) <span class="fu">resp_body_string</span>(schedule_get) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                             <span class="fu">fromJSON</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                             <span class="fu">pluck</span>(<span class="st">"schedules"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>                             <span class="fu">as_tibble</span>())</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>kampprogram <span class="ot">&lt;-</span> schedules_df <span class="sc">%&gt;%</span> </span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(<span class="at">land =</span> sport_event<span class="sc">$</span>sport_event_context<span class="sc">$</span>category<span class="sc">$</span>name,</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">landekode =</span> sport_event<span class="sc">$</span>sport_event_context<span class="sc">$</span>category<span class="sc">$</span>country_code,</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">liga =</span> sport_event<span class="sc">$</span>sport_event_context<span class="sc">$</span>competition<span class="sc">$</span>name,</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">liga_season =</span> sport_event<span class="sc">$</span>sport_event_context<span class="sc">$</span>season<span class="sc">$</span>name,</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">season_start_dato =</span> sport_event<span class="sc">$</span>sport_event_context<span class="sc">$</span>season<span class="sc">$</span>start_date,</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">season_slut_dato =</span> sport_event<span class="sc">$</span>sport_event_context<span class="sc">$</span>season<span class="sc">$</span>end_date,</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">runde =</span> sport_event<span class="sc">$</span>sport_event_context<span class="sc">$</span>round<span class="sc">$</span>number,</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>            <span class="at">kampdato =</span> <span class="fu">date</span>(sport_event<span class="sc">$</span>start_time),</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>            <span class="at">kamptidspunkt =</span> <span class="fu">format</span>(</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>              <span class="fu">with_tz</span>(</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>                <span class="fu">as_datetime</span>(sport_event<span class="sc">$</span>start_time, <span class="at">tz =</span> sport_event<span class="sc">$</span>venue<span class="sc">$</span>timezone),</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>                <span class="at">tzone =</span> <span class="st">"Europe/Berlin"</span>),</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>              <span class="st">"%H:%M"</span>),</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>            <span class="at">ugedag =</span> <span class="fu">wday</span>(kampdato, <span class="at">label =</span> <span class="cn">TRUE</span>, <span class="at">abbr =</span> <span class="cn">FALSE</span>, <span class="at">locale =</span> <span class="st">"da_DK.UTF-8"</span>, <span class="at">week_start =</span> <span class="dv">1</span>),</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>            <span class="at">ugedag_nr =</span> <span class="fu">wday</span>(kampdato, <span class="at">week_start =</span> <span class="dv">1</span>),</span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>            <span class="at">kampuge =</span> <span class="fu">if_else</span>(ugedag_nr <span class="sc">==</span> <span class="dv">1</span>, <span class="fu">isoweek</span>(kampdato)<span class="sc">-</span><span class="dv">1</span>, <span class="fu">isoweek</span>(kampdato)),</span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>            <span class="at">weekend =</span> <span class="fu">if_else</span>(ugedag_nr <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>), <span class="cn">TRUE</span>, <span class="cn">FALSE</span>),</span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>            <span class="at">competitors =</span> sport_event<span class="sc">$</span>competitors,</span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>            <span class="at">stadion =</span> sport_event<span class="sc">$</span>venue<span class="sc">$</span>name,</span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>            <span class="at">kapacitet =</span> sport_event<span class="sc">$</span>venue<span class="sc">$</span>capacity,</span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>            <span class="at">spilleby =</span> sport_event<span class="sc">$</span>venue<span class="sc">$</span>city_name,</span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>            <span class="at">koordinater =</span> sport_event<span class="sc">$</span>venue<span class="sc">$</span>map_coordinates</span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>         ) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(koordinater, <span class="fu">c</span>(<span class="st">"latitude"</span>, <span class="st">"longitude"</span>), <span class="at">sep =</span> <span class="st">","</span>, <span class="at">convert =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">kamp =</span> <span class="fu">map</span>(competitors, <span class="sc">~</span>.x <span class="sc">%&gt;%</span> </span>
+<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">select</span>(name, qualifier) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">pivot_wider</span>(<span class="at">values_from =</span> name,</span>
+<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">names_from =</span> qualifier) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">mutate</span>(<span class="at">kamp =</span> <span class="fu">paste</span>(home, away, <span class="at">sep =</span> <span class="st">" - "</span>)))) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(kamp) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">fiktiv_kamprunde =</span> <span class="fu">dense_rank</span>(<span class="fu">pick</span>(kampuge, weekend)), <span class="at">.after =</span> <span class="st">"weekend"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">min_ugedag =</span> <span class="fu">if_else</span>(kampdato <span class="sc">==</span> <span class="fu">min</span>(kampdato), kampdato, <span class="cn">NA</span>), <span class="at">.by =</span> fiktiv_kamprunde) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(fiktiv_kamprunde) <span class="sc">%&gt;%</span></span>
+<span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(min_ugedag, <span class="at">.direction =</span> <span class="st">"downup"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb19-44"><a href="#cb19-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(runde, <span class="fu">match</span>(liga, <span class="st">"Bundesliga"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-45"><a href="#cb19-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nest</span>(<span class="at">.by =</span> land) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-46"><a href="#cb19-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">timestamp_selv =</span> <span class="fu">Sys.time</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Date in ISO8601 format; converting timezone from UTC to "Europe/Brussels".
 Date in ISO8601 format; converting timezone from UTC to "Europe/Brussels".
@@ -1788,7 +1804,7 @@ Date in ISO8601 format; converting timezone from UTC to "Europe/Berlin".
 Date in ISO8601 format; converting timezone from UTC to "Europe/Berlin".
 Date in ISO8601 format; converting timezone from UTC to "Europe/Berlin".</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_rds</span>(kampprogram, <span class="fu">here</span>(<span class="st">"fodbold_kalender"</span>, <span class="st">"data"</span>, <span class="st">"kampprogram_sportradar.rds"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_rds</span>(kampprogram, <span class="fu">here</span>(<span class="st">"fodbold_kalender"</span>, <span class="st">"data"</span>, <span class="st">"kampprogram_sportradar.rds"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
