@@ -18,7 +18,13 @@ p_load(tidyverse, ggiraph, cowplot, RColorBrewer, sf, here)
 kampprogram_tyskland <- read_rds(here("fodbold_kalender", "data", "kampprogram.rds")) %>%
   filter(land == "Germany") %>%
   unnest(data) %>% 
-  filter(str_detect(liga, "Regionalliga"))
+  filter(str_detect(liga, "Regionalliga")) %>% 
+  ## ændrer lidt i et par bynavne
+  mutate(spilleby = case_match(spilleby,
+                               "Hannover-List" ~ "Hannover",
+                               "Mainz-Mombach" ~ "Mainz",
+                               .default = spilleby))
+  
 
 if(nrow(kampprogram_tyskland) == 0){
   kampprogram_klar <- FALSE
@@ -66,7 +72,7 @@ manglende_geo <- kampprogram_geo %>%
 
 ```
 
-`r if (kampprogram_klar && !is_empty(manglende_geo)){paste0("Der er spillebyer, hvor der ikke er geo-data. Det drejer sig om: ", manglende_geo)}`
+`r if (kampprogram_klar && !is_empty(manglende_geo)){cat("Der er spillebyer, hvor der ikke er geo-data. Det drejer sig om:", paste(manglende_geo, collapse = ", "))}`
 
 
 ```{r}

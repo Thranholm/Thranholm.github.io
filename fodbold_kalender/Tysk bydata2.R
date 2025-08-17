@@ -15,6 +15,7 @@ by_i_data <- kampprogram_geo %>%
 
 manglende_byer <- by_i_data %>% 
   filter(!findes) %>% 
+  filter(!is.na(spilleby)) %>% 
   pull(spilleby)
 
 ## Henter byer
@@ -27,7 +28,7 @@ for (i in seq_along(manglende_byer)){
   
   find_by <- request("https://wft-geo-db.p.rapidapi.com/v1/geo/cities") %>% 
     req_url_query(namePrefix = manglende_byer[i]) %>% 
-    req_headers(!!!ny_geo_headers) %>% 
+    req_headers_redacted(!!!ny_geo_headers) %>% 
     req_perform()
   
 
