@@ -1,0 +1,176 @@
+---
+title: "Fodboldkort"
+output: html_document
+execute: 
+  echo: false
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+#| label: indlaes_data
+#| message: false
+
+library(pacman)
+p_load(tidyverse, leaflet, widgetframe, jsonlite, httr2, here, sf)
+
+kampprogram <- read_rds(here("fodbold_kalender", "data", "kampprogram.rds")) %>%
+  unnest(data) %>% 
+  mutate(spilleby = case_when(
+    str_detect(hjemmehold %>% tolower(), "anderlecht") ~ "Anderlecht",
+    str_detect(hjemmehold %>% tolower(), "gilloise") ~ "Forest",
+    str_detect(spilleby %>% tolower(), "anvers") ~ "Antwerpen",
+    str_detect(spilleby %>% tolower(), "deurne") ~ "Antwerpen",
+    str_detect(hjemmehold %>% tolower(), "mechelen") ~ "Mechelen",
+    str_detect(hjemmehold %>% tolower(), "truiden") ~ "Sint-Truiden",
+    str_detect(hjemmehold %>% tolower(), "liege") ~ "Liège",
+    str_detect(spilleby %>% tolower(), "heverlee") ~ "Oud-Heverlee",
+    .default = spilleby))
+
+
+```
+
+
+```{r}
+#| label: dansk_geodata
+
+danske_stadion <- request("https://api.dataforsyningen.dk/steder?undertype=stadion") %>%
+  req_perform() %>%
+  resp_body_string() %>%
+  fromJSON()
+
+danske_stadion_geo <- danske_stadion %>%
+  select(stadion = primærtnavn, primærnavnestatus, visueltcenter, kommuner, sekundærenavne) %>%
+  # as_tibble()
+  unnest(kommuner) %>%
+  rename(kommune = navn) %>% 
+  unnest(sekundærenavne, keep_empty = TRUE) %>% 
+  select(-href) %>% 
+  mutate(stadion_navn = case_when(primærnavnestatus == "officielt" ~ stadion,
+                                  navnestatus == "officielt" ~ navn),
+         stadion_navn = case_match(stadion_navn,
+                                   "Jysk Park" ~ "JYSK park",
+                                   "Ceres Park" ~ "Ceres Park Vejlby",
+                                   "Cepheus Park" ~ "Cepheus Park Randers",
+                                   "Hvidovre Stadion" ~ "Pro Ventilation Arena",
+                                   .default = stadion_navn)) %>% 
+  mutate(longitude = str_split_i(visueltcenter, ",", 1) %>% str_remove_all("c|\\(") %>% as.numeric(),
+         latitude = str_split_i(visueltcenter, ",", 2) %>% str_remove_all("\\)") %>% as.numeric()) %>% 
+  mutate(land = "Denmark") %>% 
+  select(land, stadion = stadion_navn, longitude, latitude) %>% 
+  filter(!is.na(stadion))
+
+```
+
+
+```{r}
+#| label: tysk_geodata
+
+tyske_byer_geo <- readRDS(here("fodbold_kalender", "data", "tyske_byer.Rds"))
+
+tyske_byer_geo_filter <- tyske_byer_geo %>% 
+  semi_join(kampprogram, by = c("name" = "spilleby")) %>% 
+  filter(population == max(population), .by = "name") %>% 
+  mutate(land = "Germany") %>% 
+  select(land, spilleby = name, longitude, latitude)
+
+
+```
+
+
+```{r}
+#| label: belgisk_geodata
+
+belgisk_byer_geo <- st_read(here("fodbold_kalender", "data", "BELGIUM_-_Municipalities.geojson"), quiet = TRUE) %>% 
+  mutate(across(c("ADMUNAFR", "ADMUNADU", "ADMUNAGE"), ~str_to_title(.)))
+
+belgisk_byer_geo <- belgisk_byer_geo %>% 
+  cbind(belgisk_byer_geo %>% st_centroid() %>% st_coordinates()) %>% 
+  st_drop_geometry() %>% 
+  select(spilleby = Communes, longitude = X, latitude = Y) %>% 
+  distinct(spilleby, .keep_all = TRUE) %>% 
+  as_tibble() %>% 
+  mutate(land = "Belgium")
+
+
+```
+
+
+```{r}
+#| label: klargoer_data
+
+kampprogram_geo <- kampprogram %>% 
+  left_join(danske_stadion_geo,
+            by = join_by(land, stadion)) %>% 
+  rows_patch(tyske_byer_geo_filter,
+             by = c("land", "spilleby"),
+             unmatched = "ignore") %>% 
+  rows_patch(belgisk_byer_geo,
+             by = c("land", "spilleby"),
+             unmatched = "ignore") %>% 
+  mutate(popup = paste0(kamp, "<br/>", format(kampdato, "%d/%m-%Y"),
+                        " ", kamptidspunkt),
+         label = paste0(kamp, "\n", format(kampdato, "%d/%m-%Y"),
+                        " ", kamptidspunkt))
+
+```
+
+```{r}
+#| label: nested_plot
+
+kampprogram_nested <- kampprogram_geo %>% 
+  nest(.by = "fiktiv_kamprunde", .key = "kampprogram") %>% 
+  mutate(dato = map_dbl(kampprogram, ~min(.$kampdato)) %>% 
+           as.Date()) %>% 
+  mutate(leaflet = map(kampprogram, ~leaflet(.x) %>% 
+                         addTiles() %>% 
+                         setView(lat = 51.1657, lng = 10.4515, zoom = 5) %>% 
+                         addCircleMarkers(~longitude, ~latitude,
+                                          popup = ~popup,
+                                          label = ~label,
+                                          clusterOptions = markerClusterOptions()))) %>% 
+  mutate(idag = today(),
+         date_diff = dato-idag,
+         før_idag = idag > dato) %>% 
+  arrange(før_idag, date_diff, fiktiv_kamprunde)
+
+```
+
+```{r}
+#| label: transpose_plots
+
+plots <- kampprogram_nested %>% 
+  select(dato, leaflet) %>% 
+  mutate(dato = format(dato, "%d. %b %Y")) %>% 
+  pivot_wider(names_from = dato, values_from = leaflet)
+
+```
+
+::: {.panel-tabset .nav-pills}
+
+```{r}
+#| results: asis
+
+iwalk(plots, ~ {
+  cat('## ', .y, '\n\n')
+  
+  print(htmltools::tagList(.x))
+  
+  cat("\n\n")
+})
+
+
+```
+
+:::
+
+```{r}
+#| eval: true
+#| include: false
+
+htmltools::tagList(plots[1])
+```
+
+
+
+

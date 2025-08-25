@@ -16,6 +16,7 @@ project:
     - "epvalg/EP_rapport_2024.qmd"
     - mio6DK.qmd
     - fodbold_kalender/00_danner_fodbolddata.qmd
+    - fodbold_kalender/Leaflet.qmd
     - "fodbold_kalender/Tysk fodboldkort.qmd"
     - "fodbold_kalender/Tysk fodboldkort_amateur.qmd"
     - "fodbold_kalender/Dansk fodboldkort.qmd"
@@ -54,7 +55,8 @@ website:
             text: Danmark
           - href: "fodbold_kalender/Belgisk fodboldkort.qmd"
             text: Belgien
-      
+          - href: "fodbold_kalender/Leaflet.qmd"
+            text: Leaflet
 format:
   html:
     theme: cosmo

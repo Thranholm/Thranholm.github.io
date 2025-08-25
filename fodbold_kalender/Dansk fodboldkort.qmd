@@ -63,7 +63,8 @@ danmark_geo_json <- st_read(here("fodbold_kalender", "data", "denmark-detailed-b
 #| label: kampprogram_geo
 
 kampprogram_geo <- kampprogram_danmark %>% 
-  left_join(danske_stadion_geo, by = join_by(stadion == stadion_navn))
+  left_join(danske_stadion_geo %>% filter(!is.na(stadion_navn)), 
+            by = join_by(stadion == stadion_navn))
 
 manglende_geo <- kampprogram_geo %>% 
   filter(is.na(longitude) | is.na(latitude)) %>% 
