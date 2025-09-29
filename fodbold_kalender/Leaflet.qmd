@@ -12,7 +12,7 @@ editor_options:
 #| message: false
 
 library(pacman)
-p_load(tidyverse, leaflet, widgetframe, jsonlite, httr2, here, sf)
+p_load(tidyverse, leaflet, widgetframe, jsonlite, httr2, here, sf, quartabs)
 
 kampprogram <- read_rds(here("fodbold_kalender", "data", "kampprogram.rds")) %>%
   unnest(data) %>% 
@@ -49,10 +49,12 @@ danske_stadion_geo <- danske_stadion %>%
   mutate(stadion_navn = case_when(primærnavnestatus == "officielt" ~ stadion,
                                   navnestatus == "officielt" ~ navn),
          stadion_navn = case_match(stadion_navn,
-                                   "Jysk Park" ~ "JYSK park",
-                                   "Ceres Park" ~ "Ceres Park Vejlby",
-                                   "Cepheus Park" ~ "Cepheus Park Randers",
+                                   # "Jysk Park" ~ "JYSK park",
+                                   "Ceres Park" ~ "New Vejlby Stadium",
+                                   # "Cepheus Park" ~ "Cepheus Park Randers",
                                    "Hvidovre Stadion" ~ "Pro Ventilation Arena",
+                                   "Sydbank Park" ~ "Haderslev Football Stadium",
+                                   "Parken" ~ "Parken Stadium",
                                    .default = stadion_navn)) %>% 
   mutate(longitude = str_split_i(visueltcenter, ",", 1) %>% str_remove_all("c|\\(") %>% as.numeric(),
          latitude = str_split_i(visueltcenter, ",", 2) %>% str_remove_all("\\)") %>% as.numeric()) %>% 
@@ -66,7 +68,16 @@ danske_stadion_geo <- danske_stadion %>%
 ```{r}
 #| label: tysk_geodata
 
-tyske_byer_geo <- readRDS(here("fodbold_kalender", "data", "tyske_byer.Rds"))
+tyske_byer_geo <- readRDS(here("fodbold_kalender", "data", "tyske_byer.Rds")) %>% 
+  mutate(name = case_match(name,
+                           "München" ~ "Munich",
+                           "Freiburg im Breisgau" ~ "Freiburg",
+                           "Frankfurt am Main" ~ "Frankfurt",
+                           "Köln" ~ "Cologne",
+                           "Münster" ~ "Munster",
+                           "Nürnberg" ~ "Nuremberg",
+                           "Mönchengladbach" ~ "Monchengladbach",
+                           .default = name))
 
 tyske_byer_geo_filter <- tyske_byer_geo %>% 
   semi_join(kampprogram, by = c("name" = "spilleby")) %>% 
@@ -128,48 +139,40 @@ kampprogram_nested <- kampprogram_geo %>%
                          addCircleMarkers(~longitude, ~latitude,
                                           popup = ~popup,
                                           label = ~label,
-                                          clusterOptions = markerClusterOptions()))) %>% 
+                                          clusterOptions = markerClusterOptions()) %>% 
+                         htmltools::div())) %>% 
   mutate(idag = today(),
          date_diff = dato-idag,
          før_idag = idag > dato) %>% 
   arrange(før_idag, date_diff, fiktiv_kamprunde)
 
+## sikrer sortering
+custom_order <- format(kampprogram_nested$dato, "%d. %b %Y")
+
+kampprogram_nested <- kampprogram_nested %>% 
+  mutate(dato_fac = factor(format(dato, "%d. %b %Y"), levels = custom_order))
+
+
 ```
+
 
 ```{r}
-#| label: transpose_plots
+#| include: false
 
-plots <- kampprogram_nested %>% 
-  select(dato, leaflet) %>% 
-  mutate(dato = format(dato, "%d. %b %Y")) %>% 
-  pivot_wider(names_from = dato, values_from = leaflet)
-
+kampprogram_nested$leaflet[[1]]
 ```
 
-::: {.panel-tabset .nav-pills}
 
 ```{r}
 #| results: asis
 
-iwalk(plots, ~ {
-  cat('## ', .y, '\n\n')
-  
-  print(htmltools::tagList(.x))
-  
-  cat("\n\n")
-})
-
+render_tabset(kampprogram_nested,
+              tabset_vars = dato_fac,
+              output_vars = leaflet,
+              pills = TRUE)
 
 ```
 
-:::
-
-```{r}
-#| eval: true
-#| include: false
-
-htmltools::tagList(plots[1])
-```
 
 
 
