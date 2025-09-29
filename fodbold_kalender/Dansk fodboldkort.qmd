@@ -44,10 +44,12 @@ danske_stadion_geo <- danske_stadion %>%
   mutate(stadion_navn = case_when(primærnavnestatus == "officielt" ~ stadion,
                                   navnestatus == "officielt" ~ navn),
          stadion_navn = case_match(stadion_navn,
-                                   "Jysk Park" ~ "JYSK park",
-                                   "Ceres Park" ~ "Ceres Park Vejlby",
-                                   "Cepheus Park" ~ "Cepheus Park Randers",
+                                   # "Jysk Park" ~ "JYSK park",
+                                   "Ceres Park" ~ "New Vejlby Stadium",
+                                   # "Cepheus Park" ~ "Cepheus Park Randers",
                                    "Hvidovre Stadion" ~ "Pro Ventilation Arena",
+                                   "Sydbank Park" ~ "Haderslev Football Stadium",
+                                   "Parken" ~ "Parken Stadium",
                                    .default = stadion_navn)) %>% 
   mutate(longitude = str_split_i(visueltcenter, ",", 1) %>% str_remove_all("c|\\(") %>% as.numeric(),
          latitude = str_split_i(visueltcenter, ",", 2) %>% str_remove_all("\\)") %>% as.numeric())
@@ -71,9 +73,14 @@ manglende_geo <- kampprogram_geo %>%
   distinct(spilleby) %>% 
   pull()
 
+manglende_stadions <- kampprogram_geo %>% 
+  filter(is.na(longitude) | is.na(latitude)) %>% 
+  distinct(stadion) %>% 
+  pull()
+
 ```
 
-`r if (!is_empty(manglende_geo)){paste0("Der er spillebyer, hvor der ikke er geo-data. Det drejer sig om: ", manglende_geo)}`
+`r if (!is_empty(manglende_geo)){paste0("Der er spillebyer, hvor der ikke er geo-data. Det drejer sig om: ", paste(manglende_geo, collapse = ", "), ". Det drejer sig om stadionnavnene: ", paste(manglende_stadions, collapse = ", "))}`
 
 ```{r}
 #| label: laver plots
