@@ -63,6 +63,8 @@ tyske_byer_geo_filter <- tyske_byer_geo %>%
 #| eval: !expr kampprogram_klar
 
 kampprogram_geo <- kampprogram_tyskland %>% 
+  ## Manuel tilretning, problem med at Borussia Park ikke får spilleby på
+  mutate(spilleby = if_else(stadion == "Borussia-Park", "Monchengladbach", spilleby)) %>% 
   left_join(tyske_byer_geo_filter, by = join_by(spilleby == name)) %>% 
   mutate(longitude = if_else(duplicated(str_c(longitude, latitude)), longitude+0.15, longitude), .by = "fiktiv_kamprunde")
   
