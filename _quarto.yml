@@ -14,7 +14,6 @@ project:
     - "epvalg/EP_rapport_2014.qmd"
     - "epvalg/EP_rapport_2019.qmd"
     - "epvalg/EP_rapport_2024.qmd"
-    - mio6DK.qmd
     - fodbold_kalender/00_danner_fodbolddata.qmd
     - fodbold_kalender/Leaflet.qmd
     - "fodbold_kalender/Tysk fodboldkort.qmd"
@@ -43,8 +42,6 @@ website:
             text: "2024"
       - href: komvalg_shiny.qmd
         text: Udregn KV/EP-valg
-      - href: mio6DK.qmd
-        text: 6 mio danskere
       - text: Fodboldkalender
         menu:
           - href: "fodbold_kalender/Tysk fodboldkort.qmd"
