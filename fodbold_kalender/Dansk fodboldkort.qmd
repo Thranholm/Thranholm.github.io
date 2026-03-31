@@ -43,14 +43,13 @@ danske_stadion_geo <- danske_stadion %>%
   select(-href) %>% 
   mutate(stadion_navn = case_when(primærnavnestatus == "officielt" ~ stadion,
                                   navnestatus == "officielt" ~ navn),
-         stadion_navn = case_match(stadion_navn,
+         stadion_navn = replace_values(stadion_navn,
                                    # "Jysk Park" ~ "JYSK park",
                                    "Ceres Park" ~ "New Vejlby Stadium",
                                    # "Cepheus Park" ~ "Cepheus Park Randers",
                                    "Hvidovre Stadion" ~ "Pro Ventilation Arena",
                                    "Sydbank Park" ~ "Haderslev Football Stadium",
-                                   "Parken" ~ "Parken Stadium",
-                                   .default = stadion_navn)) %>% 
+                                   "Parken" ~ "Parken Stadium")) %>% 
   mutate(longitude = str_split_i(visueltcenter, ",", 1) %>% str_remove_all("c|\\(") %>% as.numeric(),
          latitude = str_split_i(visueltcenter, ",", 2) %>% str_remove_all("\\)") %>% as.numeric())
 

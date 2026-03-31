@@ -20,10 +20,9 @@ kampprogram_tyskland <- read_rds(here("fodbold_kalender", "data", "kampprogram.r
   unnest(data) %>% 
   filter(str_detect(liga, "Regionalliga")) %>% 
   ## ændrer lidt i et par bynavne
-  mutate(spilleby = case_match(spilleby,
+  mutate(spilleby = replace_values(spilleby,
                                "Hannover-List" ~ "Hannover",
-                               "Mainz-Mombach" ~ "Mainz",
-                               .default = spilleby))
+                               "Mainz-Mombach" ~ "Mainz"))
   
 
 if(nrow(kampprogram_tyskland) == 0){

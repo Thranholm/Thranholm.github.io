@@ -39,15 +39,14 @@ tyskland_geo_json <- st_read("https://raw.githubusercontent.com/isellsoap/deutsc
 
 ## finder byer
 tyske_byer_geo <- readRDS(here("fodbold_kalender", "data", "tyske_byer.Rds")) %>% 
-  mutate(name = case_match(name,
+  mutate(name = replace_values(name,
                            "München" ~ "Munich",
                            "Freiburg im Breisgau" ~ "Freiburg",
                            "Frankfurt am Main" ~ "Frankfurt",
                            "Köln" ~ "Cologne",
                            "Münster" ~ "Munster",
                            "Nürnberg" ~ "Nuremberg",
-                           "Mönchengladbach" ~ "Monchengladbach",
-                           .default = name))
+                           "Mönchengladbach" ~ "Monchengladbach"))
 
 tyske_byer_geo_filter <- tyske_byer_geo %>% 
   semi_join(kampprogram_tyskland, by = c("name" = "spilleby")) %>% 
