@@ -50,11 +50,10 @@ jobs:
       uses: r-lib/actions/setup-renv@v2
       with:
         cache-version: 1
-
+#renv/python/virtualenvs/renv-python-3.12/bin/pip install --upgrade pip
     - name: Install Python dependencies into renv virtualenv
       run: |
         python -m venv renv/python/virtualenvs/renv-python-3.12
-    #    renv/python/virtualenvs/renv-python-3.12/bin/pip install --upgrade pip
         renv/python/virtualenvs/renv-python-3.12/bin/pip install -r requirements.txt
     
     - name: da_DK.UTF-8
