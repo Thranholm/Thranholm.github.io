@@ -1,5 +1,8 @@
 name: automatisk opdatering hele hjemmeside
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 # Allow one concurrent deployment
 concurrency:
   group: "pages"
