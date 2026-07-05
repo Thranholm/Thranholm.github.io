@@ -38,15 +38,12 @@ ny_geo_headers <- c("X-RapidAPI-Host" = "world-geography2.p.rapidapi.com",
 
 ## Finder Belgien
 # league: 144
-
-liga_get <- tibble(liga_id = c(78, 79, 80, 83, 84, 85, 86, 87, 119, 144),
-                   get = list(NULL),
+liga_get <- tibble(liga_id = c(78, 79, 80, 83, 84, 85, 86, 87, 119, 144), 
+                   get = list(NULL), 
                    response = list(NULL))
 
-# Finder sæson år
-# liga_aar
-## tjek dato før 1. juli, så er sæsonen sidste år, ellers er sæsonen i dette år
-liga_aar <- if_else(month(Sys.Date()) < 7, year(Sys.Date()) - 1, year(Sys.Date()))
+## Finder saeson aar
+liga_aar <- ifelse(month(Sys.Date()) < 7, year(Sys.Date()) - 1, year(Sys.Date()))
 
 for (i in 1:nrow(liga_get)) {
   
@@ -56,7 +53,7 @@ for (i in 1:nrow(liga_get)) {
                                             liga_get$liga_id[i],
                                             "&season=", liga_aar),
                                      sep = "/")) %>% 
-    req_headers_redacted((!!!header) %>% 
+    req_headers_redacted(!!!header) %>% 
     req_perform()
   
   liga_get$response[[i]] <- liga_get$get[[i]] %>% 
