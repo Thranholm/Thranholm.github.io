@@ -18,7 +18,11 @@ p_load(tidyverse, ggiraph, cowplot, RColorBrewer, sf, jsonlite, httr2, here, rna
 
 kampprogram_danmark <- read_rds(here("fodbold_kalender", "data", "kampprogram.rds")) %>%
   filter(land == "Denmark") %>%
-  unnest(data)
+  unnest(data) %>% 
+  ## Manuel tilretning af bynavne, hvor der har været problemer med geodata
+  mutate(stadion = case_when(spilleby == "Brondby" & is.na(stadion) ~ "Brøndby Stadion",
+                             spilleby == "Aarhus" & is.na(stadion) ~ "New Vejlby Stadium",
+                             .default = stadion))
 
 ```
 
@@ -44,6 +48,7 @@ danske_stadion_geo <- danske_stadion %>%
   mutate(stadion_navn = case_when(primærnavnestatus == "officielt" ~ stadion,
                                   navnestatus == "officielt" ~ navn),
          stadion_navn = replace_values(stadion_navn,
+                                   "CASA Arena Horsens" ~ "Hybel Arena Horsens",
                                    # "Jysk Park" ~ "JYSK park",
                                    "Ceres Park" ~ "New Vejlby Stadium",
                                    # "Cepheus Park" ~ "Cepheus Park Randers",

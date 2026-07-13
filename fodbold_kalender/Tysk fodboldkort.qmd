@@ -14,11 +14,20 @@ editor_options:
 library(pacman)
 p_load(tidyverse, ggiraph, cowplot, RColorBrewer, sf, here)
 
+## Stadions, hvor der har været manglende by
+stadion_list_manglende_by <- tibble(stadion = c("Borussia-Park", "Merkur Spiel-Arena", "Ludwigspark Stadion",
+                                                 "Sportpark Ronhof Thomas Sommer"), 
+                                   spilleby = c("Monchengladbach", "Düsseldorf", "Saarbrücken", "Fürth"))
 
 kampprogram_tyskland <- read_rds(here("fodbold_kalender", "data", "kampprogram.rds")) %>%
   filter(land == "Germany") %>%
   unnest(data) %>% 
-  filter(str_detect(liga, "Regionalliga", negate = TRUE))
+  filter(str_detect(liga, "Regionalliga", negate = TRUE)) %>% 
+  ## Manuel tilretning af bynavne, hvor der har været problemer med geodata
+  mutate(spilleby = case_when(spilleby == "Wurzburger" ~ "Würzburg", 
+                              .default = spilleby)) %>% 
+  rows_patch(stadion_list_manglende_by, by = "stadion")
+                
 
 if(nrow(kampprogram_tyskland) == 0){
   kampprogram_klar <- FALSE
@@ -62,9 +71,7 @@ tyske_byer_geo_filter <- tyske_byer_geo %>%
 #| eval: !expr kampprogram_klar
 
 kampprogram_geo <- kampprogram_tyskland %>% 
-  ## Manuel tilretning, problem med at Borussia Park ikke får spilleby på
-  mutate(spilleby = if_else(stadion == "Borussia-Park", "Monchengladbach", spilleby)) %>% 
-  left_join(tyske_byer_geo_filter, by = join_by(spilleby == name)) %>% 
+  left_join(tyske_byer_geo_filter, by = join_by(spilleby == name)) %>%
   mutate(longitude = if_else(duplicated(str_c(longitude, latitude)), longitude+0.15, longitude), .by = "fiktiv_kamprunde")
   
 ## Tjekker om der mangler geografi på byer
@@ -77,6 +84,15 @@ manglende_stadions <- kampprogram_geo %>%
   filter(is.na(longitude) | is.na(latitude)) %>% 
   distinct(stadion) %>% 
   pull()
+
+```
+
+```{r}
+#| eval: false
+
+t <- kampprogram_geo %>% 
+  filter(any(is.na(spilleby)), .by = hjemmehold)
+
 
 ```
 

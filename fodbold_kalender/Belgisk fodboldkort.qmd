@@ -16,9 +16,13 @@ library(pacman)
 p_load(tidyverse, ggiraph, cowplot, RColorBrewer, sf, jsonlite, httr2, here, 
        rnaturalearth)
 
+stadion_list_manglende_by <- tibble(stadion = c("Maurice Dufrasnestadion", "Bosuilstadion", "Easi Arena"), 
+                                   spilleby = c("Liège", "Antwerpen", "La Louvière"))
+
 kampprogram_belgium <- read_rds(here("fodbold_kalender", "data", "kampprogram.rds")) %>%
   filter(land == "Belgium") %>%
-  unnest(data)
+  unnest(data) %>%
+  rows_patch(stadion_list_manglende_by, by = "stadion")
 
 ```
 

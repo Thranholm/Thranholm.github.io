@@ -122,3 +122,12 @@ write_rds(kampprogram, here("fodbold_kalender", "data", "kampprogram.rds"))
 
 ```
 
+
+```{r}
+#| eval: false
+
+t2 <- kampprogram_fulddata %>% 
+  unnest(c(league, fixture, teams, goals, score), names_sep = "_") %>% 
+  unnest(c(fixture_venue, teams_home, teams_away), names_sep = "_")
+```
+
