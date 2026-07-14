@@ -6005,6 +6005,52 @@
       "Maintainer": "Carson Sievert <carson@posit.co>",
       "Repository": "CRAN"
     },
+    "shinylive": {
+      "Package": "shinylive",
+      "Version": "0.5.0",
+      "Source": "Repository",
+      "Priority": null,
+      "Depends": [
+        "R (>= 4.0)"
+      ],
+      "Imports": [
+        "archive",
+        "brio",
+        "cli",
+        "fs",
+        "gh",
+        "glue",
+        "httr2 (>= 1.0.0)",
+        "jsonlite",
+        "lifecycle",
+        "pkgdepends",
+        "rappdirs",
+        "renv",
+        "rlang (>= 1.1.0)",
+        "tools",
+        "whisker",
+        "withr"
+      ],
+      "LinkingTo": [
+        null
+      ],
+      "Suggests": [
+        "httpuv (>= 1.6.12)",
+        "pkgcache",
+        "spelling",
+        "testthat (>= 3.0.0)"
+      ],
+      "Enhances": [
+        null
+      ],
+      "License": "MIT + file LICENSE",
+      "License_is_FOSS": null,
+      "License_restricts_use": null,
+      "OS_type": null,
+      "NeedsCompilation": "no",
+      "Repository": "CRAN",
+      "Type": "source"
+    },
     "snakecase": {
       "Package": "snakecase",
       "Version": "0.11.1",
