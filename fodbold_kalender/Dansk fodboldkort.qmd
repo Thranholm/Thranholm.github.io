@@ -24,6 +24,12 @@ kampprogram_danmark <- read_rds(here("fodbold_kalender", "data", "kampprogram.rd
                              spilleby == "Aarhus" & is.na(stadion) ~ "New Vejlby Stadium",
                              .default = stadion))
 
+if(nrow(kampprogram_danmark) == 0){
+  kampprogram_klar <- FALSE
+} else {
+  kampprogram_klar <- TRUE
+}
+
 ```
 
 Tjekker tidstempel fra data: `r unique(kampprogram_danmark$timestamp_selv)`
@@ -31,6 +37,7 @@ Tjekker tidstempel fra data: `r unique(kampprogram_danmark$timestamp_selv)`
 ```{r}
 #| label: henter dansk geo data
 #| warning: false
+#| eval: !expr kampprogram_klar
 
 
 danske_stadion <- request("https://api.dataforsyningen.dk/steder?undertype=stadion") %>%
@@ -67,6 +74,7 @@ danmark_geo_json <- st_read(here("fodbold_kalender", "data", "denmark-detailed-b
 
 ```{r}
 #| label: kampprogram_geo
+#| eval: !expr kampprogram_klar
 
 kampprogram_geo <- kampprogram_danmark %>% 
   left_join(danske_stadion_geo %>% filter(!is.na(stadion_navn)), 
@@ -91,9 +99,11 @@ hjemmehold_manglende_geo <- kampprogram_geo %>%
 
 `r if (kampprogram_klar && !is_empty(manglende_geo)){paste0("Der er spillebyer, hvor der ikke er geo-data. Det drejer sig om: ", paste(manglende_geo, collapse = ", "), ". Det drejer sig om stadionnavnene: ", paste(manglende_stadions, collapse = ", "), ". Det drejer sig om følgende hjemmehold: ", paste(hjemmehold_manglende_geo, collapse = ", "))}`
 
+
 ```{r}
 #| label: laver plots
 #| results: hide
+#| eval: !expr kampprogram_klar
 
 Sys.setlocale("LC_TIME", "da_DK.UTF-8")
 
@@ -130,6 +140,7 @@ plots <- kampprogram_nested %>%
 
 ```{r}
 #| results: asis
+#| eval: !expr kampprogram_klar
 
 iwalk(plots, ~ {
   cat('## ', .y, '\n\n')
@@ -145,6 +156,7 @@ iwalk(plots, ~ {
 ```{r}
 #| eval: true
 #| include: false
+#| eval: !expr kampprogram_klar
 
 htmltools::tagList(plots[1])
 ```
