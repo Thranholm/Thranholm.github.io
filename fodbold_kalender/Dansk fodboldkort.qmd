@@ -154,7 +154,6 @@ iwalk(plots, ~ {
 :::
 
 ```{r}
-#| eval: true
 #| include: false
 #| eval: !expr kampprogram_klar
 
