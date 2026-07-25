@@ -82,9 +82,14 @@ manglende_stadions <- kampprogram_geo %>%
   distinct(stadion) %>% 
   pull()
 
+hjemmehold_manglende_geo <- kampprogram_geo %>% 
+  filter(is.na(longitude) | is.na(latitude)) %>% 
+  distinct(hjemmehold) %>% 
+  pull()
+
 ```
 
-`r if (!is_empty(manglende_geo)){paste0("Der er spillebyer, hvor der ikke er geo-data. Det drejer sig om: ", paste(manglende_geo, collapse = ", "), ". Det drejer sig om stadionnavnene: ", paste(manglende_stadions, collapse = ", "))}`
+`r if (kampprogram_klar && !is_empty(manglende_geo)){paste0("Der er spillebyer, hvor der ikke er geo-data. Det drejer sig om: ", paste(manglende_geo, collapse = ", "), ". Det drejer sig om stadionnavnene: ", paste(manglende_stadions, collapse = ", "), ". Det drejer sig om følgende hjemmehold: ", paste(hjemmehold_manglende_geo, collapse = ", "))}`
 
 ```{r}
 #| label: laver plots
