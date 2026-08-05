@@ -1,63 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://thranholm.github.io/fodbold_kalender/Belgisk fodboldkort.html</loc>
-    <lastmod>2026-08-03T14:53:14.742Z</lastmod>
-  </url>
-  <url>
-    <loc>https://thranholm.github.io/fodbold_kalender/Tysk fodboldkort_amateur.html</loc>
-    <lastmod>2026-08-03T14:53:14.742Z</lastmod>
-  </url>
-  <url>
-    <loc>https://thranholm.github.io/fodbold_kalender/Leaflet.html</loc>
-    <lastmod>2026-08-03T14:53:14.742Z</lastmod>
-  </url>
-  <url>
-    <loc>https://thranholm.github.io/epvalg/EP_rapport_2024.html</loc>
-    <lastmod>2026-08-03T14:53:14.741Z</lastmod>
-  </url>
-  <url>
-    <loc>https://thranholm.github.io/epvalg/EP_rapport_2014.html</loc>
-    <lastmod>2026-08-03T14:53:14.741Z</lastmod>
-  </url>
-  <url>
-    <loc>https://thranholm.github.io/komvalg_shiny.html</loc>
-    <lastmod>2026-08-03T14:53:14.965Z</lastmod>
-  </url>
-  <url>
-    <loc>https://thranholm.github.io/FT_rapport.html</loc>
-    <lastmod>2026-08-03T14:53:14.740Z</lastmod>
-  </url>
-  <url>
     <loc>https://thranholm.github.io/index.html</loc>
-    <lastmod>2026-08-03T14:53:14.965Z</lastmod>
-  </url>
-  <url>
-    <loc>https://thranholm.github.io/about.html</loc>
-    <lastmod>2026-08-03T14:53:14.740Z</lastmod>
-  </url>
-  <url>
-    <loc>https://thranholm.github.io/stedmandat.html</loc>
-    <lastmod>2026-08-03T14:53:14.968Z</lastmod>
-  </url>
-  <url>
-    <loc>https://thranholm.github.io/epvalg/EP_rapport_2009.html</loc>
-    <lastmod>2026-08-03T14:53:14.741Z</lastmod>
-  </url>
-  <url>
-    <loc>https://thranholm.github.io/epvalg/EP_rapport_2019.html</loc>
-    <lastmod>2026-08-03T14:53:14.741Z</lastmod>
+    <lastmod>2026-08-05T14:09:03.260Z</lastmod>
   </url>
   <url>
     <loc>https://thranholm.github.io/fodbold_kalender/00_danner_fodbolddata.html</loc>
-    <lastmod>2026-08-03T14:53:14.741Z</lastmod>
+    <lastmod>2026-08-05T14:09:03.011Z</lastmod>
   </url>
   <url>
     <loc>https://thranholm.github.io/fodbold_kalender/Tysk fodboldkort.html</loc>
-    <lastmod>2026-08-03T14:53:14.742Z</lastmod>
+    <lastmod>2026-08-05T14:09:03.012Z</lastmod>
+  </url>
+  <url>
+    <loc>https://thranholm.github.io/fodbold_kalender/Tysk fodboldkort_amateur.html</loc>
+    <lastmod>2026-08-05T14:09:03.012Z</lastmod>
   </url>
   <url>
     <loc>https://thranholm.github.io/fodbold_kalender/Dansk fodboldkort.html</loc>
-    <lastmod>2026-08-03T14:53:14.742Z</lastmod>
+    <lastmod>2026-08-05T14:09:03.012Z</lastmod>
+  </url>
+  <url>
+    <loc>https://thranholm.github.io/fodbold_kalender/Belgisk fodboldkort.html</loc>
+    <lastmod>2026-08-05T14:09:03.012Z</lastmod>
   </url>
 </urlset>
