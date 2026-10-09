@@ -95,7 +95,7 @@ source("ftvalg/Stedlig mandatfordeling.R")
 #| echo: false
 
 kableExtra::kable(stedlig_mandatfordeling %>% 
-                    select(storkreds_navn, kreds_mandat_storkreds),
+                    select(storkredsnavn, kreds_mandat_storkreds),
                   format = "simple")
 ```
 
@@ -103,7 +103,7 @@ kableExtra::kable(stedlig_mandatfordeling %>%
 #| echo: false
 
 kableExtra::kable(stedlig_mandatfordeling %>% 
-                    select(landsdel_navn, tillaegsmandater_landsdel) %>% 
+                    select(landsdelnavn, tillaegsmandater_landsdel) %>% 
                     distinct(),
                   format = "simple")
 
@@ -114,16 +114,16 @@ kableExtra::kable(stedlig_mandatfordeling %>%
 #| echo: false
 
 kableExtra::kable(stedlig_mandatfordeling %>% 
-                    select(storkreds_navn, kreds_mandat_storkreds) %>% 
+                    select(storkredsnavn, kreds_mandat_storkreds) %>% 
                     bind_rows(stedlig_mandatfordeling %>% 
-                                select(landsdel_navn, tillaegsmandater_landsdel) %>% 
+                                select(landsdelnavn, tillaegsmandater_landsdel) %>% 
                                 distinct()) %>% 
-                    select(landsdel_navn, storkreds_navn, kreds_mandat_storkreds, tillaegsmandater_landsdel) %>% 
-                    arrange(match(landsdel_navn, "Hovedstaden"), 
-                            match(storkreds_navn, c("København", "Københavns Omegn", "Nordsjælland", "Bornholm")),
-                            match(landsdel_navn, "Sjælland-Syddanmark"),
-                            match(storkreds_navn, c("Sjælland", "Fyn", "Sydjylland")),
-                            match(landsdel_navn, "Midtjylland-Nordjylland")),
+                    select(landsdelnavn, storkredsnavn, kreds_mandat_storkreds, tillaegsmandater_landsdel) %>% 
+                    arrange(match(landsdelnavn, "Hovedstaden"), 
+                            match(storkredsnavn, c("København", "Københavns Omegn", "Nordsjælland", "Bornholm")),
+                            match(landsdelnavn, "Sjælland-Syddanmark"),
+                            match(storkredsnavn, c("Sjælland", "Fyn", "Sydjylland")),
+                            match(landsdelnavn, "Midtjylland-Nordjylland")),
                   format = "simple")
 
 
