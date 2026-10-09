@@ -68,6 +68,8 @@ jobs:
         FODBOLD_KEY: ${{ secrets.FODBOLD_KEY }}
         PASS: ${{ secrets.PASS }}
         SR_PASS: ${{ secrets.SR_PASS }}
+        DAGI_KEY: ${{ secrets.DAGI_KEY }}
+        PASS_DAGI: ${{ secrets.PASS_DAGI }}
         LANG: "da_DK.UTF-8"
       uses: quarto-dev/quarto-actions/publish@v2
       with:
